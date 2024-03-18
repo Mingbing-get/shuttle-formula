@@ -1,0 +1,20 @@
+{
+  "name": "render-react",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Mingbing-get <1508850533@qq.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "./index.umd.js",
+  "module": "./index.esm.js",
+  "types": "./types/index.d.ts",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "core": "^0.0.0"
+  }
+}
