@@ -13,9 +13,10 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "lerna": "^6.6.2",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
@@ -27,15 +28,15 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lerna": "^6.6.2",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
-    "@jest/globals": "^29.7.0",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
-    "vite-plugin-dts": "^3.7.3"
+    "vite-plugin-dts": "^3.7.3",
+    "sass": "^1.72.0"
   },
   "keywords": [],
   "author": "bing-ming",

@@ -1,0 +1,51 @@
+.editor-token {
+  outline: none;
+
+  &:focus {
+    min-width: 1px;
+  }
+
+  &.syntax-string,
+  &.token_double_quotation,
+  &.token_quotation {
+    color: #db6c11b0;
+  }
+
+  &.syntax-variable-path,
+  &.token_doller {
+    color: #179fff;
+  }
+
+  &.syntax-function-name,
+  &.token_at {
+    color: #ffd700;
+  }
+
+  &.token_number {
+    color: #16de16;
+  }
+
+  &.token_boolean {
+    color: #007fff;
+  }
+
+  &.has-error {
+    border-bottom: 1px solid red;
+  }
+
+  &.token_wrap {
+    display: block;
+    width: 100%;
+    height: 0;
+    &:last-child,
+    &:has(+ .token_wrap) {
+      height: 1.4rem;
+    }
+  }
+}
+
+.token-wrap-editor {
+  display: inline-block;
+  width: 1px;
+  height: 1.4rem;
+}

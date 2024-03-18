@@ -9,6 +9,7 @@ const {
 const { resolve } = require('path')
 const { build } = require('vite')
 const dts = require('vite-plugin-dts')
+const react = require('@vitejs/plugin-react')
 const pkg = require(resolve(`package.json`))
 
 main()
@@ -37,8 +38,11 @@ async function buildWithWriteFile(target) {
 }
 
 async function startBuild(target) {
+  const extraPlugin = target.includes('react') ? [react()] : []
+
   await build({
     plugins: [
+      ...extraPlugin,
       dts.default({
         outDir: resolve(__dirname, `../dist/${target}/`),
         exclude: ['vite.config.ts', '/packages/*/src/**/__test__/**/*'],
@@ -52,16 +56,31 @@ async function startBuild(target) {
         fileName: (format) => `index.${format}.js`,
       },
       rollupOptions: {
+        external: [
+          'react',
+          'react-dom',
+          'wonderful-marrow/rabbit',
+          'core',
+          'render',
+        ],
         output: [
           {
             format: 'umd',
             name: 'index',
             assetFileNames: 'index.[ext]',
+            paths: {
+              core: 'shuttle-formula/core',
+              render: 'shuttle-formula/render',
+            },
           },
           {
             format: 'esm',
             name: 'index',
             assetFileNames: 'index.[ext]',
+            paths: {
+              core: 'shuttle-formula/core',
+              render: 'shuttle-formula/render',
+            },
           },
         ],
       },
@@ -105,9 +124,9 @@ async function addPackageJson(target) {
     name: targetPkg.name,
     version: pkg.version,
     description: targetPkg.description,
-    main: targetPkg.main,
-    module: targetPkg.module,
-    types: targetPkg.types,
+    main: './index.umd.js',
+    module: './index.esm.js',
+    types: './types/index.d.ts',
   }
 
   return new Promise((resolve, reject) => {

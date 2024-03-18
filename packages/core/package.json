@@ -5,9 +5,7 @@
   "homepage": "",
   "license": "ISC",
   "description": "公式编辑器解析器",
-  "main": "./index.umd.js",
-  "module": "./index.esm.js",
-  "types": "./types/index.d.ts",
+  "main": "./src/index.ts",
   "directories": {
     "src": "src"
   },

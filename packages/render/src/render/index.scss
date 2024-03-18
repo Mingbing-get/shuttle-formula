@@ -1,0 +1,15 @@
+.editor-wrapper {
+  min-height: 1.4rem;
+  outline: none;
+  padding: 0.2rem 0.4rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+
+  &:focus,
+  :has(*:focus) {
+    outline: 1px solid #3370ff;
+  }
+}

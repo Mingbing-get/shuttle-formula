@@ -1,20 +1,29 @@
 {
   "name": "render-react",
   "version": "0.0.0",
-  "description": "> TODO: description",
+  "description": "公式编辑器react渲染器",
   "author": "Mingbing-get <1508850533@qq.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "./index.umd.js",
-  "module": "./index.esm.js",
-  "types": "./types/index.d.ts",
+  "main": "./src/index.ts",
   "directories": {
     "src": "src"
   },
   "files": [
     "src"
   ],
+  "devDependencies": {
+    "@types/node": "^20.11.22",
+    "@types/react": "^18.2.60",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1"
+  },
   "dependencies": {
-    "core": "^0.0.0"
+    "classnames": "^2.5.1",
+    "core": "^0.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "render": "^0.0.0",
+    "wonderful-marrow": "^2.4.8"
   }
 }
