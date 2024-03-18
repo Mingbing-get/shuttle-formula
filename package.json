@@ -9,6 +9,8 @@
   "scripts": {
     "build": "node ./script/build.js",
     "test": "jest",
+    "dev:render": "vite --open /packages/render/preview/index.html",
+    "dev:render-react": "vite --open /packages/render-react/preview/index.html",
     "commit": "cz",
     "prepare": "husky install"
   },
