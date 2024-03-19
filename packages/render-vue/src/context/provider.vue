@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide } from 'vue'
-import { Render, RenderOption } from 'render'
+import { Render, type RenderOption } from 'render'
 
 const options = defineProps<RenderOption>()
 
