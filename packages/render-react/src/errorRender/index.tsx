@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { SyntaxError, generateId } from 'core'
 import { ErrorDisplay } from 'render'
 
 import { useRender } from '../context'
-import { createPortal } from 'react-dom'
 
 export interface ErrorRenderComponentProps {
   error?: SyntaxError.Desc

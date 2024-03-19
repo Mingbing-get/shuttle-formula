@@ -10,6 +10,7 @@ const { resolve } = require('path')
 const { build } = require('vite')
 const dts = require('vite-plugin-dts')
 const react = require('@vitejs/plugin-react')
+const vue = require('@vitejs/plugin-vue')
 const pkg = require(resolve(`package.json`))
 
 main()
@@ -39,6 +40,9 @@ async function buildWithWriteFile(target) {
 
 async function startBuild(target) {
   const extraPlugin = target.includes('react') ? [react()] : []
+  if (target.includes('vue')) {
+    extraPlugin.push(vue())
+  }
 
   await build({
     plugins: [
@@ -59,6 +63,7 @@ async function startBuild(target) {
         external: [
           'react',
           'react-dom',
+          'vue',
           'wonderful-marrow/rabbit',
           'core',
           'render',
@@ -69,17 +74,17 @@ async function startBuild(target) {
             name: 'index',
             assetFileNames: 'index.[ext]',
             paths: {
-              core: 'shuttle-formula/core',
-              render: 'shuttle-formula/render',
+              core: '../core',
+              render: '../render',
             },
           },
           {
-            format: 'esm',
+            format: 'es',
             name: 'index',
             assetFileNames: 'index.[ext]',
             paths: {
-              core: 'shuttle-formula/core',
-              render: 'shuttle-formula/render',
+              core: '../core',
+              render: '../render',
             },
           },
         ],
@@ -125,8 +130,12 @@ async function addPackageJson(target) {
     version: pkg.version,
     description: targetPkg.description,
     main: './index.umd.js',
-    module: './index.esm.js',
+    module: './index.es.js',
     types: './types/index.d.ts',
+  }
+
+  if (targetPkg.peerDependencies) {
+    data.peerDependencies = targetPkg.peerDependencies
   }
 
   return new Promise((resolve, reject) => {
