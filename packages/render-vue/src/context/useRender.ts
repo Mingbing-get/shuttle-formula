@@ -1,8 +1,9 @@
 import { inject } from 'vue'
-import { Render } from 'render'
+import type { Render } from 'render'
 
 export default function useRender(): { render: Render } {
-  const render = inject<Render>('render')
+  // eslint-disable-next-line
+  const render = inject<Render>('render')!
 
   return { render }
 }

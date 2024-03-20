@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { Render, RenderOption } from 'render'
+import { Render } from 'render'
 
 import { renderContext } from '.'
+
+import type { RenderOption } from 'render'
 
 interface Props extends RenderOption {
   children?: React.ReactNode

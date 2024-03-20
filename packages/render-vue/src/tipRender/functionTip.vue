@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
-import { FunctionTipOption } from 'render'
+import type { FunctionTipOption } from 'render'
+import type { FunctionSelectComponent } from './type'
 
-import { FunctionSelectComponent } from './type'
+import { onBeforeMount, ref } from 'vue'
 import useRender from '../context/useRender'
 
 const { functionSelect } = defineProps<{
@@ -34,7 +34,7 @@ onBeforeMount(() => {
     <functionSelect
       :option="tipOption"
       :functions="render.getOption().functions"
-      :onSelect="onSelectRef"
+      :on-select="onSelectRef"
     />
   </Teleport>
 </template>

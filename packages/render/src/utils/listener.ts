@@ -28,6 +28,7 @@ export default class Listener {
   }
 
   trigger(key: string, ...args: any[]) {
+    // eslint-disable-next-line
     this.store[key]?.forEach((f) => f(...args))
   }
 }

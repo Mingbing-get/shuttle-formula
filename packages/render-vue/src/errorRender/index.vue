@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onBeforeMount, ref, Ref } from 'vue'
-import { SyntaxError, generateId } from 'core'
-import { ErrorDisplay } from 'render'
+import type { Ref } from 'vue'
+import type { SyntaxError } from 'core'
+import type { ErrorDisplay } from 'render'
+import type { WithRootError, ErrorRenderComponent } from './type'
+
+import { onBeforeMount, ref } from 'vue'
+import { generateId } from 'core'
 
 import useRender from '../context/useRender'
-import { WithRootError, ErrorRenderComponent } from './type'
 
 const { renderComponent } = defineProps<{
   renderComponent: ErrorRenderComponent
@@ -21,8 +24,8 @@ function createErrorDisplay(
   withRootErrors: Ref<Record<string, WithRootError>>,
 ) {
   class ErrorDisplayClass implements ErrorDisplay {
-    private root: HTMLDivElement
-    private id: string
+    private readonly root: HTMLDivElement
+    private readonly id: string
 
     constructor(error?: SyntaxError.Desc) {
       this.id = generateId()
@@ -30,14 +33,14 @@ function createErrorDisplay(
 
       withRootErrors.value[this.id] = {
         root: this.root,
-        error: error,
+        error,
       }
     }
 
     updateError(error?: SyntaxError.Desc) {
       withRootErrors.value[this.id] = {
         root: this.root,
-        error: error,
+        error,
       }
     }
 

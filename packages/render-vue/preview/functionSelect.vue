@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { WithLabelFunction } from 'render'
-import { FunctionSelectProps } from '../src'
 import { computed } from 'vue'
+
+import type { WithLabelFunction } from 'render'
+import type { FunctionSelectProps } from '../src'
 
 const props = defineProps<FunctionSelectProps>()
 
@@ -71,6 +72,7 @@ const options = computed(() => {
     <span>{{ group.label }}</span>
     <div
       v-for="item in group.options"
+      :key="item.value"
       @click="() => props.onSelect?.(item.value)"
     >
       {{ item.label || item.value }}

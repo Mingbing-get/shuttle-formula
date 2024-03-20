@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState, useTransition } from 'react'
-import { Tree, TreeNode, TreeValue } from 'wonderful-marrow/rabbit'
+import { Tree } from 'wonderful-marrow/rabbit'
 
-import {
+import type {
   WithDynamicVariable,
   WithDynamicVariableObject,
   VariableTipOption,
   GetDynamicObjectByPath,
 } from 'render'
+
+import type { TreeNode, TreeValue } from 'wonderful-marrow/rabbit'
 
 export interface VariableSelectProps {
   variables?: Record<string, WithDynamicVariable>
@@ -26,7 +28,7 @@ export default function VariableSelect({
   getDynamicObjectByPath,
   onSelect,
 }: VariableSelectProps) {
-  const [_, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
   const [expandPath, setExpandPath] = useState<TreeValue[][]>([])
   const [treeNodes, setTreeNodes] = useState<VariableNode[]>([])
 

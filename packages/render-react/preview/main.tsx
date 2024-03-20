@@ -1,17 +1,17 @@
-import React from 'react'
-import { BooleanTokenDesc, BooleanTokenParse } from 'core'
+import { BooleanTokenParse } from 'core'
 import {
   Render,
   Provider,
   VariableTip,
   FunctionTip,
   TokenRender,
-  TokenRenderProps,
   ErrorRender,
-  ErrorRenderComponentProps,
 } from '../src'
 
 import { vars, functionWithGroups, getDynamicObjectByPath } from './mock'
+
+import type { BooleanTokenDesc } from 'core'
+import type { TokenRenderProps, ErrorRenderComponentProps } from '../src'
 
 export default function Main() {
   return (

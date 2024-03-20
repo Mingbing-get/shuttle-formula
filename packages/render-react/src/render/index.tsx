@@ -1,13 +1,9 @@
-import {
-  useLayoutEffect,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-  ForwardedRef,
-} from 'react'
-import { Render } from 'render'
+import { useLayoutEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 
 import { useRender } from '../context'
+
+import type { Render } from 'render'
+import type { ForwardedRef } from 'react'
 
 interface Props {
   style?: React.CSSProperties

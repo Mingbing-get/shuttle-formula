@@ -1,13 +1,13 @@
-import type { VariableDefine, SyntaxError } from 'core'
-
 import { SyntaxDescUtils } from 'core'
 
-import {
+import type {
   WithDynamicVariable,
   WithLabelFunction,
   FunctionGroup,
   GetDynamicObjectByPath,
 } from 'render'
+
+import type { VariableDefine, SyntaxError } from 'core'
 
 export const vars: Record<string, WithDynamicVariable> = {
   a: {
@@ -49,7 +49,7 @@ export const vars: Record<string, WithDynamicVariable> = {
   },
 }
 
-export const getDynamicObjectByPath: GetDynamicObjectByPath = (
+export const getDynamicObjectByPath: GetDynamicObjectByPath = async (
   path,
   define,
 ) => {

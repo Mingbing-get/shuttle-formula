@@ -1,10 +1,12 @@
 import { useMemo, useRef, useState, memo } from 'react'
 import { createPortal } from 'react-dom'
-import { FunctionTipOption } from 'render'
 
-import _FunctionSelect, { FunctionSelectProps } from './functionSelect'
+import _FunctionSelect from './functionSelect'
 
 import { useRender } from '../context'
+
+import type { FunctionSelectProps } from './functionSelect'
+import type { FunctionTipOption } from 'render'
 
 export type FunctionSelectComponent = (
   props: FunctionSelectProps,

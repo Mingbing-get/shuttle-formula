@@ -1,5 +1,5 @@
-import { Component } from 'vue'
-import { TokenDesc } from 'core'
+import type { Component } from 'vue'
+import type { TokenDesc } from 'core'
 
 export interface TokenRenderProps<T extends TokenDesc<string>> {
   token: T

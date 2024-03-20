@@ -1,9 +1,10 @@
 import { memo, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { TokenDesc } from 'core'
 import { TokenBaseRender } from 'render'
 
 import { useRender } from '../context'
+
+import type { TokenDesc } from 'core'
 
 export interface TokenRenderProps<T extends TokenDesc<string>> {
   token: T

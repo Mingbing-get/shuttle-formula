@@ -13,6 +13,8 @@ import type {
   WithTokenError,
 } from '../type'
 
+import type { MessageData } from './messageRouter'
+
 import {
   SyntaxAnalysis,
   SyntaxDescUtils,
@@ -23,6 +25,7 @@ import {
 import MessageRouter from './messageRouter'
 import { functionDefineToTransform, isCustomReturn } from './transformFunction'
 
+// eslint-disable-next-line
 // @ts-expect-error
 import AnalysisAstWorker from './analysisAstWorker?worker&inline'
 
@@ -62,7 +65,7 @@ export default class AnalysisAst {
       this.worker = new AnalysisAstWorker()
 
       this.worker?.addEventListener('message', (e) => {
-        this.messageRouter.onMessage(e.data)
+        this.messageRouter.onMessage(e.data as MessageData<any>)
       })
       this.addRouterToMessage()
     }

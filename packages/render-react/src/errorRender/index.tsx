@@ -1,9 +1,11 @@
 import { memo, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SyntaxError, generateId } from 'core'
-import { ErrorDisplay } from 'render'
+import { generateId } from 'core'
 
 import { useRender } from '../context'
+
+import type { SyntaxError } from 'core'
+import type { ErrorDisplay } from 'render'
 
 export interface ErrorRenderComponentProps {
   error?: SyntaxError.Desc
@@ -49,8 +51,8 @@ function createErrorDisplay(
   >,
 ) {
   class ErrorDisplayClass implements ErrorDisplay {
-    private root: HTMLDivElement
-    private id: string
+    private readonly root: HTMLDivElement
+    private readonly id: string
 
     constructor(error?: SyntaxError.Desc) {
       this.id = generateId()
@@ -60,7 +62,7 @@ function createErrorDisplay(
         ...old,
         [this.id]: {
           root: this.root,
-          error: error,
+          error,
         },
       }))
     }
@@ -70,7 +72,7 @@ function createErrorDisplay(
         ...old,
         [this.id]: {
           root: this.root,
-          error: error,
+          error,
         },
       }))
     }

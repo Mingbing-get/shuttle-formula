@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
-import { VariableTipOption } from 'render'
+import type { VariableTipOption } from 'render'
+import type { VariableSelectComponent } from './type'
 
-import { VariableSelectComponent } from './type'
+import { onBeforeMount, ref } from 'vue'
 import useRender from '../context/useRender'
 
 const { variableSelect } = defineProps<{
@@ -34,8 +34,8 @@ onBeforeMount(() => {
     <variableSelect
       :option="tipOption"
       :variables="render.getOption().variables"
-      :getDynamicObjectByPath="render.getOption().getDynamicObjectByPath"
-      :onSelect="onSelectRef"
+      :get-dynamic-object-by-path="render.getOption().getDynamicObjectByPath"
+      :on-select="onSelectRef"
     />
   </Teleport>
 </template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BooleanTokenDesc } from 'core'
-import { TokenRenderProps } from '../src'
+import type { BooleanTokenDesc } from 'core'
+import type { TokenRenderProps } from '../src'
 
-const { token, type } = defineProps<TokenRenderProps<BooleanTokenDesc>>()
+const { token } = defineProps<TokenRenderProps<BooleanTokenDesc>>()
 </script>
 
 <template>

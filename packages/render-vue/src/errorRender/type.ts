@@ -1,5 +1,5 @@
-import { SyntaxError } from 'core'
-import { Component } from 'vue'
+import type { SyntaxError } from 'core'
+import type { Component } from 'vue'
 
 export interface WithRootError {
   root: HTMLElement

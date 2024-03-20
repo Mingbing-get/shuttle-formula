@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onBeforeMount, ref, Ref } from 'vue'
-import { TokenDesc } from 'core'
+import type { Ref } from 'vue'
+import type { TokenDesc } from 'core'
+import type { TokenWithType, TokenRenderComponent } from './type'
+
+import { onBeforeMount, ref } from 'vue'
 import { TokenBaseRender } from 'render'
 import useRender from '../context/useRender'
-
-import { TokenWithType, TokenRenderComponent } from './type'
 
 const { useTokenType, renderComponent } = defineProps<{
   useTokenType: string

@@ -10,8 +10,8 @@ import type {
   UnknownSyntaxDesc,
 } from './type'
 
-export class SyntaxDescUtils {
-  static CreateExpression(token: TokenDesc<string>, children: Array<string>) {
+export const SyntaxDescUtils = {
+  CreateExpression(token: TokenDesc<string>, children: Array<string>) {
     const desc: ExpressionSyntaxDesc = {
       name: 'syntax',
       id: generateId(),
@@ -21,9 +21,9 @@ export class SyntaxDescUtils {
     }
 
     return desc
-  }
+  },
 
-  static CreateVariable(
+  CreateVariable(
     triggerToken: TokenDesc<string>,
     pathTokens: Array<TokenDesc<string>>,
   ) {
@@ -36,9 +36,9 @@ export class SyntaxDescUtils {
     }
 
     return desc
-  }
+  },
 
-  static CreateFunction(
+  CreateFunction(
     triggerToken: TokenDesc<string>,
     nameTokens: Array<TokenDesc<string>>,
     params: Array<string>,
@@ -53,9 +53,9 @@ export class SyntaxDescUtils {
     }
 
     return desc
-  }
+  },
 
-  static CreateConst(
+  CreateConst(
     valueTokens: Array<TokenDesc<string>>,
     constType: ConstSyntaxDesc['constType'],
   ) {
@@ -68,9 +68,9 @@ export class SyntaxDescUtils {
     }
 
     return desc
-  }
+  },
 
-  static CreateUnknown(token: TokenDesc<string>) {
+  CreateUnknown(token: TokenDesc<string>) {
     const desc: UnknownSyntaxDesc = {
       name: 'syntax',
       id: generateId(),
@@ -79,25 +79,25 @@ export class SyntaxDescUtils {
     }
 
     return desc
-  }
+  },
 
-  static IsExpression(desc: SyntaxDesc<string>): desc is ExpressionSyntaxDesc {
+  IsExpression(desc: SyntaxDesc<string>): desc is ExpressionSyntaxDesc {
     return desc.type === 'expression'
-  }
+  },
 
-  static IsVariable(desc: SyntaxDesc<string>): desc is VariableSyntaxDesc {
+  IsVariable(desc: SyntaxDesc<string>): desc is VariableSyntaxDesc {
     return desc.type === 'variable'
-  }
+  },
 
-  static IsFunction(desc: SyntaxDesc<string>): desc is FunctionSyntaxDesc {
+  IsFunction(desc: SyntaxDesc<string>): desc is FunctionSyntaxDesc {
     return desc.type === 'function'
-  }
+  },
 
-  static IsConst(desc: SyntaxDesc<string>): desc is ConstSyntaxDesc {
+  IsConst(desc: SyntaxDesc<string>): desc is ConstSyntaxDesc {
     return desc.type === 'const'
-  }
+  },
 
-  static IsUnknown(desc: SyntaxDesc<string>): desc is UnknownSyntaxDesc {
+  IsUnknown(desc: SyntaxDesc<string>): desc is UnknownSyntaxDesc {
     return desc.type === 'unknown'
-  }
+  },
 }

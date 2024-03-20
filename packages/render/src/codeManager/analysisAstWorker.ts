@@ -5,6 +5,7 @@ import type {
   WithUndefined,
 } from 'core'
 import type { TransformFunctionDesc } from './transformFunction'
+import type { MessageData } from './messageRouter'
 
 import { SyntaxAnalysis, SyntaxCheck, useAllChecker, generateId } from 'core'
 import MessageRouter from './messageRouter'
@@ -136,7 +137,7 @@ messageRouter.use<{ syntaxId: string; getFunctionId: string }>(
 
 // worker配置
 self.addEventListener('message', (e) => {
-  messageRouter.onMessage(e.data)
+  messageRouter.onMessage(e.data as MessageData<any>)
 })
 
 function sendMessage(route: string, executeId: string, data: any) {

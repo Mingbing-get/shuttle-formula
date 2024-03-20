@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react'
-import {
-  SelectPanel,
-  SelectOptionType,
-  SelectGroup,
-} from 'wonderful-marrow/rabbit'
+import { SelectPanel } from 'wonderful-marrow/rabbit'
 
-import { WithLabelFunction, FunctionGroup, FunctionTipOption } from 'render'
+import type { SelectOptionType, SelectGroup } from 'wonderful-marrow/rabbit'
+import type {
+  WithLabelFunction,
+  FunctionGroup,
+  FunctionTipOption,
+} from 'render'
 
 export interface FunctionSelectProps {
   functions?: Record<string, WithLabelFunction> | FunctionGroup[]

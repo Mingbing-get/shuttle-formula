@@ -1,10 +1,12 @@
 import { memo, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { VariableTipOption } from 'render'
 
-import _VariableSelect, { VariableSelectProps } from './variableSelect'
+import _VariableSelect from './variableSelect'
 
 import { useRender } from '../context'
+
+import type { VariableSelectProps } from './variableSelect'
+import type { VariableTipOption } from 'render'
 
 export type VariableSelectComponent = (
   props: VariableSelectProps,

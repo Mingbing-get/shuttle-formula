@@ -1,6 +1,6 @@
-import { Component } from 'vue'
+import type { Component } from 'vue'
 
-import {
+import type {
   FunctionGroup,
   FunctionTipOption,
   GetDynamicObjectByPath,
