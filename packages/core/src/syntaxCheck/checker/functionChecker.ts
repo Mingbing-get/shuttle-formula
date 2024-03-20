@@ -234,11 +234,14 @@ export default class FunctionChecker implements Checker<FunctionSyntaxDesc> {
     const acceptParams = this.singleOrArrayToArray(paramsDef.define)
     const acceptType = acceptParams.map((item) => item.type)
     const factType = this.manager?.getType(processId, effectParams.id)
-    if (!factType?.type || !acceptType.includes(factType.type)) {
+    if (
+      !factType?.type ||
+      !acceptType.some((type) => factType.type.startsWith(type))
+    ) {
       return this.createError(
         'functionError',
         astId,
-        `函数: ${functionName}参数类型错误${factType?.type} -> ${acceptType.join(',')}`,
+        `函数: ${functionName}参数类型错误${factType?.type} -> ${acceptType.join('|')}`,
       )
     }
   }

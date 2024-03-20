@@ -179,6 +179,25 @@ export const functions: Record<string, WithLabelFunction> = {
 
 export const functionWithGroups: FunctionGroup[] = [
   {
+    id: 'date',
+    label: '日期函数',
+    functions: {
+      now: {
+        label: '当前日期',
+        params: [],
+        return: { type: 'custom-date' },
+      },
+      formatDate: {
+        label: '格式化时间',
+        params: [
+          { define: { type: 'custom-date' } },
+          { define: { type: 'string' } },
+        ],
+        return: { type: 'string' },
+      },
+    },
+  },
+  {
     id: 'create',
     label: '创建相关',
     functions: {
@@ -295,3 +314,99 @@ export const functionWithGroups: FunctionGroup[] = [
     },
   },
 ]
+
+export const varValues: Record<string, any> = {
+  a: {
+    b: {
+      c: 11,
+    },
+    d: 1,
+    e: 2,
+    f: 3,
+  },
+  b: 20,
+  d: {
+    c: 30,
+    e: {
+      test: 100,
+    },
+  },
+}
+
+export const functionValues: Record<string, Function> = {
+  createObject(...params: [string, any]) {
+    const res: Record<string, any> = {}
+
+    for (let i = 0; i < params.length; i += 2) {
+      res[params[i] as string] = params[i + 1]
+    }
+
+    return res
+  },
+  createArray(...params: any[]) {
+    return params
+  },
+  len(v: string | Array<any>) {
+    return v.length
+  },
+  round(v: number) {
+    return Math.round(v)
+  },
+  random() {
+    return Math.random()
+  },
+  anyToString(v: any) {
+    return `${v}`
+  },
+  now() {
+    return new Date()
+  },
+  formatDate(date: Date, format: string) {
+    const o = {
+      'M+': date.getMonth() + 1, // 月份
+      'd+': date.getDate(), // 日
+      'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12, // 小时
+      'H+': date.getHours(), // 小时
+      'm+': date.getMinutes(), // 分
+      's+': date.getSeconds(), // 秒
+      'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+      S: date.getMilliseconds(), // 毫秒
+      a: date.getHours() < 12 ? '上午' : '下午', // 上午/下午
+      A: date.getHours() < 12 ? 'AM' : 'PM', // AM/PM
+    }
+    if (/(y+)/.test(format)) {
+      format = format.replace(
+        RegExp.$1,
+        (date.getFullYear() + '').substr(4 - RegExp.$1.length),
+      )
+    }
+    for (const _k in o) {
+      const k = _k as keyof typeof o
+      if (new RegExp('(' + k + ')').test(format)) {
+        format = format.replace(
+          RegExp.$1,
+          RegExp.$1.length === 1
+            ? o[k].toString()
+            : ('00' + o[k]).substring(('' + o[k]).length),
+        )
+      }
+    }
+    return format
+  },
+}
+
+export function getVar(path: string[]) {
+  let v = varValues
+
+  for (const key of path) {
+    v = v[key]
+
+    if (!v) return v
+  }
+
+  return v
+}
+
+export function getFunction(name: string) {
+  return functionValues[name]
+}

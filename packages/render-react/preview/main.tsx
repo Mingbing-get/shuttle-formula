@@ -8,7 +8,14 @@ import {
   ErrorRender,
 } from '../src'
 
-import { vars, functionWithGroups, getDynamicObjectByPath } from './mock'
+import {
+  vars,
+  functionWithGroups,
+  getDynamicObjectByPath,
+  getVar,
+  getFunction,
+} from './mock'
+import ComputedFormula from './computed'
 
 import type { BooleanTokenDesc } from 'core'
 import type { TokenRenderProps, ErrorRenderComponentProps } from '../src'
@@ -40,6 +47,7 @@ export default function Main() {
           <Render
             style={{ borderRadius: 5, boxShadow: '0 0 6px 0 #ccc', width: 400 }}
           />
+          <ComputedFormula getVariable={getVar} getFunction={getFunction} />
           <VariableTip />
           <FunctionTip />
           <ErrorRender RenderComponent={TestErrorRender} />

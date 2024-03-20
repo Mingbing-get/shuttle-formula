@@ -23,7 +23,11 @@ export namespace VariableDefine {
     prototype: Record<string, Desc>
   }
 
-  export type Desc = Number | String | Boolean | Array | Object
+  export interface Custom<T extends string> extends Base<`custom-${T}`> {
+    extra?: any
+  }
+
+  export type Desc = Number | String | Boolean | Array | Object | Custom<string>
 }
 
 export namespace FunctionDefine {

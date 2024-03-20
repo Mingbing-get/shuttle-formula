@@ -36,6 +36,7 @@ export interface HasDynamicVariableObject
 export interface WithDynamicVariableObject
   extends VariableDefine.Base<'object'> {
   dynamic: true
+  extra?: any
   label?: string
   [k: string]: any
 }
