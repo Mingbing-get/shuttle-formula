@@ -50,7 +50,7 @@ const options = computed(() => {
       if (inGroupFunctions.length > 0) {
         group.push({
           id: item.id,
-          label: item.id,
+          label: item.label,
           options: inGroupFunctions,
         })
       }

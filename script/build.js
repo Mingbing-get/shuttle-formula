@@ -1,10 +1,9 @@
 const {
-  readFile,
-  writeFile,
   readdirSync,
   statSync,
   existsSync,
   readFileSync,
+  writeFileSync,
 } = require('fs')
 const { resolve } = require('path')
 const { build } = require('vite')
@@ -109,12 +108,7 @@ async function addMainPackageJson() {
     homepage: pkg.homepage,
   }
 
-  return new Promise((resolve, reject) => {
-    writeFile(fileName, JSON.stringify(data, null, 2), (err) => {
-      if (err) reject(err)
-      else resolve()
-    })
-  })
+  writeFileSync(fileName, JSON.stringify(data, null, 2))
 }
 
 async function addPackageJson(target) {
@@ -138,48 +132,34 @@ async function addPackageJson(target) {
     data.peerDependencies = targetPkg.peerDependencies
   }
 
-  return new Promise((resolve, reject) => {
-    writeFile(fileName, JSON.stringify(data, null, 2), (err) => {
-      if (err) reject(err)
-      else resolve()
-    })
-  })
+  writeFileSync(fileName, JSON.stringify(data, null, 2))
 }
 
 async function addMainReadMe() {
   const dir = resolve(__dirname, '../dist')
   const fileName = resolve(dir, 'README.md')
 
-  return new Promise((ok, reject) => {
-    readFile(resolve('README.md'), (err, data) => {
-      if (err) {
-        reject(err)
-        return
-      }
-      writeFile(fileName, data, (err) => {
-        if (err) reject(err)
-        else ok()
-      })
-    })
+  const effectPackages = ['core', 'render', 'render-react', 'render-vue']
+  let data = `# shuttle-formula
+
+shuttle-formula是一个公式编辑器，支持公式解析、公式计算、原生js渲染、react渲染、vue渲染
+
+`
+  effectPackages.forEach((pkgName) => {
+    const readMeText = readFileSync(
+      resolve(__dirname, '../packages', pkgName, 'README.md'),
+    )
+    data += readMeText + '\n'
   })
+
+  writeFileSync(fileName, data)
 }
 
 async function addReadMe(target) {
   const fileName = resolve(__dirname, '../dist', target, 'README.md')
 
-  return new Promise((ok, reject) => {
-    readFile(
-      resolve(__dirname, '../packages', target, 'README.md'),
-      (err, data) => {
-        if (err) {
-          reject(err)
-          return
-        }
-        writeFile(fileName, data, (err) => {
-          if (err) reject(err)
-          else ok()
-        })
-      },
-    )
-  })
+  const data = readFileSync(
+    resolve(__dirname, '../packages', target, 'README.md'),
+  )
+  writeFileSync(fileName, data)
 }
