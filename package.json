@@ -47,7 +47,10 @@
   "keywords": [],
   "author": "bing-ming",
   "license": "MIT",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mingbing-get/shuttle-formula"
+  },
   "homepage": "",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,vue}": "eslint --ext .ts,.tsx,.vue,.js,.jsx --config ./.eslintrc.js packages/",
