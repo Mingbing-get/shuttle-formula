@@ -1,7 +1,7 @@
 import type { StaticTokenParse, TokenParse, TokenDesc } from './token'
 
 import { generateId } from '../utils'
-import { WrapTokenParse } from './token'
+import { WrapTokenParse, NumberTokenParse, BooleanTokenParse } from './token'
 
 type StringTokenType = 'TOKEN_STRING'
 
@@ -71,6 +71,17 @@ export default class LexicalAnalysis {
       if (afterCodeLen >= index && (codeLen < index || !partCode)) {
         // 当前token是第一个要修改的token
         partCode = token.code.substring(0, index - codeLen) + replaceCode
+
+        // 回溯当前token之前的token，将string、boolean、number添加到重算中
+        let preToken = beforeTokens.pop()
+        while (preToken) {
+          partCode = `${preToken.code}${partCode}`
+          if (this.needRecomputed(preToken)) {
+            preToken = beforeTokens.pop()
+          } else {
+            break
+          }
+        }
       }
       if (
         afterCodeLen > index + deleteCount &&
@@ -79,6 +90,18 @@ export default class LexicalAnalysis {
         // 当前token是最后一个要修改的token
         partCode += token.code.substring(index + deleteCount - codeLen)
         afterTokens = preTokens.slice(i + 1)
+
+        // 查看当前token后的token，将string、boolean、number添加到重算中
+        let afterToken = afterTokens.shift()
+        while (afterToken) {
+          if (this.needRecomputed(afterToken)) {
+            partCode = `${partCode}${afterToken.code}`
+            afterToken = afterTokens.shift()
+          } else {
+            afterTokens.unshift(afterToken)
+            break
+          }
+        }
       }
 
       codeLen = afterCodeLen
@@ -110,7 +133,12 @@ export default class LexicalAnalysis {
     const strList: string[] = []
 
     while (code) {
-      const tokenDesc = this.scanTokenParse(code, column, row)
+      const tokenDesc = this.scanTokenParse(
+        code,
+        column,
+        row,
+        tokens[tokens.length - 1],
+      )
 
       if (!tokenDesc) {
         strList.push(code[0])
@@ -183,11 +211,21 @@ export default class LexicalAnalysis {
     return tokens.map((token) => token.code)
   }
 
-  private scanTokenParse(code: string, column: number, row: number) {
+  private scanTokenParse(
+    code: string,
+    column: number,
+    row: number,
+    preToken?: TokenDesc<string>,
+  ) {
     let lastTokenDesc: TokenDesc<string> | undefined
 
     for (const tokenParse of this.tokenParses) {
-      const { tokenDesc, prevent } = tokenParse.parse(code, column, row)
+      const { tokenDesc, prevent } = tokenParse.parse(
+        code,
+        column,
+        row,
+        preToken,
+      )
       if (tokenDesc && (!lastTokenDesc || lastTokenDesc.end < tokenDesc.end)) {
         lastTokenDesc = tokenDesc
       }
@@ -196,6 +234,14 @@ export default class LexicalAnalysis {
     }
 
     return lastTokenDesc
+  }
+
+  private needRecomputed(token: TokenDesc<string>) {
+    return (
+      LexicalAnalysis.IsStringToken(token) ||
+      NumberTokenParse.Is(token) ||
+      BooleanTokenParse.Is(token)
+    )
   }
 
   static CreateStringToken(str: string, endIndex: number, row: number) {

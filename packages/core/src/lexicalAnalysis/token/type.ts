@@ -19,5 +19,6 @@ export interface TokenParse<T extends string> {
     code: string,
     startIndex: number,
     row: number,
+    preToken?: TokenDesc<string>,
   ) => { tokenDesc?: TokenDesc<T>; prevent: boolean }
 }

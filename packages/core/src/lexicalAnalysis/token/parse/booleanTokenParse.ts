@@ -1,6 +1,7 @@
 import type { TokenParse, TokenDesc } from '../type'
 
 import { generateId } from '../../../utils'
+import { DollerTokenParse, AtTokenParse, DotTokenParse } from './operator'
 
 type BooleanTokenType = 'TOKEN_BOOLEAN'
 
@@ -15,7 +16,16 @@ export class BooleanTokenParse implements TokenParse<BooleanTokenType> {
     return token.type === BooleanTokenParse.Type
   }
 
-  parse(code: string, startIndex: number, row: number) {
+  parse(
+    code: string,
+    startIndex: number,
+    row: number,
+    preToken?: TokenDesc<string>,
+  ) {
+    if (this.isDefineToken(preToken)) {
+      return { prevent: false }
+    }
+
     let booleanCode: 'true' | 'false' | undefined
     if (code.startsWith('true')) {
       booleanCode = 'true'
@@ -42,5 +52,14 @@ export class BooleanTokenParse implements TokenParse<BooleanTokenType> {
       tokenDesc: token,
       prevent: true,
     }
+  }
+
+  private isDefineToken(token?: TokenDesc<string>) {
+    return (
+      token &&
+      (DollerTokenParse.Is(token) ||
+        DotTokenParse.Is(token) ||
+        AtTokenParse.Is(token))
+    )
   }
 }

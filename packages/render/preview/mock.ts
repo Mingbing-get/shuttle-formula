@@ -38,6 +38,10 @@ export const vars: Record<string, WithDynamicVariable> = {
   b: {
     type: 'number',
   },
+  test1truefalse123: {
+    type: 'number',
+    label: '测试变量',
+  },
   d: {
     type: 'object',
     prototype: {
