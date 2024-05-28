@@ -12,6 +12,9 @@ const react = require('@vitejs/plugin-react')
 const vue = require('@vitejs/plugin-vue')
 const pkg = require(resolve(`package.json`))
 
+const dtsBeforeWriteFile = require('./dtsBeforeWriteFile')
+const { paths } = require('./config')
+
 main()
 
 async function main() {
@@ -47,6 +50,7 @@ async function startBuild(target) {
     plugins: [
       ...extraPlugin,
       dts.default({
+        beforeWriteFile: dtsBeforeWriteFile,
         outDir: resolve(__dirname, `../dist/${target}/`),
         exclude: ['vite.config.ts', '/packages/*/src/**/__test__/**/*'],
         include: [`packages/${target}/src/**/*`],
@@ -72,19 +76,13 @@ async function startBuild(target) {
             format: 'umd',
             name: 'index',
             assetFileNames: 'index.[ext]',
-            paths: {
-              core: '../core',
-              render: '../render',
-            },
+            paths: paths,
           },
           {
             format: 'es',
             name: 'index',
             assetFileNames: 'index.[ext]',
-            paths: {
-              core: '../core',
-              render: '../render',
-            },
+            paths: paths,
           },
         ],
       },
