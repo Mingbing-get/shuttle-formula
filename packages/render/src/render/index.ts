@@ -16,8 +16,14 @@ import BaseRender from './tokens/baseRender'
 import SpaceRender from './tokens/spaceRender'
 import TableRender from './tokens/tableRender'
 import WrapRender from './tokens/wrapRender'
+import StringRender from './tokens/stringRender'
 import TipRender from './tip'
 import ErrorRender from './error'
+
+import {
+  findOriginVariable,
+  findOriginFunction,
+} from '../utils/findOriginDefine'
 
 import './index.scss'
 
@@ -33,6 +39,7 @@ export default class Render {
   readonly tipRender: TipRender
   readonly errorRender: ErrorRender
 
+  private notEditTokenIds: string[] = []
   private readonly dom: HTMLDivElement
 
   private tokens: TokenDesc<string>[] = [
@@ -43,6 +50,7 @@ export default class Render {
     [SpaceRender.TokenType]: SpaceRender,
     [TableRender.TokenType]: TableRender,
     [WrapRender.TokenType]: WrapRender,
+    [StringRender.TokenType]: StringRender,
   }
 
   private tokenRender: Record<string, BaseRender<any>> = {}
@@ -61,6 +69,8 @@ export default class Render {
     this.hotKey = new HotKey()
     this.tipRender = new TipRender(this.codeManager)
     this.errorRender = new ErrorRender()
+
+    this.codeManager.cursor.setGetNotEditTokenIds(() => this.notEditTokenIds)
 
     this.initHotKey()
     this.initDom()
@@ -163,12 +173,12 @@ export default class Render {
     })
 
     this.codeManager.addListener('changeAst', ({ ast, error }) => {
-      const updateTokenType = (tokenId: string, type: string) => {
-        this.tokenRender[tokenId].updateTypeAndError(type)
+      const updateTokenType = (tokenId: string, type: string, extra?: any) => {
+        this.tokenRender[tokenId].updateTypeAndError(type, extra)
       }
 
+      const notEditTokenIds: string[] = []
       const syntaxList = Object.values(ast.syntaxMap)
-
       for (const currentAst of syntaxList) {
         if (!SyntaxAnalysis.Is(currentAst)) {
           continue
@@ -180,15 +190,35 @@ export default class Render {
           }
         } else if (SyntaxDescUtils.IsVariable(currentAst)) {
           currentAst.pathTokens.forEach((token) => {
-            updateTokenType(token.id, 'syntax-variable-path')
+            const originVariable = findOriginVariable(
+              currentAst,
+              token,
+              this.options.variables,
+            )
+
+            if (originVariable) {
+              notEditTokenIds.push(token.id)
+            }
+            updateTokenType(token.id, 'syntax-variable-path', originVariable)
           })
         } else if (SyntaxDescUtils.IsFunction(currentAst)) {
           currentAst.nameTokens.forEach((token) => {
-            updateTokenType(token.id, 'syntax-function-name')
+            const originFunction = findOriginFunction(
+              currentAst,
+              token,
+              this.options.functions,
+            )
+
+            if (originFunction) {
+              notEditTokenIds.push(token.id)
+            }
+            updateTokenType(token.id, 'syntax-function-name', originFunction)
           })
         }
       }
 
+      this.notEditTokenIds = notEditTokenIds
+      this.codeManager.focus()
       this.errorRender.resetError(error)
     })
 
@@ -297,6 +327,10 @@ export default class Render {
 
   getOption() {
     return this.options
+  }
+
+  getNotEditTokenIds() {
+    return this.notEditTokenIds
   }
 
   mount(dom: HTMLElement) {

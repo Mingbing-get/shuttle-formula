@@ -2,19 +2,24 @@ import type { TokenDesc } from 'core'
 
 import './index.scss'
 
-export default class BaseRender<T extends TokenDesc<string>> {
+export default class BaseRender<T extends TokenDesc<string>, E = any> {
   static TokenIdAttr = 'data-token-id'
 
   protected token: T
   protected type: string
+  protected extra?: E
 
   protected dom: HTMLElement
 
-  constructor(token: T, type: string) {
+  constructor(token: T, type: string, extra?: E) {
     this.token = token
     this.type = type
+    this.extra = extra
 
     this.dom = document.createElement('span')
+    this.dom.addEventListener('click', (e) => {
+      e.stopPropagation()
+    })
     this.render()
   }
 
@@ -26,17 +31,15 @@ export default class BaseRender<T extends TokenDesc<string>> {
     if (!isUpdate) {
       this.dom.setAttribute(BaseRender.TokenIdAttr, this.token.id)
       this.dom.innerText = this.token.code
-      this.dom.addEventListener('click', (e) => {
-        e.stopPropagation()
-      })
     }
   }
 
-  updateTypeAndError(type: string) {
-    if (this.type === type) {
+  updateTypeAndError(type: string, extra?: E) {
+    if (this.type === type && this.extra === extra) {
       return
     }
 
+    this.extra = extra
     this.type = type
 
     this.render(true)

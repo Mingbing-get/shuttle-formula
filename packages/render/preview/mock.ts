@@ -10,13 +10,16 @@ import {
 } from '../src/type'
 
 export const vars: Record<string, WithDynamicVariable> = {
-  a: {
+  global: {
     type: 'object',
+    label: '全局',
     prototype: {
-      b: {
+      button: {
         type: 'object',
+        label: '按钮',
         prototype: {
-          c: {
+          count: {
+            label: '数字',
             type: 'number',
           },
         },

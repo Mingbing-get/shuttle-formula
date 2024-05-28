@@ -6,9 +6,10 @@ import { useRender } from '../context'
 
 import type { TokenDesc } from 'core'
 
-export interface TokenRenderProps<T extends TokenDesc<string>> {
+export interface TokenRenderProps<T extends TokenDesc<string>, E = any> {
   token: T
   type: string
+  extra?: E
 }
 
 export type TokenRenderComponent<T extends TokenDesc<string>> = (
@@ -23,6 +24,7 @@ interface Props {
 interface TokenWithType {
   token: TokenDesc<string>
   type: string
+  extra?: any
   root: HTMLElement
 }
 
@@ -42,7 +44,11 @@ function TokenRender({ useTokenType, RenderComponent }: Props) {
     <>
       {Object.entries(tokenWithType).map(([id, item]) =>
         createPortal(
-          <RenderComponent token={item.token} type={item.type} />,
+          <RenderComponent
+            token={item.token}
+            type={item.type}
+            extra={item.extra}
+          />,
           item.root,
           id,
         ),
@@ -80,8 +86,8 @@ function createTokenRenderClass<T extends TokenDesc<string>>(
       }))
     }
 
-    updateTypeAndError(type: string) {
-      if (type === this.type) return
+    updateTypeAndError(type: string, extra?: any) {
+      if (type === this.type && extra === this.extra) return
 
       super.updateTypeAndError(type)
 
@@ -91,6 +97,7 @@ function createTokenRenderClass<T extends TokenDesc<string>>(
           token: this.token,
           type: this.type,
           root: this.dom,
+          extra,
         },
       }))
     }

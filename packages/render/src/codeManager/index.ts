@@ -46,7 +46,7 @@ export default class CodeManager {
   private readonly undoList: MemberInfo[] = []
 
   private listeners: Record<string, Function[]> = {}
-  readonly cursor: Cursor = new Cursor()
+  readonly cursor: Cursor = new Cursor(() => this.tokens)
 
   private executeId: string = ''
   private code: string = ''
@@ -258,7 +258,7 @@ export default class CodeManager {
   }
 
   focus() {
-    this.cursor.focus(this.tokens)
+    this.cursor.focus()
   }
 
   focusToNextChart() {
@@ -282,11 +282,15 @@ export default class CodeManager {
   }
 
   getSelectionRange() {
-    return this.cursor.getSelectionRange(this.code, this.tokens)
+    return this.cursor.getSelectionRange(this.code)
+  }
+
+  getFocusToken() {
+    return this.cursor.getFocusToken()
   }
 
   cursorFlowFocus() {
-    this.cursor.cursorFlowFocus(this.code, this.tokens)
+    this.cursor.cursorFlowFocus(this.code)
   }
 
   destroy() {

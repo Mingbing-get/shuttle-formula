@@ -12,11 +12,14 @@ import type { VariableDefine, SyntaxError } from 'core'
 export const vars: Record<string, WithDynamicVariable> = {
   a: {
     type: 'object',
+    label: '全局',
     prototype: {
-      b: {
+      button: {
         type: 'object',
+        label: '按钮',
         prototype: {
-          c: {
+          c_test: {
+            label: '测试',
             type: 'number',
           },
         },
@@ -317,8 +320,8 @@ export const functionWithGroups: FunctionGroup[] = [
 
 export const varValues: Record<string, any> = {
   a: {
-    b: {
-      c: 11,
+    button: {
+      c_test: 11,
     },
     d: 1,
     e: 2,

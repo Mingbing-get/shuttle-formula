@@ -115,7 +115,16 @@ export default class WrapperEvents {
       this.spliceCodeWithCb('\n')
       e.preventDefault()
     } else if (e.code === 'Backspace') {
-      this.spliceCodeWithCb('', 1)
+      const focusToken = this.codeManager.getFocusToken()
+      let deleteCount = 1
+
+      if (
+        focusToken &&
+        this.codeManager.cursor.getNotEditTokenIds().includes(focusToken.id)
+      ) {
+        deleteCount = focusToken.code.length
+      }
+      this.spliceCodeWithCb('', deleteCount)
       e.preventDefault()
     } else if (e.code === 'Space') {
       this.spliceCodeWithCb(' ')

@@ -19,14 +19,31 @@ export interface ChangeCursorEvent {
 }
 
 export type ChangeCursorListener = (event: ChangeCursorEvent) => void
+export type GetNotEditTokenIds = () => string[]
+export type GetTokens = () => TokenDesc<string>[]
 
 export default class Cursor {
   private cursorBeforeLength = -1
   private listeners: ChangeCursorListener[] = []
+  getNotEditTokenIds: GetNotEditTokenIds
+  readonly getTokens: GetTokens
 
   static readonly TOKEN_ATTR_NAME = 'data-token-id'
 
+  constructor(getTokens: GetTokens) {
+    this.getNotEditTokenIds = () => []
+    this.getTokens = getTokens
+  }
+
   changeCursor(cursorBeforeLength: number) {
+    const res = this.getTokenWithCodeIndex(cursorBeforeLength)
+    if (res && this.getNotEditTokenIds().includes(res.token.id)) {
+      if (res.inTokenIndex > 0) {
+        cursorBeforeLength =
+          cursorBeforeLength - res.inTokenIndex + res.token.code.length
+      }
+    }
+
     this.cursorBeforeLength = cursorBeforeLength
     this.triggerListener(this.cursorBeforeLength, false)
   }
@@ -40,7 +57,23 @@ export default class Cursor {
   toPrevChart() {
     if (this.cursorBeforeLength === 0) return
 
-    this.changeCursor(this.cursorBeforeLength - 1)
+    let cursorBeforeLength = this.cursorBeforeLength - 1
+    const res = this.getTokenWithCodeIndex(cursorBeforeLength)
+
+    if (res && this.getNotEditTokenIds().includes(res.token.id)) {
+      if (
+        res.inTokenIndex !== res.token.code.length &&
+        res.inTokenIndex !== 0
+      ) {
+        cursorBeforeLength = cursorBeforeLength - res.inTokenIndex
+      }
+    }
+
+    this.changeCursor(cursorBeforeLength)
+  }
+
+  setGetNotEditTokenIds(fn: GetNotEditTokenIds) {
+    this.getNotEditTokenIds = fn
   }
 
   toNextRow(code: string) {
@@ -80,7 +113,7 @@ export default class Cursor {
     this.changeCursor(beforeLastTwoLen + prevRowLength)
   }
 
-  getSelectionRange(code: string, tokens: TokenDesc<string>[]) {
+  getSelectionRange(code: string) {
     const selection = window.getSelection()
 
     if (!selection || selection.isCollapsed) return
@@ -94,26 +127,40 @@ export default class Cursor {
     let start = -1
     let end = -1
 
+    const tokens = this.getTokens()
     for (const token of tokens) {
       if (token.id === anchorId && token.id === focusId) {
-        start =
-          beforeCodeLength +
-          Math.min(selection.anchorOffset, selection.focusOffset)
-        end =
-          beforeCodeLength +
-          Math.max(selection.anchorOffset, selection.focusOffset)
+        if (this.getNotEditTokenIds().includes(token.id)) {
+          start = beforeCodeLength
+          end = beforeCodeLength + token.code.length
+        } else {
+          start =
+            beforeCodeLength +
+            Math.min(selection.anchorOffset, selection.focusOffset)
+          end =
+            beforeCodeLength +
+            Math.max(selection.anchorOffset, selection.focusOffset)
+        }
         break
       } else if (token.id === anchorId) {
         if (start === -1) {
-          start = beforeCodeLength + selection.anchorOffset
+          start = this.getNotEditTokenIds().includes(token.id)
+            ? beforeCodeLength
+            : beforeCodeLength + selection.anchorOffset
         } else {
-          end = beforeCodeLength + selection.anchorOffset
+          end = this.getNotEditTokenIds().includes(token.id)
+            ? beforeCodeLength + token.code.length
+            : beforeCodeLength + selection.anchorOffset
         }
       } else if (token.id === focusId) {
         if (start === -1) {
-          start = beforeCodeLength + selection.focusOffset
+          start = this.getNotEditTokenIds().includes(token.id)
+            ? beforeCodeLength
+            : beforeCodeLength + selection.focusOffset
         } else {
-          end = beforeCodeLength + selection.focusOffset
+          end = this.getNotEditTokenIds().includes(token.id)
+            ? beforeCodeLength + token.code.length
+            : beforeCodeLength + selection.focusOffset
         }
       }
 
@@ -131,7 +178,17 @@ export default class Cursor {
     }
   }
 
-  cursorFlowFocus(code: string, tokens: TokenDesc<string>[]) {
+  getFocusToken() {
+    const selection = window.getSelection()
+
+    if (!selection || !selection.isCollapsed) return
+
+    const anchorId = this.findNearTokenIdByNode(selection.anchorNode)
+
+    return this.getTokens().find((token) => token.id === anchorId)
+  }
+
+  cursorFlowFocus(code: string) {
     let preCodeLength = code.length
 
     if (preCodeLength) {
@@ -142,11 +199,16 @@ export default class Cursor {
       if (!tokenId) return
 
       preCodeLength = 0
+      const tokens = this.getTokens()
       for (const token of tokens) {
         if (token.id === tokenId) {
-          const offset = WrapTokenParse.Is(token)
+          let offset = WrapTokenParse.Is(token)
             ? selection.focusOffset + 1
             : selection.focusOffset
+
+          if (this.getNotEditTokenIds().includes(token.id)) {
+            offset = offset === 0 ? 0 : token.code.length
+          }
           preCodeLength += offset
           break
         }
@@ -155,6 +217,7 @@ export default class Cursor {
     }
 
     this.changeCursor(preCodeLength)
+    this.focus()
   }
 
   private getChartLenWithBase(baseStr: string, str: string) {
@@ -198,27 +261,25 @@ export default class Cursor {
     return this.cursorBeforeLength
   }
 
-  focus(tokens: TokenDesc<string>[]) {
-    if (this.cursorBeforeLength === -1) return
+  focus() {
+    const res = this.getTokenWithCodeIndex(this.cursorBeforeLength)
+    if (!res) return
 
-    let codeLen = 0
-    for (const token of tokens) {
-      codeLen += token.code.length
-      if (codeLen >= this.cursorBeforeLength) {
-        const node = document.querySelectorAll(
-          `*[${Cursor.TOKEN_ATTR_NAME}=${token.id}]`,
-        )
-        const focusIndex = WrapTokenParse.Is(token)
-          ? 0
-          : token.code.length - (codeLen - this.cursorBeforeLength)
+    requestAnimationFrame(() => {
+      const node = document.querySelectorAll(
+        `*[${Cursor.TOKEN_ATTR_NAME}=${res.token.id}]`,
+      )
 
-        requestAnimationFrame(() => {
-          this.focusNode(node[0], focusIndex)
-          this.triggerListener(this.cursorBeforeLength, true)
-        })
-        break
+      const isNotEditable = this.getNotEditTokenIds().includes(res.token.id)
+      if (isNotEditable) {
+        if (res.inTokenIndex !== 0) {
+          res.inTokenIndex = node[0].textContent?.length ?? 0
+        }
       }
-    }
+
+      this.focusNode(node[0], res.inTokenIndex)
+      this.triggerListener(this.cursorBeforeLength, true)
+    })
   }
 
   focusNode(node: Node, index: number) {
@@ -267,6 +328,26 @@ export default class Cursor {
     return {
       isDone: false,
       index: leftLen,
+    }
+  }
+
+  getTokenWithCodeIndex(codeIndex: number) {
+    if (codeIndex === -1) return
+
+    let codeLen = 0
+    const tokens = this.getTokens()
+    for (const token of tokens) {
+      codeLen += token.code.length
+      if (codeLen >= codeIndex) {
+        const inTokenIndex = WrapTokenParse.Is(token)
+          ? 0
+          : token.code.length - (codeLen - codeIndex)
+
+        return {
+          token,
+          inTokenIndex,
+        }
+      }
     }
   }
 
