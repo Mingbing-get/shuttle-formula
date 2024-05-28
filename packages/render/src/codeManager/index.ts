@@ -1,4 +1,4 @@
-import type { TokenDesc, SyntaxDesc } from 'core'
+import type { TokenDesc, SyntaxDesc, VariableDefine } from 'core'
 import type {
   WithTokenError,
   GetFunctionDefine,
@@ -27,6 +27,7 @@ interface TokenInfo {
 interface AstInfo {
   ast: SyntaxAst
   error?: WithTokenError
+  typeMap?: Map<string, VariableDefine.Desc>
 }
 
 interface MemberInfo {
@@ -52,6 +53,7 @@ export default class CodeManager {
   private code: string = ''
   private tokens: TokenDesc<string>[] = []
   private ast: SyntaxAst = { syntaxMap: {}, syntaxRootIds: [] }
+  private typeMap: Map<string, VariableDefine.Desc> | undefined
   private error: WithTokenError | undefined
 
   private readonly lexicalAnalysis = new LexicalAnalysis()
@@ -117,15 +119,17 @@ export default class CodeManager {
     executeId: string,
     tokens: TokenDesc<string>[],
   ) {
-    const { ast, error } = await this.analysisAst.execute(tokens)
+    const { ast, error, typeMap } = await this.analysisAst.execute(tokens)
 
     if (executeId !== this.executeId) return
 
     this.error = error
     this.ast = ast
+    this.typeMap = typeMap
     this.triggerListener('changeAst', {
       ast,
       error,
+      typeMap,
     })
   }
 

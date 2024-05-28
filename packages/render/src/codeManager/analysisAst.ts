@@ -106,6 +106,7 @@ export default class AnalysisAst {
     return {
       error,
       ast: executeRes.ast,
+      typeMap: executeRes.check instanceof Map ? executeRes.check : undefined,
     }
   }
 
