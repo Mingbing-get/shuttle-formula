@@ -6,7 +6,9 @@ export { useRender } from './context'
 export { default as Render } from './render'
 
 export { default as VariableTip } from './tipRender/variableTip'
+export { default as VariableSelect } from './tipRender/variableSelect'
 export { default as FunctionTip } from './tipRender/functionTip'
+export { default as FunctionSelect } from './tipRender/functionSelect'
 export { default as TokenRender } from './tokenRender'
 export { default as ErrorRender } from './errorRender'
 

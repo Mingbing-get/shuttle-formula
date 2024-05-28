@@ -1,8 +1,6 @@
 import { memo, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import _VariableSelect from './variableSelect'
-
 import { useRender } from '../context'
 
 import type { VariableSelectProps } from './variableSelect'
@@ -14,10 +12,10 @@ export type VariableSelectComponent = (
 export type { VariableSelectProps }
 
 interface Props {
-  VariableSelect?: VariableSelectComponent
+  VariableSelect: VariableSelectComponent
 }
 
-function VariableTip({ VariableSelect = _VariableSelect }: Props) {
+function VariableTip({ VariableSelect }: Props) {
   const { render } = useRender()
   const [tipOption, updateTipOption] = useState<VariableTipOption>()
   const handleSelect = useRef<(path: string[]) => void>(() => {})

@@ -1,4 +1,4 @@
-import type { TokenDesc, VariableDefine } from 'core'
+import type { TokenDesc, VariableDefine, VariableSyntaxDesc } from 'core'
 import type {
   FunctionGroup,
   GetDynamicObjectByPath,
@@ -8,7 +8,12 @@ import type {
   WithLabelFunction,
 } from '../type'
 
-import { LexicalAnalysis, SyntaxAnalysis, SyntaxDescUtils } from 'core'
+import {
+  DotTokenParse,
+  LexicalAnalysis,
+  SyntaxAnalysis,
+  SyntaxDescUtils,
+} from 'core'
 import CodeManager from '../codeManager'
 import WrapperEvents from '../wrapperEvents'
 import HotKey from '../hotkey'
@@ -19,11 +24,6 @@ import WrapRender from './tokens/wrapRender'
 import StringRender from './tokens/stringRender'
 import TipRender from './tip'
 import ErrorRender from './error'
-
-import {
-  findOriginVariable,
-  findOriginFunction,
-} from '../utils/findOriginDefine'
 
 import './index.scss'
 
@@ -172,7 +172,7 @@ export default class Render {
       this.codeManager.focus()
     })
 
-    this.codeManager.addListener('changeAst', ({ ast, error }) => {
+    this.codeManager.addListener('changeAst', async ({ ast, error }) => {
       const updateTokenType = (tokenId: string, type: string, extra?: any) => {
         this.tokenRender[tokenId].updateTypeAndError(type, extra)
       }
@@ -189,25 +189,22 @@ export default class Render {
             })
           }
         } else if (SyntaxDescUtils.IsVariable(currentAst)) {
-          currentAst.pathTokens.forEach((token) => {
-            const originVariable = findOriginVariable(
-              currentAst,
-              token,
-              this.options.variables,
-            )
+          for (const token of currentAst.pathTokens) {
+            const path = this.getVariablePathFromAst(currentAst, token)
+            const originVariable = await this.getVariableDefine(path)
 
             if (originVariable) {
               notEditTokenIds.push(token.id)
             }
             updateTokenType(token.id, 'syntax-variable-path', originVariable)
-          })
+          }
         } else if (SyntaxDescUtils.IsFunction(currentAst)) {
+          const functionName = currentAst.nameTokens
+            .map((nameToken) => nameToken.code)
+            .join('')
+
           currentAst.nameTokens.forEach((token) => {
-            const originFunction = findOriginFunction(
-              currentAst,
-              token,
-              this.options.functions,
-            )
+            const originFunction = this.getFunctionDefine(functionName)
 
             if (originFunction) {
               notEditTokenIds.push(token.id)
@@ -231,7 +228,32 @@ export default class Render {
     )
   }
 
-  private getFunctionDefine(functionName: string) {
+  getVariablePathFromAst(
+    variableAst: VariableSyntaxDesc,
+    token?: TokenDesc<string>,
+  ) {
+    const variablePath: string[] = []
+    let tempPath = ''
+    for (const pathItem of variableAst.pathTokens) {
+      if (DotTokenParse.Is(pathItem)) {
+        variablePath.push(tempPath)
+        tempPath = ''
+      } else {
+        tempPath += pathItem.code
+      }
+
+      if (pathItem.id === token?.id) {
+        break
+      }
+    }
+    if (tempPath.length > 0) {
+      variablePath.push(tempPath)
+    }
+
+    return variablePath
+  }
+
+  getFunctionDefine(functionName: string) {
     if (this.options.functions instanceof Array) {
       for (const group of this.options.functions) {
         if (group.functions[functionName]) {
@@ -245,7 +267,7 @@ export default class Render {
     return this.options.functions?.[functionName]
   }
 
-  private async getVariableDefine(path: string[]) {
+  async getVariableDefine(path: string[]) {
     return await this.getVariable(
       path,
       this.options.variables,

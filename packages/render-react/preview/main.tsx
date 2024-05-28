@@ -3,7 +3,9 @@ import {
   Render,
   Provider,
   VariableTip,
+  VariableSelect,
   FunctionTip,
+  FunctionSelect,
   TokenRender,
   ErrorRender,
 } from '../src'
@@ -48,8 +50,8 @@ export default function Main() {
             style={{ borderRadius: 5, boxShadow: '0 0 6px 0 #ccc', width: 400 }}
           />
           <ComputedFormula getVariable={getVar} getFunction={getFunction} />
-          <VariableTip />
-          <FunctionTip />
+          <VariableTip VariableSelect={VariableSelect} />
+          <FunctionTip FunctionSelect={FunctionSelect} />
           <ErrorRender RenderComponent={TestErrorRender} />
           <TokenRender
             useTokenType={BooleanTokenParse.Type}
@@ -75,8 +77,8 @@ export default function Main() {
           <Render
             style={{ borderRadius: 5, boxShadow: '0 0 6px 0 #ccc', width: 400 }}
           />
-          <VariableTip />
-          <FunctionTip />
+          <VariableTip VariableSelect={VariableSelect} />
+          <FunctionTip FunctionSelect={FunctionSelect} />
           <ErrorRender RenderComponent={TestErrorRender} />
           <TokenRender
             useTokenType={BooleanTokenParse.Type}

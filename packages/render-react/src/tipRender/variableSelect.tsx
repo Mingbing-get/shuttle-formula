@@ -103,9 +103,7 @@ function variableToTreeNode(
       if (path.length <= 1) {
         nodes.push({
           value,
-          label: currentVariable.label
-            ? `${key}(${currentVariable.label})`
-            : key,
+          label: currentVariable.label ?? key,
           path: currentPath,
           variable: currentVariable,
           isLeft: currentVariable.type !== 'object',
@@ -122,7 +120,7 @@ function variableToTreeNode(
     if (children.length > 0) {
       nodes.push({
         value,
-        label: currentVariable.label ? `${key}(${currentVariable.label})` : key,
+        label: currentVariable.label ?? key,
         path: currentPath,
         variable: currentVariable,
         children,

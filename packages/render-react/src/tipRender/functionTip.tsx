@@ -1,8 +1,6 @@
 import { useMemo, useRef, useState, memo } from 'react'
 import { createPortal } from 'react-dom'
 
-import _FunctionSelect from './functionSelect'
-
 import { useRender } from '../context'
 
 import type { FunctionSelectProps } from './functionSelect'
@@ -14,10 +12,10 @@ export type FunctionSelectComponent = (
 export type { FunctionSelectProps }
 
 interface Props {
-  FunctionSelect?: FunctionSelectComponent
+  FunctionSelect: FunctionSelectComponent
 }
 
-function FunctionTip({ FunctionSelect = _FunctionSelect }: Props) {
+function FunctionTip({ FunctionSelect }: Props) {
   const { render } = useRender()
   const [tipOption, updateTipOption] = useState<FunctionTipOption>()
   const handleSelect = useRef<(functionName: string) => void>(() => {})

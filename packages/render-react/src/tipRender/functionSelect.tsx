@@ -70,7 +70,7 @@ function filterFunctionsToSelect(
     ) {
       options.push({
         value: key,
-        label: functions[key].label ? `${key}(${functions[key].label})` : key,
+        label: functions[key].label ?? key,
       })
     }
   }
