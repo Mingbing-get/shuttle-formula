@@ -104,7 +104,9 @@ export default class Render {
 
   private initDom() {
     this.dom.setAttribute('class', 'editor-wrapper')
-    this.dom.setAttribute('contentEditable', 'true')
+    if (!this.options.disabled) {
+      this.dom.setAttribute('contentEditable', 'true')
+    }
 
     this.dom.addEventListener('click', (e) => {
       e.stopPropagation()
@@ -341,6 +343,11 @@ export default class Render {
 
   setFunctions(functions: Record<string, WithLabelFunction> | FunctionGroup[]) {
     this.options.functions = functions
+  }
+
+  updateDisabled(disabled?: boolean) {
+    this.options.disabled = disabled
+    this.dom.setAttribute('contentEditable', disabled ? 'false' : 'true')
   }
 
   setGetDynamicObjectByPath(getDynamicObjectByPath: GetDynamicObjectByPath) {

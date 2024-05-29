@@ -34,6 +34,10 @@ export default function Provider({ children, ...options }: Props) {
     render.current.codeManager.resetCode(options.code ?? '')
   }, [options.code])
 
+  useEffect(() => {
+    render.current.updateDisabled(options.disabled)
+  }, [options.disabled])
+
   const contextValue = useMemo(
     () => ({
       render: render.current,

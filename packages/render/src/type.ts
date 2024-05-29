@@ -71,6 +71,7 @@ export interface SyntaxAst {
 export interface RenderOption {
   code?: string
   useWorker?: boolean
+  disabled?: boolean
   variables?: Record<string, WithDynamicVariable>
   functions?: Record<string, WithLabelFunction> | FunctionGroup[]
   getDynamicObjectByPath?: GetDynamicObjectByPath

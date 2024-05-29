@@ -77,6 +77,8 @@ export default class CodeManager {
   }
 
   resetCode(code: string) {
+    if (code === this.code) return
+
     this.spliceCode(0, this.code.length, code, false)
   }
 
