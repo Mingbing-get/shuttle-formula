@@ -30,6 +30,10 @@ export default function Provider({ children, ...options }: Props) {
     render.current.setGetDynamicObjectByPath(options.getDynamicObjectByPath)
   }, [options.getDynamicObjectByPath])
 
+  useEffect(() => {
+    render.current.codeManager.resetCode(options.code ?? '')
+  }, [options.code])
+
   const contextValue = useMemo(
     () => ({
       render: render.current,

@@ -76,6 +76,10 @@ export default class CodeManager {
     return this
   }
 
+  resetCode(code: string) {
+    this.spliceCode(0, this.code.length, code, false)
+  }
+
   async spliceCode(
     index: number,
     deleteCount: number,
@@ -259,6 +263,11 @@ export default class CodeManager {
       false,
       lastMember.cursorBeforeLength,
     )
+  }
+
+  clearMember() {
+    this.undoList.length = 0
+    this.redoList.length = 0
   }
 
   focus() {

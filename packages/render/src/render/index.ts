@@ -77,7 +77,7 @@ export default class Render {
     this.initListener()
 
     if (options?.code) {
-      this.codeManager.spliceCode(0, 0, options.code, false)
+      this.codeManager.resetCode(options.code)
     }
   }
 
