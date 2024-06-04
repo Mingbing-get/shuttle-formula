@@ -80,6 +80,7 @@ export default class CodeManager {
     if (code === this.code) return
 
     this.spliceCode(0, this.code.length, code, false)
+    this.code = code
   }
 
   async spliceCode(
