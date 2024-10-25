@@ -29,11 +29,13 @@ export default class TipRender {
   private variablePicker: VariablePicker | undefined
   private functionPicker: FunctionPicker | undefined
 
+  private disabled?: boolean
   private delayTimeout: number | NodeJS.Timeout | undefined
   private readonly clickWindowListener: () => void
 
-  constructor(codeManager: CodeManager) {
+  constructor(codeManager: CodeManager, disabled?: boolean) {
     this.codeManager = codeManager
+    this.disabled = disabled
     this.popoverHandle = new PopoverHandle({
       placement: 'bottom-start',
       arrowSize: 'none',
@@ -96,7 +98,7 @@ export default class TipRender {
   }
 
   private reRender() {
-    if (!this.target || !this.tipOption) {
+    if (!this.target || !this.tipOption || this.disabled) {
       this.popoverHandle.setTarget(undefined)
       return
     }
@@ -193,6 +195,11 @@ export default class TipRender {
     window.removeEventListener('click', this.clickWindowListener)
     this.popoverHandle.setTarget(undefined)
     this.popoverHandle.getInstance().destroy()
+  }
+
+  setDisabled(disabled?: boolean) {
+    this.disabled = disabled
+    this.reRender()
   }
 
   private computedOption(

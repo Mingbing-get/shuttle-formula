@@ -67,7 +67,7 @@ export default class Render {
     this.codeManager = new CodeManager(options?.useWorker)
     this.wrapperEvents = new WrapperEvents(this.codeManager)
     this.hotKey = new HotKey()
-    this.tipRender = new TipRender(this.codeManager)
+    this.tipRender = new TipRender(this.codeManager, options?.disabled)
     this.errorRender = new ErrorRender()
 
     this.codeManager.cursor.setGetNotEditTokenIds(() => this.notEditTokenIds)
@@ -347,6 +347,7 @@ export default class Render {
 
   updateDisabled(disabled?: boolean) {
     this.options.disabled = disabled
+    this.tipRender.setDisabled(disabled)
     this.dom.setAttribute('contentEditable', disabled ? 'false' : 'true')
   }
 
