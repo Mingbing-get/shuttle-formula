@@ -49,7 +49,7 @@ export type WithDynamicVariable =
 
 export type WithLabelFunction = UnionAddExtra<
   FunctionDefine.Desc,
-  { label?: string }
+  { label?: string; description?: string }
 >
 
 export interface FunctionGroup {
