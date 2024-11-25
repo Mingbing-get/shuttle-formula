@@ -47,15 +47,15 @@ export type WithDynamicVariable =
   | HasDynamicVariableObject
   | UnionAddExtra<VariableDefine.Desc, { label?: string }>
 
-export type WithLabelFunction = UnionAddExtra<
+export type WithLabelFunction<T = any> = UnionAddExtra<
   FunctionDefine.Desc,
-  { label?: string; description?: string }
+  { label?: string; description?: T }
 >
 
-export interface FunctionGroup {
+export interface FunctionGroup<T = any> {
   id: string
   label: string
-  functions: Record<string, WithLabelFunction>
+  functions: Record<string, WithLabelFunction<T>>
 }
 
 export interface WithTokenError {
