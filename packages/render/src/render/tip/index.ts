@@ -167,9 +167,9 @@ export default class TipRender {
     this.codeManager.spliceCode(
       beforeCodeLength,
       excludeTokenLength,
-      functionName,
+      `${functionName}()`,
       true,
-      beforeCodeLength + functionName.length,
+      beforeCodeLength + functionName.length + 1,
     )
   }
 
