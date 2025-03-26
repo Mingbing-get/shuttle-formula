@@ -23,13 +23,11 @@
     "core": "^0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render": "^0.0.0",
-    "wonderful-marrow": "^2.4.8"
+    "render": "^0.0.0"
   },
   "peerDependencies": {
     "classnames": ">=1.1.0",
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "wonderful-marrow": ">=2.4.8"
+    "react-dom": ">=18.0.0"
   }
 }

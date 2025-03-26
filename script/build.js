@@ -69,7 +69,6 @@ async function startBuild(target) {
           'react/jsx-runtime',
           /^react\/.*/,
           'vue',
-          'wonderful-marrow/rabbit',
           'core',
           'render',
         ],
