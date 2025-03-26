@@ -1,5 +1,3 @@
-import 'wonderful-marrow/rabbit/index.css'
-
 export { default as Provider } from './context/provider'
 export { useRender } from './context'
 

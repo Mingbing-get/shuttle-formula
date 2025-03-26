@@ -66,6 +66,8 @@ async function startBuild(target) {
         external: [
           'react',
           'react-dom',
+          'react/jsx-runtime',
+          /^react\/.*/,
           'vue',
           'wonderful-marrow/rabbit',
           'core',
