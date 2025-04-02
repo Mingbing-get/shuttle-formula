@@ -109,13 +109,13 @@ export default class CodeManager {
       this.redoList = []
     }
 
-    if (cursorBeforeLength !== undefined) {
-      this.cursor.changeCursor(cursorBeforeLength)
-    }
-
     this.code = updateInfo.code
     this.tokens = updateInfo.tokens
     this.error = undefined
+
+    if (cursorBeforeLength !== undefined) {
+      this.cursor.changeCursor(cursorBeforeLength)
+    }
 
     this.triggerListener('changeToken', updateInfo)
 
