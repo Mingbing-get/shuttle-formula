@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import { useRender } from '../context'
 
-import type { VariableSelectProps } from './variableSelect'
+import type { VariableSelectProps } from './type'
 import type { VariableTipOption } from 'render'
 
 export type VariableSelectComponent = (

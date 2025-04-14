@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 import { useRender } from '../context'
 
-import type { FunctionSelectProps } from './functionSelect'
+import type { FunctionSelectProps } from './type'
 import type { FunctionTipOption } from 'render'
 
 export type FunctionSelectComponent = (

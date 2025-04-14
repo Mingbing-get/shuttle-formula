@@ -1,6 +1,6 @@
 {
   "name": "shuttle-formula",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "公式编辑器",
   "private": true,
   "workspaces": [
