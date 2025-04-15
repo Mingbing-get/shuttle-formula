@@ -83,6 +83,10 @@ export default class CodeManager {
     this.code = code
   }
 
+  forceRecomputed() {
+    this.spliceCode(0, this.code.length, this.code, false)
+  }
+
   async spliceCode(
     index: number,
     deleteCount: number,

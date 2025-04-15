@@ -22,6 +22,7 @@ export default function Provider({ children, ...options }: Props) {
     if (!options.variables) return
 
     render.current.setVariables(options.variables)
+    render.current.codeManager.forceRecomputed()
   }, [options.variables])
 
   useEffect(() => {
