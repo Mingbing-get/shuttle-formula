@@ -70,4 +70,12 @@ describe('CalculateExpression', () => {
 
     expect(res).toBe(false)
   })
+
+  test('suport dot token when like object variable', async () => {
+    const res = await executeCode(
+      `@createObject("key1", 1, "key2", $a.b).key1 + $a.d`,
+    )
+
+    expect(res).toBe(2)
+  })
 })

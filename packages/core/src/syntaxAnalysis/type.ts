@@ -16,6 +16,12 @@ export interface VariableSyntaxDesc extends SyntaxDesc<'variable'> {
   pathTokens: Array<TokenDesc<string>>
 }
 
+export interface DotSyntaxDesc extends SyntaxDesc<'dot'> {
+  startSyntaxId: string
+  triggerToken: TokenDesc<string>
+  pathTokens: Array<TokenDesc<string>>
+}
+
 export interface FunctionSyntaxDesc extends SyntaxDesc<'function'> {
   triggerToken: TokenDesc<string>
   nameTokens: Array<TokenDesc<string>>

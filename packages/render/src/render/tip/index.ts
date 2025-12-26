@@ -1,4 +1,9 @@
-import type { VariableSyntaxDesc, FunctionSyntaxDesc, TokenDesc } from 'core'
+import type {
+  VariableSyntaxDesc,
+  FunctionSyntaxDesc,
+  TokenDesc,
+  DotSyntaxDesc,
+} from 'core'
 
 import type { VirtualElement } from '../../components/popoverInstance'
 import type { ChangeCursorEvent } from '../../codeManager/cursor'
@@ -18,6 +23,8 @@ import {
   AtTokenParse,
 } from 'core'
 import PopoverHandle from '../../components/popoverHandle'
+import Render from '..'
+import { WithDynamicVariable } from '../../type'
 
 export default class TipRender {
   private readonly codeManager: CodeManager
@@ -29,13 +36,13 @@ export default class TipRender {
   private variablePicker: VariablePicker | undefined
   private functionPicker: FunctionPicker | undefined
 
-  private disabled?: boolean
+  private render: Render
   private delayTimeout: number | NodeJS.Timeout | undefined
   private readonly clickWindowListener: () => void
 
-  constructor(codeManager: CodeManager, disabled?: boolean) {
+  constructor(codeManager: CodeManager, render: Render) {
     this.codeManager = codeManager
-    this.disabled = disabled
+    this.render = render
     this.popoverHandle = new PopoverHandle({
       placement: 'bottom-start',
       arrowSize: 'none',
@@ -98,7 +105,7 @@ export default class TipRender {
   }
 
   private reRender() {
-    if (!this.target || !this.tipOption || this.disabled) {
+    if (!this.target || !this.tipOption || this.render.getOption().disabled) {
       this.popoverHandle.setTarget(undefined)
       return
     }
@@ -197,11 +204,6 @@ export default class TipRender {
     this.popoverHandle.getInstance().destroy()
   }
 
-  setDisabled(disabled?: boolean) {
-    this.disabled = disabled
-    this.reRender()
-  }
-
   private computedOption(
     cursorIndex: number,
   ): VariableTipOption | FunctionTipOption | undefined {
@@ -215,47 +217,109 @@ export default class TipRender {
     if (!syntaxDesc) return
 
     if (SyntaxDescUtils.IsVariable(syntaxDesc)) {
-      const path: string[] = []
-      if (DollerTokenParse.Is(inCursorToken.token)) {
-        if (inCursorToken.index === 0) return
-        path.push('')
-      } else {
-        const lastAddCode = DotTokenParse.Is(inCursorToken.token)
-          ? ''
-          : inCursorToken.token.code.slice(0, inCursorToken.index)
-        path.push(
-          ...this.getVariablePathBeforeToken(
-            syntaxDesc,
-            inCursorToken.token.id,
-            lastAddCode,
-          ),
-        )
-      }
-
-      return {
-        type: 'variable',
-        syntax: syntaxDesc,
-        path,
-      }
+      return this.computedVariableTipOption(inCursorToken, syntaxDesc)
     } else if (SyntaxDescUtils.IsFunction(syntaxDesc)) {
-      const nameCodes: string[] = []
-      if (!AtTokenParse.Is(inCursorToken.token)) {
-        nameCodes.push(
-          ...this.getFunctionNameBeforeToken(
-            syntaxDesc,
-            inCursorToken.token.id,
-          ),
-        )
-        nameCodes.push(inCursorToken.token.code.slice(0, inCursorToken.index))
-      } else {
-        if (inCursorToken.index === 0) return
-      }
+      return this.computedFunctionTipOption(inCursorToken, syntaxDesc)
+    } else if (SyntaxDescUtils.IsDot(syntaxDesc)) {
+      return this.computedDotTipOption(inCursorToken, syntaxDesc)
+    }
+  }
 
-      return {
-        type: 'function',
-        syntax: syntaxDesc,
-        name: nameCodes.join(''),
+  private computedVariableTipOption(
+    inCursorToken: { index: number; token: TokenDesc<string> },
+    syntaxDesc: VariableSyntaxDesc,
+  ): VariableTipOption | undefined {
+    const path: string[] = []
+    if (DollerTokenParse.Is(inCursorToken.token)) {
+      if (inCursorToken.index === 0) return
+      path.push('')
+    } else {
+      const lastAddCode = DotTokenParse.Is(inCursorToken.token)
+        ? ''
+        : inCursorToken.token.code.slice(0, inCursorToken.index)
+      path.push(
+        ...this.getVariablePathBeforeToken(
+          syntaxDesc,
+          inCursorToken.token.id,
+          lastAddCode,
+        ),
+      )
+    }
+
+    return {
+      type: 'variable',
+      syntax: syntaxDesc,
+      startVariable: this.render.getOption().variables,
+      path,
+    }
+  }
+
+  private computedFunctionTipOption(
+    inCursorToken: { index: number; token: TokenDesc<string> },
+    syntaxDesc: FunctionSyntaxDesc,
+  ): FunctionTipOption | undefined {
+    const nameCodes: string[] = []
+    if (!AtTokenParse.Is(inCursorToken.token)) {
+      nameCodes.push(
+        ...this.getFunctionNameBeforeToken(syntaxDesc, inCursorToken.token.id),
+      )
+      nameCodes.push(inCursorToken.token.code.slice(0, inCursorToken.index))
+    } else {
+      if (inCursorToken.index === 0) return
+    }
+
+    return {
+      type: 'function',
+      syntax: syntaxDesc,
+      name: nameCodes.join(''),
+    }
+  }
+
+  private computedDotTipOption(
+    inCursorToken: { index: number; token: TokenDesc<string> },
+    syntaxDesc: DotSyntaxDesc,
+  ): VariableTipOption | undefined {
+    const path: string[] = []
+    if (
+      DotTokenParse.Is(inCursorToken.token) &&
+      inCursorToken.token.id === syntaxDesc.triggerToken.id
+    ) {
+      if (inCursorToken.index === 0) return
+      path.push('')
+    } else {
+      const lastAddCode = DotTokenParse.Is(inCursorToken.token)
+        ? ''
+        : inCursorToken.token.code.slice(0, inCursorToken.index)
+      path.push(
+        ...this.getVariablePathBeforeToken(
+          syntaxDesc,
+          inCursorToken.token.id,
+          lastAddCode,
+        ),
+      )
+    }
+
+    const startVariableType = this.codeManager
+      .getTypeMap()
+      ?.get(syntaxDesc.startSyntaxId)
+
+    let startVariable: Record<string, WithDynamicVariable> = {}
+    if (startVariableType?.type === 'object') {
+      startVariable = startVariableType.prototype
+    } else if (startVariableType?.type === 'array') {
+      startVariable = {
+        [path[0]]: {
+          ...startVariableType.item,
+          label: '索引',
+        },
       }
+    }
+
+    return {
+      type: 'variable',
+      syntax: syntaxDesc,
+      startVariable,
+      path,
     }
   }
 
@@ -279,7 +343,7 @@ export default class TipRender {
   }
 
   private getVariablePathBeforeToken(
-    syntaxDesc: VariableSyntaxDesc,
+    syntaxDesc: VariableSyntaxDesc | DotSyntaxDesc,
     tokenId: string,
     lastAddCode: string,
   ) {

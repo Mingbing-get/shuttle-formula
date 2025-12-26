@@ -1,8 +1,14 @@
-import type { FunctionSyntaxDesc, VariableSyntaxDesc } from 'core'
+import type {
+  FunctionSyntaxDesc,
+  VariableSyntaxDesc,
+  DotSyntaxDesc,
+} from 'core'
+import { WithDynamicVariable } from '../../type'
 
 export interface VariableTipOption {
   type: 'variable'
-  syntax: VariableSyntaxDesc
+  syntax: VariableSyntaxDesc | DotSyntaxDesc
+  startVariable?: Record<string, WithDynamicVariable>
   path: string[]
 }
 

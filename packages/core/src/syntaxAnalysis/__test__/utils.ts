@@ -17,6 +17,11 @@ export namespace InputAst {
     path: string
   }
 
+  export interface DotInputAst extends Base<'dot'> {
+    start: Desc
+    path: string
+  }
+
   export interface FunctionInputAst extends Base<'function'> {
     name: string
     params: Desc[]
@@ -34,6 +39,7 @@ export namespace InputAst {
   export type Desc =
     | ExpressionInputAst
     | VariableInputAst
+    | DotInputAst
     | FunctionInputAst
     | ConstInputAst
     | UnknownInputAst
@@ -148,6 +154,15 @@ export function astToInputAst(
     if (SyntaxDescUtils.IsVariable(currentAst)) {
       inputAst.push({
         type: currentAst.type,
+        path: getCodeFromTokens(currentAst.pathTokens),
+      })
+    }
+
+    if (SyntaxDescUtils.IsDot(currentAst)) {
+      const start = astToInputAst([currentAst.startSyntaxId], syntaxMap)[0]
+      inputAst.push({
+        type: currentAst.type,
+        start,
         path: getCodeFromTokens(currentAst.pathTokens),
       })
     }

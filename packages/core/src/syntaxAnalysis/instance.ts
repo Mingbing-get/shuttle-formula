@@ -12,6 +12,7 @@ import { generateId } from '../utils'
 
 import MergeToken from './mergeToken'
 import LoadParams from './loadParams'
+import ParseDotSyntax from './parseDotSyntax'
 import ComputedBinaryExpression from './computedBinaryExpression'
 
 export default class SyntaxAnalysis {
@@ -45,13 +46,17 @@ export default class SyntaxAnalysis {
     const afterLoadParams = loadParams.execute(afterMergeDesc)
 
     const computedExpression = new ComputedBinaryExpression(this, processId)
-    const syntaxRootIds = computedExpression.execute(afterLoadParams)
+    const afterComputedExpression = computedExpression.execute(afterLoadParams)
+
+    // 将.语法的树结构解析成path
+    const parseDotSyntax = new ParseDotSyntax(this, processId)
+    const afterParseDotSyntax = parseDotSyntax.execute(afterComputedExpression)
 
     const syntaxMap = this.syntaxMapWithProcess.get(processId) ?? {}
     this.syntaxMapWithProcess.delete(processId)
 
     return {
-      syntaxRootIds,
+      syntaxRootIds: afterParseDotSyntax,
       syntaxMap,
     }
   }
@@ -74,6 +79,16 @@ export default class SyntaxAnalysis {
     }
 
     syntaxMap[syntax.id] = syntax
+  }
+
+  removeSyntax(processId: string, syntaxId: string) {
+    const syntaxMap = this.syntaxMapWithProcess.get(processId)
+
+    if (!syntaxMap) {
+      throw new Error(`没有进行中的解析流程，流程id:${processId}`)
+    }
+
+    delete syntaxMap[syntaxId]
   }
 
   private eatSpaceToken(tokens: Array<TokenDesc<string>>) {

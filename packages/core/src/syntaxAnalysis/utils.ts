@@ -5,6 +5,7 @@ import type {
   SyntaxDesc,
   ExpressionSyntaxDesc,
   VariableSyntaxDesc,
+  DotSyntaxDesc,
   FunctionSyntaxDesc,
   ConstSyntaxDesc,
   UnknownSyntaxDesc,
@@ -31,6 +32,23 @@ export const SyntaxDescUtils = {
       name: 'syntax',
       id: generateId(),
       type: 'variable',
+      triggerToken,
+      pathTokens,
+    }
+
+    return desc
+  },
+
+  CreateDot(
+    startSyntaxId: string,
+    triggerToken: TokenDesc<string>,
+    pathTokens: Array<TokenDesc<string>>,
+  ) {
+    const desc: DotSyntaxDesc = {
+      name: 'syntax',
+      id: generateId(),
+      type: 'dot',
+      startSyntaxId,
       triggerToken,
       pathTokens,
     }
@@ -87,6 +105,10 @@ export const SyntaxDescUtils = {
 
   IsVariable(desc: SyntaxDesc<string>): desc is VariableSyntaxDesc {
     return desc.type === 'variable'
+  },
+
+  IsDot(desc: SyntaxDesc<string>): desc is DotSyntaxDesc {
+    return desc.type === 'dot'
   },
 
   IsFunction(desc: SyntaxDesc<string>): desc is FunctionSyntaxDesc {

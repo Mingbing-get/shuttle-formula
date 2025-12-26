@@ -188,6 +188,14 @@ export default class CodeManager {
         ) {
           return currentAst
         }
+      } else if (SyntaxDescUtils.IsDot(currentAst)) {
+        if (
+          [currentAst.triggerToken, ...currentAst.pathTokens].some(
+            (token) => token.id === tokenId,
+          )
+        ) {
+          return currentAst
+        }
       } else if (SyntaxDescUtils.IsExpression(currentAst)) {
         if (currentAst.token.id === tokenId) {
           return currentAst
@@ -206,6 +214,10 @@ export default class CodeManager {
 
   getTokens() {
     return this.tokens
+  }
+
+  getTypeMap() {
+    return this.typeMap
   }
 
   getCode() {

@@ -41,7 +41,6 @@ function VariableTip({ VariableSelect }: Props) {
   return createPortal(
     <VariableSelect
       option={tipOption}
-      variables={render.getOption().variables}
       onSelect={handleSelect.current}
       getDynamicObjectByPath={render.getOption().getDynamicObjectByPath}
     />,

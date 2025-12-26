@@ -114,9 +114,20 @@ export default class MergeToken {
         this.addSyntax(syntax)
         newDesc.push(syntax.id)
       } else if (LexicalAnalysis.IsStringToken(currentDesc)) {
-        const syntax = SyntaxDescUtils.CreateUnknown(currentDesc)
-        this.addSyntax(syntax)
-        newDesc.push(syntax.id)
+        const preDesc = i > 0 ? desc[i - 1] : undefined
+        if (
+          preDesc &&
+          !SyntaxAnalysis.IsString(preDesc) &&
+          DotTokenParse.Is(preDesc)
+        ) {
+          const syntax = SyntaxDescUtils.CreateConst([currentDesc], 'string')
+          this.addSyntax(syntax)
+          newDesc.push(syntax.id)
+        } else {
+          const syntax = SyntaxDescUtils.CreateUnknown(currentDesc)
+          this.addSyntax(syntax)
+          newDesc.push(syntax.id)
+        }
       } else {
         newDesc.push(currentDesc)
       }

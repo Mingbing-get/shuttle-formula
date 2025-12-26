@@ -5,6 +5,7 @@ import SyntaxAnalysis from './instance'
 import { SyntaxDescUtils } from './utils'
 import {
   LeftSmallBracketTokenParse,
+  DotTokenParse,
   // binary expression
   MulTokenParse,
   DivTokenParse,
@@ -29,6 +30,10 @@ export default class ComputedBinaryExpression {
     level: number
     parseList: Array<StaticTokenParse<string>>
   }> = [
+    {
+      level: 120,
+      parseList: [DotTokenParse],
+    },
     {
       level: 100,
       parseList: [MulTokenParse, DivTokenParse, ModTokenParse],

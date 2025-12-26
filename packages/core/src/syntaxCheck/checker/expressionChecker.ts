@@ -56,6 +56,7 @@ export default class ExpressionChecker
       manager.setType(processId, ast.id, childType)
       return
     }
+
     // 检查二元表达式
     if (ast.children.length !== 2) {
       return manager.createError(

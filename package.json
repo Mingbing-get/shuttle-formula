@@ -12,6 +12,7 @@
     "dev": "vite",
     "dev:render": "vite --open /packages/render/preview/index.html",
     "dev:render-react": "vite --open /packages/render-react/preview/index.html",
+    "dev:render-react-antd": "vite --open /packages/render-react-antd/preview/index.html",
     "dev:render-vue": "vite --open /packages/render-vue/preview/index.html",
     "commit": "cz",
     "prepare": "husky install",

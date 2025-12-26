@@ -2,7 +2,7 @@ import { LexicalAnalysis, useAllTokenParse } from '../../lexicalAnalysis'
 
 import { SyntaxAnalysis } from '..'
 
-import { matchAst, type InputAst } from './utils'
+import { matchAst, astToInputAst, type InputAst } from './utils'
 
 describe('SyntaxAnalysis', () => {
   const lexicalAnalysis = new LexicalAnalysis()
@@ -293,6 +293,71 @@ describe('SyntaxAnalysis', () => {
                 ],
               },
             ],
+          },
+        ],
+      },
+    ]
+
+    expect(matchAst(ast.syntaxRootIds, ast.syntaxMap, expectAst)).toBe(true)
+  })
+
+  test('suport dot token when like object variable', async () => {
+    const ast = await codeToAst(`@test1(@test(1 + $c.d).a.b).c / 2 + $c.e`)
+
+    const expectAst: InputAst.Desc[] = [
+      {
+        type: 'expression',
+        code: '+',
+        children: [
+          {
+            type: 'expression',
+            code: '/',
+            children: [
+              {
+                type: 'dot',
+                start: {
+                  type: 'function',
+                  name: 'test1',
+                  params: [
+                    {
+                      type: 'dot',
+                      start: {
+                        type: 'function',
+                        name: 'test',
+                        params: [
+                          {
+                            type: 'expression',
+                            code: '+',
+                            children: [
+                              {
+                                type: 'const',
+                                constType: 'number',
+                                code: '1',
+                              },
+                              {
+                                type: 'variable',
+                                path: 'c.d',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      path: 'a.b',
+                    },
+                  ],
+                },
+                path: 'c',
+              },
+              {
+                type: 'const',
+                constType: 'number',
+                code: '2',
+              },
+            ],
+          },
+          {
+            type: 'variable',
+            path: 'c.e',
           },
         ],
       },

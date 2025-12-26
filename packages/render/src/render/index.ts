@@ -1,4 +1,9 @@
-import type { TokenDesc, VariableDefine, VariableSyntaxDesc } from 'core'
+import type {
+  DotSyntaxDesc,
+  TokenDesc,
+  VariableDefine,
+  VariableSyntaxDesc,
+} from 'core'
 import type {
   FunctionGroup,
   GetDynamicObjectByPath,
@@ -67,7 +72,7 @@ export default class Render {
     this.codeManager = new CodeManager(options?.useWorker)
     this.wrapperEvents = new WrapperEvents(this.codeManager)
     this.hotKey = new HotKey()
-    this.tipRender = new TipRender(this.codeManager, options?.disabled)
+    this.tipRender = new TipRender(this.codeManager, this)
     this.errorRender = new ErrorRender()
 
     this.codeManager.cursor.setGetNotEditTokenIds(() => this.notEditTokenIds)
@@ -200,6 +205,30 @@ export default class Render {
             }
             updateTokenType(token.id, 'syntax-variable-path', originVariable)
           }
+        } else if (SyntaxDescUtils.IsDot(currentAst)) {
+          const startVariableDefine = this.codeManager
+            .getTypeMap()
+            ?.get(currentAst.startSyntaxId)
+
+          let startVariable: Record<string, WithDynamicVariable> = {}
+          if (startVariableDefine?.type === 'object') {
+            startVariable = startVariableDefine.prototype
+          } else if (startVariableDefine?.type === 'array') {
+            startVariable = {
+              [currentAst.pathTokens[0]?.code]: {
+                ...startVariableDefine.item,
+                label: '索引',
+              },
+            }
+          }
+
+          for (const token of currentAst.pathTokens) {
+            const path = this.getVariablePathFromAst(currentAst, token)
+            const variableDefine = await this.getVariable(path, startVariable)
+
+            notEditTokenIds.push(token.id)
+            updateTokenType(token.id, 'syntax-variable-path', variableDefine)
+          }
         } else if (SyntaxDescUtils.IsFunction(currentAst)) {
           const functionName = currentAst.nameTokens
             .map((nameToken) => nameToken.code)
@@ -231,7 +260,7 @@ export default class Render {
   }
 
   getVariablePathFromAst(
-    variableAst: VariableSyntaxDesc,
+    variableAst: VariableSyntaxDesc | DotSyntaxDesc,
     token?: TokenDesc<string>,
   ) {
     const variablePath: string[] = []
@@ -347,7 +376,6 @@ export default class Render {
 
   updateDisabled(disabled?: boolean) {
     this.options.disabled = disabled
-    this.tipRender.setDisabled(disabled)
     this.dom.setAttribute('contentEditable', disabled ? 'false' : 'true')
   }
 

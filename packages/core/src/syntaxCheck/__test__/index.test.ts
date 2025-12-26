@@ -73,4 +73,12 @@ describe('SyntaxCheck', () => {
 
     expect(checkRes instanceof Map).toBe(true)
   })
+
+  test('suport dot token when like object variable', async () => {
+    const checkRes = await checkCode(
+      `@createObject("key1", 1, "key2", $a.b).key1 + $a.d`,
+    )
+
+    expect(checkRes instanceof Map).toBe(true)
+  })
 })
