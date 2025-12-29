@@ -13,9 +13,9 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "composite": true,
     "noEmit": true,
     "baseUrl": "."
   },
-  "include": ["vite.config.ts", "packages/**/*"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["vite.config.ts", "packages/**/*"]
 }
