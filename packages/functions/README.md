@@ -4,50 +4,50 @@
 
 ## 文本函数
 
-| 函数名      | 中文名称     | 参数类型                     | 返回值类型 |
-| ----------- | ------------ | ---------------------------- | ---------- | -------------- |
-| len         | 获取长度     | `string` \| `array`          | `number`   |
-| reverse     | 翻转         | `string`                     | `array`    | 与输入类型相同 |
-| mergeString | 合并字符串   | `string`                     | `string`   |
-| contains    | 是否包含     | `string`, `string`           | `boolean`  |
-| stringIndex | 查找文本位置 | `string`, `string`           | `number`   |
-| subString   | 获取子串     | `string`, `number`, `number` | `string`   |
-| lower       | 转小写       | `string`                     | `string`   |
-| upper       | 转大写       | `string`                     | `string`   |
-| repeat      | 重复文本     | `string`, `number`           | `string`   |
-| trim        | 删除头尾空格 | `string`                     | `string`   |
-| replace     | 替换         | `string`, `string`, `string` | `string`   |
-| replaceAll  | 替换所有     | `string`, `string`, `string` | `string`   |
+| 函数名      | 中文名称     | 参数类型                     | 返回值类型     |
+| ----------- | ------------ | ---------------------------- | -------------- |
+| len         | 获取长度     | `string` \| `array`          | `number`       |
+| reverse     | 翻转         | `string` \| `array`          | 与输入类型相同 |
+| mergeString | 合并字符串   | `string`                     | `string`       |
+| contains    | 是否包含     | `string`, `string`           | `boolean`      |
+| stringIndex | 查找文本位置 | `string`, `string`           | `number`       |
+| subString   | 获取子串     | `string`, `number`, `number` | `string`       |
+| lower       | 转小写       | `string`                     | `string`       |
+| upper       | 转大写       | `string`                     | `string`       |
+| repeat      | 重复文本     | `string`, `number`           | `string`       |
+| trim        | 删除头尾空格 | `string`                     | `string`       |
+| replace     | 替换         | `string`, `string`, `string` | `string`       |
+| replaceAll  | 替换所有     | `string`, `string`, `string` | `string`       |
 
 ## 日期函数
 
-| 函数名         | 中文名称     | 参数类型                    | 返回值类型                  |
-| -------------- | ------------ | --------------------------- | --------------------------- | -------------- |
-| nowDate        | 当前日期     | 无                          | `custom-date`               |
-| now            | 当前日期时间 | 无                          | `custom-datetime`           |
-| formatDate     | 格式化时间   | `custom-date`               | `custom-datetime`, `string` | `string`       |
-| getTime        | 获取时间戳   | `custom-date`               | `custom-datetime`           | `number`       |
-| addYear        | 加年         | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| addMonth       | 加月         | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| addDay         | 加天         | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| addHour        | 加小时       | `custom-datetime`, `number` | 与输入类型相同              |
-| addMinute      | 加分钟       | `custom-datetime`, `number` | 与输入类型相同              |
-| addSecond      | 加秒         | `custom-datetime`, `number` | 与输入类型相同              |
-| addMilliSecond | 加毫秒       | `custom-datetime`, `number` | 与输入类型相同              |
-| getYear        | 获取年       | `custom-date`               | `custom-datetime`           | `number`       |
-| getMonth       | 获取月       | `custom-date`               | `custom-datetime`           | `number`       |
-| getDay         | 获取日       | `custom-date`               | `custom-datetime`           | `number`       |
-| getHour        | 获取小时     | `custom-datetime`           | `number`                    |
-| getMinute      | 获取分钟     | `custom-datetime`           | `number`                    |
-| getSecond      | 获取秒       | `custom-datetime`           | `number`                    |
-| getMilliSecond | 获取毫秒     | `custom-datetime`           | `number`                    |
-| setYear        | 设置年       | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| setMonth       | 设置月       | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| setDay         | 设置日       | `custom-date`               | `custom-datetime`, `number` | 与输入类型相同 |
-| setHour        | 设置小时     | `custom-datetime`, `number` | 与输入类型相同              |
-| setMinute      | 设置分钟     | `custom-datetime`, `number` | 与输入类型相同              |
-| setSecond      | 设置秒       | `custom-datetime`, `number` | 与输入类型相同              |
-| setMilliSecond | 设置毫秒     | `custom-datetime`, `number` | 与输入类型相同              |
+| 函数名         | 中文名称     | 参数类型                           | 返回值类型        |
+| -------------- | ------------ | ---------------------------------- | ----------------- |
+| nowDate        | 当前日期     | 无                                 | `custom-date`     |
+| now            | 当前日期时间 | 无                                 | `custom-datetime` |
+| formatDate     | 格式化时间   | `custom-date` \| `custom-datetime` | `string`          |
+| getTime        | 获取时间戳   | `custom-date`                      | `custom-datetime` |
+| addYear        | 加年         | `custom-date`                      | 与输入类型相同    |
+| addMonth       | 加月         | `custom-date`                      | 与输入类型相同    |
+| addDay         | 加天         | `custom-date`                      | 与输入类型相同    |
+| addHour        | 加小时       | `custom-datetime`, `number`        | 与输入类型相同    |
+| addMinute      | 加分钟       | `custom-datetime`, `number`        | 与输入类型相同    |
+| addSecond      | 加秒         | `custom-datetime`, `number`        | 与输入类型相同    |
+| addMilliSecond | 加毫秒       | `custom-datetime`, `number`        | 与输入类型相同    |
+| getYear        | 获取年       | `custom-date`                      | `custom-datetime` |
+| getMonth       | 获取月       | `custom-date`                      | `custom-datetime` |
+| getDay         | 获取日       | `custom-date`                      | `custom-datetime` |
+| getHour        | 获取小时     | `custom-datetime`                  | `number`          |
+| getMinute      | 获取分钟     | `custom-datetime`                  | `number`          |
+| getSecond      | 获取秒       | `custom-datetime`                  | `number`          |
+| getMilliSecond | 获取毫秒     | `custom-datetime`                  | `number`          |
+| setYear        | 设置年       | `custom-date`                      | 与输入类型相同    |
+| setMonth       | 设置月       | `custom-date`                      | 与输入类型相同    |
+| setDay         | 设置日       | `custom-date`                      | 与输入类型相同    |
+| setHour        | 设置小时     | `custom-datetime`, `number`        | 与输入类型相同    |
+| setMinute      | 设置分钟     | `custom-datetime`, `number`        | 与输入类型相同    |
+| setSecond      | 设置秒       | `custom-datetime`, `number`        | 与输入类型相同    |
+| setMilliSecond | 设置毫秒     | `custom-datetime`, `number`        | 与输入类型相同    |
 
 ## 对象函数
 
@@ -61,13 +61,13 @@
 ## 数组函数
 
 | 函数名        | 中文名称     | 参数类型                    | 返回值类型     |
-| ------------- | ------------ | --------------------------- | -------------- | -------------- |
+| ------------- | ------------ | --------------------------- | -------------- |
 | createArray   | 创建数组     | `any`                       | `array`        |
 | arrayContains | 数组是否包含 | `array`, `any`              | `boolean`      |
-| len           | 获取长度     | `string`                    | `array`        | `number`       |
+| len           | 获取长度     | `string`                    | `number`       |
 | mergeArray    | 合并数组     | `array`                     | `array`        |
 | arrayGet      | 数组获取值   | `array`, `number`           | 数组项类型     |
-| reverse       | 翻转         | `string`                    | `array`        | 与输入类型相同 |
+| reverse       | 翻转         | `string`                    | 与输入类型相同 |
 | subArray      | 获取子数组   | `array`, `number`, `number` | 与输入类型相同 |
 | sort          | 数组排序     | `array`, `boolean`          | `array`        |
 | substract     | 数组差集     | `array`, `array`            | `array`        |
@@ -81,13 +81,13 @@
 
 ## 类型转换
 
-| 函数名       | 中文名称       | 参数类型  | 返回值类型 |
-| ------------ | -------------- | --------- | ---------- | ----------------- | ----------------- | ----------------- | ------------- | -------- |
-| anyToString  | 转为字符串     | `boolean` | `number`   | `string`          | `custom-date`     | `custom-datetime` | `custom-enum` | `string` |
-| toNumber     | 转为数字       | `number`  | `string`   | `boolean`         | `number`          |
-| toJsonString | 转为json字符串 | `array`   | `object`   | `string`          |
-| toDate       | 转为日期       | `string`  | `number`   | `custom-datetime` | `custom-date`     |
-| toDateTime   | 转为日期时间   | `string`  | `number`   | `custom-date`     | `custom-datetime` |
+| 函数名       | 中文名称       | 参数类型                                                                                 | 返回值类型        |
+| ------------ | -------------- | ---------------------------------------------------------------------------------------- | ----------------- |
+| anyToString  | 转为字符串     | `boolean` \| `number` \| `string` \| `custom-date` \| `custom-datetime` \| `custom-enum` | `string`          |
+| toNumber     | 转为数字       | `number` \| `string` \| `boolean`                                                        | `number`          |
+| toJsonString | 转为json字符串 | `array` \| `object`                                                                      | `string`          |
+| toDate       | 转为日期       | `string` \| `number` \| `custom-datetime`                                                | `custom-date`     |
+| toDateTime   | 转为日期时间   | `string` \| `number` \| `custom-date`                                                    | `custom-datetime` |
 
 ## 数学函数
 
