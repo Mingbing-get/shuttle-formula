@@ -1,72 +1,88 @@
 import { useCallback, useMemo, useState } from 'react'
-import { WithLabelFunction } from '@shuttle-formula/functions'
+import {
+  WithLabelFunction,
+  FunctionDescription,
+  FunctionGroup,
+} from '@shuttle-formula/functions'
 
+import FunctionDescriptionRender from '../../functionSelect/description'
 import SelectPanel from '../../functionSelect/selectPanel'
 import {
   SelectGroup,
   SelectOption,
 } from '../../functionSelect/selectPanel/type'
 
-import { functionWithGroups } from '../../functionDefine'
-
 interface Props {
+  functions?:
+    | Record<string, WithLabelFunction<FunctionDescription>>
+    | FunctionGroup<FunctionDescription>[]
   onPickFunction?: (
     fnKey: string,
-    fn: WithLabelFunction<React.ReactNode>,
+    fn: WithLabelFunction<FunctionDescription>,
   ) => void
 }
 
-export default function FormulaFunction({ onPickFunction }: Props) {
+export default function FormulaFunction({ functions, onPickFunction }: Props) {
   const [hoverFunction, setHoverFunction] =
-    useState<WithLabelFunction<React.ReactNode>>()
+    useState<WithLabelFunction<FunctionDescription>>()
 
   const optionGroups = useMemo(() => {
-    const optionGroups: SelectGroup[] = functionWithGroups.map((group) => {
-      const options: SelectOption[] = []
+    if (!functions) return []
 
-      for (const key in group.functions) {
-        options.push({
-          value: key,
-          label: group.functions[key].label || '',
-        })
-      }
+    if (Array.isArray(functions)) {
+      const optionGroups: SelectGroup[] = functions.map((group) => {
+        return {
+          id: group.id,
+          label: group.label,
+          options: recordsToOptions(group.functions),
+        }
+      })
 
-      return {
-        id: group.id,
-        label: group.label,
-        options,
-      }
-    })
-
-    return optionGroups
-  }, [])
-
-  const handleChangeHover = useCallback((value?: string) => {
-    if (!value) {
-      setHoverFunction(undefined)
-      return
+      return optionGroups
     }
 
-    for (const group of functionWithGroups) {
-      if (group.functions[value]) {
-        setHoverFunction(group.functions[value])
+    return recordsToOptions(functions)
+  }, [functions])
+
+  const findFunction = useCallback(
+    (functionKey: string) => {
+      if (!functions) return
+
+      if (Array.isArray(functions)) {
+        for (const group of functions) {
+          if (group.functions[functionKey]) {
+            return group.functions[functionKey]
+          }
+        }
+      } else {
+        return functions[functionKey]
+      }
+    },
+    [functions],
+  )
+
+  const handleChangeHover = useCallback(
+    (value?: string) => {
+      if (!value) {
+        setHoverFunction(undefined)
         return
       }
-    }
 
-    setHoverFunction(undefined)
-  }, [])
+      const func = findFunction(value)
+
+      setHoverFunction(func)
+    },
+    [findFunction],
+  )
 
   const handleClick = useCallback(
     (option: SelectOption) => {
-      for (const group of functionWithGroups) {
-        if (group.functions[option.value]) {
-          onPickFunction?.(option.value, group.functions[option.value])
-          return
-        }
+      const func = findFunction(option.value)
+      if (func) {
+        onPickFunction?.(option.value, func)
       }
     },
-    [onPickFunction],
+    [onPickFunction, findFunction],
   )
 
   return (
@@ -78,9 +94,27 @@ export default function FormulaFunction({ onPickFunction }: Props) {
       />
       {hoverFunction?.description && (
         <div className="formula-function-example">
-          {hoverFunction.description}
+          <FunctionDescriptionRender
+            {...hoverFunction.description}
+            name={hoverFunction.label || ''}
+          />
         </div>
       )}
     </div>
   )
+}
+
+function recordsToOptions(
+  functionMap: Record<string, WithLabelFunction<FunctionDescription>>,
+) {
+  const options: SelectOption[] = []
+
+  for (const key in functionMap) {
+    options.push({
+      value: key,
+      label: functionMap[key].label || '',
+    })
+  }
+
+  return options
 }

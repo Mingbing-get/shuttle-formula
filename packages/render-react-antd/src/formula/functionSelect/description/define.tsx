@@ -1,11 +1,15 @@
-export interface FunctionDescriptionDefine {
-  functionKey: string
+import { FunctionDescriptionDefine } from '@shuttle-formula/functions'
+
+export interface FunctionDescriptionDefineProps
+  extends FunctionDescriptionDefine {
   name: string
-  paramsList: string[]
-  result: string
 }
 
-export default function Define({ name, paramsList, result }: FunctionDescriptionDefine) {
+export default function Define({
+  name,
+  paramsList,
+  result,
+}: FunctionDescriptionDefineProps) {
   return (
     <div className="function-description-define">
       <span className="function-name">@{name}</span>

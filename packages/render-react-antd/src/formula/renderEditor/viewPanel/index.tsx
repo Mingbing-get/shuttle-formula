@@ -87,7 +87,12 @@ export default function ViewPanel({ style }: Props) {
         {
           label: '函数',
           key: 'function',
-          children: <FormulaFunction onPickFunction={handlePickFunction} />,
+          children: (
+            <FormulaFunction
+              functions={render.getOption().functions}
+              onPickFunction={handlePickFunction}
+            />
+          ),
         },
         {
           label: '运算符',

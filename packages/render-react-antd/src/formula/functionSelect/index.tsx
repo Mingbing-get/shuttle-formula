@@ -1,15 +1,19 @@
 import { useCallback, useMemo } from 'react'
 import type {
   WithLabelFunction,
+  FunctionDescription,
   FunctionGroup,
 } from '@shuttle-formula/functions'
 import type { FunctionTipOption } from '@shuttle-formula/render'
 
 import { SelectGroup, SelectOption } from './selectPanel/type'
 import SelectPanel from './selectPanel'
+import FunctionDescriptionRender from './description'
 
 export interface FunctionSelectProps {
-  functions?: Record<string, WithLabelFunction> | FunctionGroup[]
+  functions?:
+    | Record<string, WithLabelFunction<FunctionDescription>>
+    | FunctionGroup<FunctionDescription>[]
   option: FunctionTipOption
   onSelect?: (functionName: string) => void
 }
@@ -59,7 +63,7 @@ export default function FunctionSelect({
 
 function filterFunctionsToSelect(
   functionName: string,
-  functions?: Record<string, WithLabelFunction>,
+  functions?: Record<string, WithLabelFunction<FunctionDescription>>,
 ) {
   const options: SelectOption[] = []
 
@@ -71,7 +75,12 @@ function filterFunctionsToSelect(
       options.push({
         value: key,
         label: functions[key].label ?? key,
-        extraTip: functions[key].description,
+        extraTip: functions[key].description ? (
+          <FunctionDescriptionRender
+            {...functions[key].description}
+            name={functions[key].label || ''}
+          />
+        ) : undefined,
       })
     }
   }

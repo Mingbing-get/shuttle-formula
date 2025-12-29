@@ -1,13 +1,17 @@
+import { FunctionDescriptionExample } from '@shuttle-formula/functions'
 import Tip from './tip'
 
-export interface FunctionDescriptionExample {
-  tip?: string
+export interface FunctionDescriptionExampleProps
+  extends FunctionDescriptionExample {
   name: string
-  params: string[]
-  result: string
 }
 
-export default function Example({ tip, name, params, result }: FunctionDescriptionExample) {
+export default function Example({
+  tip,
+  name,
+  params,
+  result,
+}: FunctionDescriptionExampleProps) {
   return (
     <div className="function-description-example">
       {tip && <Tip detail={tip} />}

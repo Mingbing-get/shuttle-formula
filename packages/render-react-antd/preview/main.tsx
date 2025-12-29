@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { Button } from 'antd'
 
+import { functionWithGroups } from '@shuttle-formula/functions'
 import { FormulaRender, computedFormula } from '../src'
 import { mockVariablesDefine, mockVariablesValue } from './mock'
 
@@ -31,6 +32,7 @@ export default function Main() {
     >
       <div style={{ width: '70vw' }}>
         <FormulaRender
+          functions={functionWithGroups}
           variables={mockVariablesDefine}
           onAstChange={(ast) => {
             console.log('ast: ', ast)

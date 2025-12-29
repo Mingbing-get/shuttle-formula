@@ -11,7 +11,7 @@ import {
 } from '@shuttle-formula/render'
 
 import getVariableValueByPath from './getVariableValueByPath'
-import { functionValues } from '../formula/functionDefine'
+import { functionValues } from '@shuttle-formula/functions'
 
 interface Options {
   context?: Record<string, any>

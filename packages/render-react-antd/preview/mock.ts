@@ -1,4 +1,4 @@
-import { WithDynamicVariable } from 'render'
+import { WithDynamicVariable } from '@shuttle-formula/render'
 
 export const mockVariablesDefine: Record<string, WithDynamicVariable> = {
   first: {

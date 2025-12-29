@@ -8,6 +8,7 @@ import {
 import type {
   FunctionGroup,
   WithLabelFunction,
+  FunctionDescription,
 } from '@shuttle-formula/functions'
 import type {
   GetDynamicObjectByPath,
@@ -26,7 +27,9 @@ interface Props extends OnChangeProps {
   getDynamicObjectByPath?: GetDynamicObjectByPath
   needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
   variables?: Record<string, WithDynamicVariable>
-  functions?: Record<string, WithLabelFunction> | FunctionGroup[]
+  functions?:
+    | Record<string, WithLabelFunction<FunctionDescription>>
+    | FunctionGroup<FunctionDescription>[]
   disabled?: boolean
 }
 
