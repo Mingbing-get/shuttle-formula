@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { useRender } from '../context'
 
 import type { FunctionSelectProps } from './type'
-import type { FunctionTipOption } from 'render'
+import type { FunctionTipOption } from '@shuttle-formula/render'
 
 export type FunctionSelectComponent = (
   props: FunctionSelectProps,

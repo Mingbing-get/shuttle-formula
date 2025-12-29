@@ -1,11 +1,18 @@
-import { VariableDefine } from 'core'
-import { Provider, VariableTip, FunctionTip } from 'render-react'
+import { VariableDefine } from '@shuttle-formula/core'
 import {
+  Provider,
+  VariableTip,
+  FunctionTip,
+} from '@shuttle-formula/render-react'
+
+import type {
   FunctionGroup,
+  WithLabelFunction,
+} from '@shuttle-formula/functions'
+import type {
   GetDynamicObjectByPath,
   WithDynamicVariable,
-  WithLabelFunction,
-} from 'render'
+} from '@shuttle-formula/render'
 
 import FunctionSelect from './functionSelect'
 import VariableSelect from './variableSelect'

@@ -1,4 +1,4 @@
-import { BooleanTokenParse } from 'core'
+import { BooleanTokenParse } from '@shuttle-formula/core'
 import { Render, Provider, TokenRender, ErrorRender } from '../src'
 
 import {
@@ -10,7 +10,7 @@ import {
 } from './mock'
 import ComputedFormula from './computed'
 
-import type { BooleanTokenDesc } from 'core'
+import type { BooleanTokenDesc } from '@shuttle-formula/core'
 import type { TokenRenderProps, ErrorRenderComponentProps } from '../src'
 
 export default function Main() {

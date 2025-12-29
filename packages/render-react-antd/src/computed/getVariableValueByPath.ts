@@ -2,7 +2,7 @@ import {
   WithDynamicVariable,
   GetDynamicObjectByPath,
   WithDynamicVariableObject,
-} from 'render'
+} from '@shuttle-formula/render'
 
 export default async function getVariableValueByPath(
   path: string[],

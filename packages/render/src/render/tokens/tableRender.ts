@@ -1,5 +1,5 @@
-import type { TableTokenDesc } from 'core'
-import { TableTokenParse } from 'core'
+import type { TableTokenDesc } from '@shuttle-formula/core'
+import { TableTokenParse } from '@shuttle-formula/core'
 
 import BaseRender from './baseRender'
 

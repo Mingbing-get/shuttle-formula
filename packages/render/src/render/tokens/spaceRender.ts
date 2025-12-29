@@ -1,5 +1,5 @@
-import type { SpaceTokenDesc } from 'core'
-import { SpaceTokenParse } from 'core'
+import type { SpaceTokenDesc } from '@shuttle-formula/core'
+import { SpaceTokenParse } from '@shuttle-formula/core'
 
 import BaseRender from './baseRender'
 

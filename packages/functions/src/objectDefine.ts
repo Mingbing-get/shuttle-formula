@@ -1,8 +1,7 @@
-import { FunctionGroup } from 'render'
-import { SyntaxDescUtils, VariableDefine } from 'core'
+import { SyntaxDescUtils, VariableDefine } from '@shuttle-formula/core'
 
 import { createError } from './utils'
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 const objectFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
   createObject: {
@@ -25,13 +24,14 @@ const objectFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                currentParams.id,
+                currentParams?.id || '',
                 '键未匹配值',
               ),
             }
           }
 
           if (
+            !currentParams ||
             !SyntaxDescUtils.IsConst(currentParams) ||
             currentParams.constType !== 'string'
           ) {
@@ -39,21 +39,21 @@ const objectFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                currentParams.id,
+                currentParams?.id || '',
                 '键名只能是常量字符串',
               ),
             }
           }
 
           const valueParams = params[i + 1]
-          const valueParamsType = await getType(valueParams.id)
+          const valueParamsType = await getType(valueParams?.id || '')
 
           if (!valueParamsType) {
             return {
               pass: false,
               error: createError(
                 'functionError',
-                valueParams.id,
+                valueParams?.id || '',
                 '未找到参数类型',
               ),
             }

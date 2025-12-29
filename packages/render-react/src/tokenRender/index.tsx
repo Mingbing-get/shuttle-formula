@@ -1,10 +1,10 @@
 import { memo, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { TokenBaseRender } from 'render'
+import { TokenBaseRender } from '@shuttle-formula/render'
 
 import { useRender } from '../context'
 
-import type { TokenDesc } from 'core'
+import type { TokenDesc } from '@shuttle-formula/core'
 
 export interface TokenRenderProps<T extends TokenDesc<string>, E = any> {
   token: T

@@ -1,4 +1,4 @@
-import { type SyntaxError } from 'core'
+import { type SyntaxError } from '@shuttle-formula/core'
 
 export interface ErrorDisplay {
   updateError: (error?: SyntaxError.Desc) => void

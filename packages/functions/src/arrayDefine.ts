@@ -1,9 +1,8 @@
-import { FunctionGroup } from 'render'
-import { VariableDefine } from 'core'
+import { VariableDefine } from '@shuttle-formula/core'
 
 import { createError, deepCompareType, isItemsArray } from './utils'
 import stringFunctionDefines from './stringDefine'
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
   createArray: {
@@ -15,26 +14,26 @@ const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
       scope: 'customReturn',
       createType: async (getType, ...params) => {
         const firstParams = params[0]
-        const firstType = await getType(firstParams.id)
+        const firstType = await getType(firstParams?.id || '')
         if (!firstType) {
           return {
             pass: false,
             error: createError(
               'functionError',
-              firstParams.id,
+              firstParams?.id || '',
               '未找到参数类型',
             ),
           }
         }
 
         for (let i = 1; i < params.length; i++) {
-          const paramsValue = await getType(params[i].id)
+          const paramsValue = await getType(params[i]?.id || '')
           if (!paramsValue) {
             return {
               pass: false,
               error: createError(
                 'functionError',
-                params[i].id,
+                params[i]?.id || '',
                 '未找到参数类型',
               ),
             }
@@ -45,7 +44,7 @@ const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                params[i].id,
+                params[i]?.id || '',
                 '参数类型与第一个不一致',
               ),
             }
@@ -160,13 +159,13 @@ const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
       scope: 'customReturn',
       createType: async (getType, ...params) => {
         const firstParams = params[0]
-        const firstType = await getType(firstParams.id)
+        const firstType = await getType(firstParams?.id || '')
         if (!firstType) {
           return {
             pass: false,
             error: createError(
               'functionError',
-              firstParams.id,
+              firstParams?.id || '',
               '未找到参数类型',
             ),
           }
@@ -177,20 +176,20 @@ const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
             pass: false,
             error: createError(
               'functionError',
-              firstParams.id,
+              firstParams?.id || '',
               '参数类型错误，应该为array',
             ),
           }
         }
 
         for (let i = 1; i < params.length; i++) {
-          const paramsValue = await getType(params[i].id)
+          const paramsValue = await getType(params[i]?.id || '')
           if (!paramsValue) {
             return {
               pass: false,
               error: createError(
                 'functionError',
-                params[i].id,
+                params[i]?.id || '',
                 '未找到参数类型',
               ),
             }
@@ -201,7 +200,7 @@ const arrayFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                params[i].id,
+                params[i]?.id || '',
                 '参数类型与第一个不一致',
               ),
             }

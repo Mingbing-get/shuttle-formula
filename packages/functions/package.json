@@ -1,15 +1,44 @@
 {
-  "name": "functions",
+  "name": "@shuttle-formula/functions",
   "version": "0.0.0",
   "author": "Mingbing-get <1508850533@qq.com>",
-  "homepage": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": "公式编辑器函数库",
   "main": "./src/index.ts",
-  "directories": {
-    "src": "src"
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    }
   },
   "files": [
-    "src"
-  ]
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@shuttle-formula/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/cjs/index.cjs",
+    "module": "dist/es/index.mjs",
+    "types": "dist/types/index.d.ts",
+    "type": "module",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/es/index.mjs",
+        "require": "./dist/cjs/index.cjs"
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import type { SyntaxError } from 'core'
+import type { SyntaxError } from '@shuttle-formula/core'
 import type { Component } from 'vue'
 
 export interface WithRootError {

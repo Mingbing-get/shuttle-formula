@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import type { WithLabelFunction } from 'render'
+import type { WithLabelFunction } from '@shuttle-formula/functions'
 import type { FunctionSelectProps } from '../src'
 
 const props = defineProps<FunctionSelectProps>()

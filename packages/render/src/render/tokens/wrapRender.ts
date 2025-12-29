@@ -1,5 +1,5 @@
-import type { WrapTokenDesc } from 'core'
-import { WrapTokenParse } from 'core'
+import type { WrapTokenDesc } from '@shuttle-formula/core'
+import { WrapTokenParse } from '@shuttle-formula/core'
 
 import BaseRender from './baseRender'
 

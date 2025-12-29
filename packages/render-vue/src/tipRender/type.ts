@@ -1,13 +1,15 @@
 import type { Component } from 'vue'
 
 import type {
-  FunctionGroup,
   FunctionTipOption,
   GetDynamicObjectByPath,
   VariableTipOption,
   WithDynamicVariable,
+} from '@shuttle-formula/render'
+import type {
+  FunctionGroup,
   WithLabelFunction,
-} from 'render'
+} from '@shuttle-formula/functions'
 
 export interface FunctionSelectProps {
   functions?: Record<string, WithLabelFunction> | FunctionGroup[]

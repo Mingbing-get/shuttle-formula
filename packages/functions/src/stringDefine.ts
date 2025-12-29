@@ -1,6 +1,4 @@
-import { FunctionGroup } from 'render'
-
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 const stringFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
   len: {

@@ -1,6 +1,4 @@
-import { FunctionGroup } from 'render'
-
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 const mathFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
   round: {

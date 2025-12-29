@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BooleanTokenDesc } from 'core'
+import type { BooleanTokenDesc } from '@shuttle-formula/core'
 import type { TokenRenderProps } from '../src'
 
 const { token } = defineProps<TokenRenderProps<BooleanTokenDesc>>()

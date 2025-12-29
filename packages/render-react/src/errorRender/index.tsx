@@ -1,11 +1,11 @@
 import { memo, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { generateId } from 'core'
+import { generateId } from '@shuttle-formula/core'
 
 import { useRender } from '../context'
 
-import type { SyntaxError } from 'core'
-import type { ErrorDisplay } from 'render'
+import type { SyntaxError } from '@shuttle-formula/core'
+import type { ErrorDisplay } from '@shuttle-formula/render'
 
 export interface ErrorRenderComponentProps {
   error?: SyntaxError.Desc

@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 
 import { useRender } from '../context'
 
-import type { Render } from 'render'
+import type { Render } from '@shuttle-formula/render'
 import type { ForwardedRef } from 'react'
 
 interface Props {

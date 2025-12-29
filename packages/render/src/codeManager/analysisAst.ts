@@ -5,7 +5,7 @@ import type {
   VariableDefine,
   WithUndefined,
   FunctionDefine,
-} from 'core'
+} from '@shuttle-formula/core'
 
 import type {
   GetFunctionDefine,
@@ -22,7 +22,7 @@ import {
   SyntaxCheck,
   useAllChecker,
   generateId,
-} from 'core'
+} from '@shuttle-formula/core'
 import MessageRouter from './messageRouter'
 import { functionDefineToTransform, isCustomReturn } from './transformFunction'
 

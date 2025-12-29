@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import classNames from 'classnames'
-import { Render, useRender } from 'render-react'
-import { VariableDefine } from 'core'
+import { Render, useRender } from '@shuttle-formula/render-react'
+import { VariableDefine } from '@shuttle-formula/core'
 import { Modal } from 'antd'
 import { ArrowsAltOutlined } from '@ant-design/icons'
 

@@ -14,7 +14,7 @@ export default class Popover {
 
   private counter = 0
   private isHover = false
-  private hoverTimer?: number | NodeJS.Timeout
+  private hoverTimer?: number
 
   private cacheEvents: Record<string, EventListener> = {}
 

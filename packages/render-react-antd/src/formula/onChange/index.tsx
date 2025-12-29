@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import useEffectCallback from '../../hooks/useEffectCallback'
-import { TokenDesc, VariableDefine } from 'core'
-import { SyntaxAst, WithTokenError } from 'render'
-import { useRender } from 'render-react'
+import { TokenDesc, VariableDefine } from '@shuttle-formula/core'
+import { SyntaxAst, WithTokenError } from '@shuttle-formula/render'
+import { useRender } from '@shuttle-formula/render-react'
 
 export interface TokenInfo {
   code: string

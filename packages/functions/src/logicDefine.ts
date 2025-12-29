@@ -1,7 +1,5 @@
-import { FunctionGroup } from 'render'
-
 import { createError, deepCompareType } from './utils'
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 const logicFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
   if: {
@@ -16,12 +14,16 @@ const logicFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
       scope: 'customReturn',
       createType: async (getType, ...params) => {
         const firstParams = params[0]
-        const firstType = await getType(firstParams.id)
+        const firstType = await getType(firstParams?.id || '')
 
         if (!firstType) {
           return {
             pass: false,
-            error: createError('functionError', firstParams.id, '未获取到类型'),
+            error: createError(
+              'functionError',
+              firstParams?.id || '',
+              '未获取到类型',
+            ),
           }
         }
 
@@ -31,20 +33,20 @@ const logicFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                params[i].id,
+                params[i]?.id || '',
                 '未匹配当前项的值',
               ),
             }
           }
 
           const nextParams = params[i + 1]
-          const nextParamsType = await getType(nextParams.id)
+          const nextParamsType = await getType(nextParams?.id || '')
           if (!nextParamsType) {
             return {
               pass: false,
               error: createError(
                 'functionError',
-                nextParams.id,
+                nextParams?.id || '',
                 '未找到参数类型',
               ),
             }
@@ -55,7 +57,7 @@ const logicFunctionDefines: FunctionGroup<FunctionDescription>['functions'] = {
               pass: false,
               error: createError(
                 'functionError',
-                nextParams.id,
+                nextParams?.id || '',
                 '参数类型不能与第一个参数不同',
               ),
             }

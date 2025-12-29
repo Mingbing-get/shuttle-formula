@@ -1,4 +1,4 @@
-import type { FunctionDefine } from 'core'
+import type { FunctionDefine } from '@shuttle-formula/core'
 
 export interface TransformCustomReturn {
   scope: 'customReturn'

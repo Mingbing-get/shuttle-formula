@@ -3,7 +3,7 @@ import type {
   FunctionSyntaxDesc,
   TokenDesc,
   DotSyntaxDesc,
-} from 'core'
+} from '@shuttle-formula/core'
 
 import type { VirtualElement } from '../../components/popoverInstance'
 import type { ChangeCursorEvent } from '../../codeManager/cursor'
@@ -21,7 +21,7 @@ import {
   DollerTokenParse,
   DotTokenParse,
   AtTokenParse,
-} from 'core'
+} from '@shuttle-formula/core'
 import PopoverHandle from '../../components/popoverHandle'
 import Render from '..'
 import { WithDynamicVariable } from '../../type'
@@ -37,7 +37,7 @@ export default class TipRender {
   private functionPicker: FunctionPicker | undefined
 
   private render: Render
-  private delayTimeout: number | NodeJS.Timeout | undefined
+  private delayTimeout: number | undefined
   private readonly clickWindowListener: () => void
 
   constructor(codeManager: CodeManager, render: Render) {

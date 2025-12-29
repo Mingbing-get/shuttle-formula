@@ -1,4 +1,4 @@
-import type { TokenDesc } from 'core'
+import type { TokenDesc } from '@shuttle-formula/core'
 
 import './index.scss'
 

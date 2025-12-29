@@ -4,8 +4,11 @@ import {
   SyntaxAnalysis,
   CalculateExpression,
   useAllComputer,
-} from 'core'
-import { WithDynamicVariable, GetDynamicObjectByPath } from 'render'
+} from '@shuttle-formula/core'
+import {
+  WithDynamicVariable,
+  GetDynamicObjectByPath,
+} from '@shuttle-formula/render'
 
 import getVariableValueByPath from './getVariableValueByPath'
 import { functionValues } from '../formula/functionDefine'

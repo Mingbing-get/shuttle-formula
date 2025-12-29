@@ -1,4 +1,4 @@
-import type { VariableTipOption } from 'render'
+import type { VariableTipOption } from '@shuttle-formula/render'
 import FormulaVariablePickerPanel, {
   VariablePickerPanelProps,
 } from './formulaVariablePickerPanel'

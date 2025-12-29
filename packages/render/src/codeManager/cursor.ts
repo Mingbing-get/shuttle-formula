@@ -1,6 +1,6 @@
-import type { TokenDesc } from 'core'
+import type { TokenDesc } from '@shuttle-formula/core'
 
-import { WrapTokenParse } from 'core'
+import { WrapTokenParse } from '@shuttle-formula/core'
 
 interface DoneFindSubTextNodeOfIndexReturn {
   isDone: true

@@ -3,11 +3,16 @@ import type {
   VariableDefine,
   FunctionDefine,
   WithUndefined,
-} from 'core'
+} from '@shuttle-formula/core'
 import type { TransformFunctionDesc } from './transformFunction'
 import type { MessageData } from './messageRouter'
 
-import { SyntaxAnalysis, SyntaxCheck, useAllChecker, generateId } from 'core'
+import {
+  SyntaxAnalysis,
+  SyntaxCheck,
+  useAllChecker,
+  generateId,
+} from '@shuttle-formula/core'
 import MessageRouter from './messageRouter'
 import { isTransformCustomReturn } from './transformFunction'
 

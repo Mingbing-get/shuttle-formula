@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { Render } from 'render'
+import { Render } from '@shuttle-formula/render'
 
 import { renderContext } from '.'
 
-import type { RenderOption } from 'render'
+import type { RenderOption } from '@shuttle-formula/render'
 
 interface Props extends RenderOption {
   children?: React.ReactNode

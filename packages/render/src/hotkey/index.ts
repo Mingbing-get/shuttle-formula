@@ -1,4 +1,4 @@
-import type { WithPromise } from 'core'
+import type { WithPromise } from '@shuttle-formula/core'
 
 type KeyCode = string
 

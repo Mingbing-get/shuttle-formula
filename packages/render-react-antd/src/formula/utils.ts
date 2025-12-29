@@ -1,5 +1,5 @@
-import { VariableDefine } from 'core'
-import { WithDynamicVariable } from 'render'
+import { VariableDefine } from '@shuttle-formula/core'
+import { WithDynamicVariable } from '@shuttle-formula/render'
 
 export function variableCanAcceptFormula(
   variableDesc: VariableDefine.Desc,

@@ -1,5 +1,3 @@
-import { FunctionGroup } from 'render'
-
 import stringFunctionDefines from './stringDefine'
 import dateFunctionDefines from './dateDefine'
 import objectFunctionDefines from './objectDefine'
@@ -8,7 +6,7 @@ import transformFunctionDefines from './transformDefine'
 import mathFunctionDefines from './mathDefine'
 import logicFunctionDefines from './logicDefine'
 
-import { FunctionDescription } from './type'
+import { FunctionDescription, FunctionGroup } from './type'
 
 export { default as functionValues } from './value'
 export * from './utils'

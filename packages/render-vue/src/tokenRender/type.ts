@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import type { TokenDesc } from 'core'
+import type { TokenDesc } from '@shuttle-formula/core'
 
 export interface TokenRenderProps<T extends TokenDesc<string>> {
   token: T

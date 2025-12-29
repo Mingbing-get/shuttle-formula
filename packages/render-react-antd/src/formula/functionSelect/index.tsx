@@ -2,8 +2,8 @@ import { useCallback, useMemo } from 'react'
 import type {
   WithLabelFunction,
   FunctionGroup,
-  FunctionTipOption,
-} from 'render'
+} from '@shuttle-formula/functions'
+import type { FunctionTipOption } from '@shuttle-formula/render'
 
 import { SelectGroup, SelectOption } from './selectPanel/type'
 import SelectPanel from './selectPanel'

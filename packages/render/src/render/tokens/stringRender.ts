@@ -1,5 +1,6 @@
-import type { TokenDesc } from 'core'
-import type { WithDynamicVariable, WithLabelFunction } from '../../type'
+import type { TokenDesc } from '@shuttle-formula/core'
+import type { WithLabelFunction } from '@shuttle-formula/functions'
+import type { WithDynamicVariable } from '../../type'
 
 import BaseRender from './baseRender'
 

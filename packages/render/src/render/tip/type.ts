@@ -2,7 +2,7 @@ import type {
   FunctionSyntaxDesc,
   VariableSyntaxDesc,
   DotSyntaxDesc,
-} from 'core'
+} from '@shuttle-formula/core'
 import { WithDynamicVariable } from '../../type'
 
 export interface VariableTipOption {

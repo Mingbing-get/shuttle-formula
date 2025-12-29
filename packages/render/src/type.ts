@@ -5,7 +5,11 @@ import type {
   FunctionDefine,
   WithPromise,
   WithUndefined,
-} from 'core'
+} from '@shuttle-formula/core'
+import type {
+  FunctionGroup,
+  WithLabelFunction,
+} from '@shuttle-formula/functions'
 
 export type GetVariableDefine = (
   path: string[],
@@ -51,17 +55,6 @@ export type WithDynamicVariable =
   | WithDynamicVariableObject
   | HasDynamicVariableObject
   | UnionAddExtra<VariableDefine.Desc, { label?: string }>
-
-export type WithLabelFunction<T = any> = UnionAddExtra<
-  FunctionDefine.Desc,
-  { label?: string; description?: T }
->
-
-export interface FunctionGroup<T = any> {
-  id: string
-  label: string
-  functions: Record<string, WithLabelFunction<T>>
-}
 
 export interface WithTokenError {
   tokenIds: string[]

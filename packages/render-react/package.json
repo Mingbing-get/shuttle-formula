@@ -1,17 +1,30 @@
 {
-  "name": "render-react",
+  "name": "@shuttle-formula/render-react",
   "version": "0.0.0",
   "description": "公式编辑器react渲染器",
   "author": "Mingbing-get <1508850533@qq.com>",
-  "homepage": "",
-  "license": "ISC",
+  "license": "MIT",
   "main": "./src/index.ts",
-  "directories": {
-    "src": "src"
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    }
   },
   "files": [
-    "src"
+    "dist"
   ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --open /preview/index.html",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@types/node": "^20.11.22",
     "@types/react": "^18.2.60",
@@ -20,14 +33,24 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
-    "core": "^0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "render": "^0.0.0"
+    "@shuttle-formula/core": "workspace:*",
+    "@shuttle-formula/functions": "workspace:*",
+    "@shuttle-formula/render": "workspace:*"
   },
-  "peerDependencies": {
-    "classnames": ">=1.1.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/cjs/index.cjs",
+    "module": "dist/es/index.mjs",
+    "types": "dist/types/index.d.ts",
+    "type": "module",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/es/index.mjs",
+        "require": "./dist/cjs/index.cjs"
+      }
+    }
   }
 }

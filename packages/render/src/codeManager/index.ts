@@ -1,4 +1,8 @@
-import type { TokenDesc, SyntaxDesc, VariableDefine } from 'core'
+import type {
+  TokenDesc,
+  SyntaxDesc,
+  VariableDefine,
+} from '@shuttle-formula/core'
 import type {
   WithTokenError,
   GetFunctionDefine,
@@ -13,7 +17,7 @@ import {
   SyntaxAnalysis,
   useAllTokenParse,
   generateId,
-} from 'core'
+} from '@shuttle-formula/core'
 import Cursor from './cursor'
 import AnalysisAst from './analysisAst'
 

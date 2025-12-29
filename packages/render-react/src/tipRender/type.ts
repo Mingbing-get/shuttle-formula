@@ -1,10 +1,12 @@
 import type {
   WithLabelFunction,
   FunctionGroup,
+} from '@shuttle-formula/functions'
+import type {
   FunctionTipOption,
   VariableTipOption,
   GetDynamicObjectByPath,
-} from 'render'
+} from '@shuttle-formula/render'
 
 export interface FunctionSelectProps {
   functions?: Record<string, WithLabelFunction> | FunctionGroup[]

@@ -3,14 +3,16 @@ import type {
   TokenDesc,
   VariableDefine,
   VariableSyntaxDesc,
-} from 'core'
+} from '@shuttle-formula/core'
 import type {
   FunctionGroup,
+  WithLabelFunction,
+} from '@shuttle-formula/functions'
+import type {
   GetDynamicObjectByPath,
   RenderOption,
   WithDynamicVariable,
   WithDynamicVariableObject,
-  WithLabelFunction,
 } from '../type'
 
 import {
@@ -18,7 +20,7 @@ import {
   LexicalAnalysis,
   SyntaxAnalysis,
   SyntaxDescUtils,
-} from 'core'
+} from '@shuttle-formula/core'
 import CodeManager from '../codeManager'
 import WrapperEvents from '../wrapperEvents'
 import HotKey from '../hotkey'

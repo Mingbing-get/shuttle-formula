@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { Tabs } from 'antd'
-import { ChangeCursorListener } from 'render/src/codeManager/cursor'
-import { useRender } from 'render-react'
-import { WithLabelFunction } from 'render'
+import { ChangeCursorListener } from '@shuttle-formula/render/src/codeManager/cursor'
+import { useRender } from '@shuttle-formula/render-react'
+import { WithLabelFunction } from '@shuttle-formula/functions'
 
 import Operator from './operator'
 import FormulaFunction from './function'

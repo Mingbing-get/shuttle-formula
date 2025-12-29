@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import type { SyntaxError } from 'core'
-import type { ErrorDisplay } from 'render'
+import type { SyntaxError } from '@shuttle-formula/core'
+import type { ErrorDisplay } from '@shuttle-formula/render'
 import type { WithRootError, ErrorRenderComponent } from './type'
 
 import { onBeforeMount, ref } from 'vue'
-import { generateId } from 'core'
+import { generateId } from '@shuttle-formula/core'
 
 import useRender from '../context/useRender'
 

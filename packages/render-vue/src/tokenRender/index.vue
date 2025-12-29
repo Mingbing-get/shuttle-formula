@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import type { TokenDesc } from 'core'
+import type { TokenDesc } from '@shuttle-formula/core'
 import type { TokenWithType, TokenRenderComponent } from './type'
 
 import { onBeforeMount, ref } from 'vue'
-import { TokenBaseRender } from 'render'
+import { TokenBaseRender } from '@shuttle-formula/render'
 import useRender from '../context/useRender'
 
 const { useTokenType, renderComponent } = defineProps<{

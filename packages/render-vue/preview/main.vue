@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BooleanTokenParse } from 'core'
+import { BooleanTokenParse } from '@shuttle-formula/core'
 import { Provider, Render, ErrorRender, TokenRender, FunctionTip } from '../src'
 import { vars, functionWithGroups, getDynamicObjectByPath } from './mock'
 import ErrorTip from './errorTip.vue'

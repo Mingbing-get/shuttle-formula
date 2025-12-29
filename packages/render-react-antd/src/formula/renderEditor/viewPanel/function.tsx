@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { WithLabelFunction } from 'render'
+import { WithLabelFunction } from '@shuttle-formula/functions'
 
 import SelectPanel from '../../functionSelect/selectPanel'
 import {

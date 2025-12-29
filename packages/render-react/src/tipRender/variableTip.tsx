@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { useRender } from '../context'
 
 import type { VariableSelectProps } from './type'
-import type { VariableTipOption } from 'render'
+import type { VariableTipOption } from '@shuttle-formula/render'
 
 export type VariableSelectComponent = (
   props: VariableSelectProps,

@@ -3,7 +3,7 @@ import type {
   WithDynamicVariable,
   WithDynamicVariableObject,
   GetDynamicObjectByPath,
-} from 'render'
+} from '@shuttle-formula/render'
 
 import CascaderPanel, { CascaderOption } from './cascaderPanel'
 

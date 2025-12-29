@@ -1,4 +1,8 @@
-import { VariableDefine, SyntaxError, WithUndefined } from 'core'
+import {
+  VariableDefine,
+  SyntaxError,
+  WithUndefined,
+} from '@shuttle-formula/core'
 
 export function createError(
   type: SyntaxError.Desc['type'],
@@ -20,7 +24,7 @@ export function deepCompareType(
 
   if (type1.type === 'object' && type2.type === 'object') {
     for (const key in type1.prototype) {
-      if (!type2.prototype[key]) return false
+      if (!type1.prototype[key] || !type2.prototype[key]) return false
 
       if (!deepCompareType(type1.prototype[key], type2.prototype[key]))
         return false

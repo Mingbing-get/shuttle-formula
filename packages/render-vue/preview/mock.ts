@@ -1,13 +1,14 @@
-import { SyntaxDescUtils } from 'core'
+import { SyntaxDescUtils } from '@shuttle-formula/core'
 
 import type {
   WithDynamicVariable,
+  GetDynamicObjectByPath,
+} from '@shuttle-formula/render'
+import type {
   WithLabelFunction,
   FunctionGroup,
-  GetDynamicObjectByPath,
-} from 'render'
-
-import type { VariableDefine, SyntaxError } from 'core'
+} from '@shuttle-formula/functions'
+import type { VariableDefine, SyntaxError } from '@shuttle-formula/core'
 
 export const vars: Record<string, WithDynamicVariable> = {
   a: {

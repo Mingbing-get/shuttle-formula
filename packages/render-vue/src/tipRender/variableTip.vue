@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VariableTipOption } from 'render'
+import type { VariableTipOption } from '@shuttle-formula/render'
 import type { VariableSelectComponent } from './type'
 
 import { onBeforeMount, ref } from 'vue'

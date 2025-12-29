@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CalculateExpression, useAllComputer } from 'core'
+import { CalculateExpression, useAllComputer } from '@shuttle-formula/core'
 
 import { useRender } from '../src'
 
