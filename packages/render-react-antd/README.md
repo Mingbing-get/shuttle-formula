@@ -1,49 +1,31 @@
-## `shuttle-formula/render-react`
+## `shuttle-formula/render-react-antd`
 
 #### 说明
 
-提供对接react的渲染方式
+提供对接react的渲染方式，基于antd组件库
 
 #### 使用
 
 ```tsx
-import {
-  Render,
-  Provider,
-  VariableTip,
-  FunctionTip,
-  TokenRender,
-  ErrorRender,
-  TokenRenderProps,
-  ErrorRenderComponentProps,
+import { FormulaRender } from '@shuttle-formula/render-react-antd'
 
-  // useRender: 能获得shuttle-formula/render中的Render对象，可扩展自定义功能
-} from 'shuttle-formula/render-react'
-
-import { BooleanTokenDesc, BooleanTokenParse } from 'shuttle-formula/core'
-
-function Example() {
+function main() {
   return (
-    <Provider>
-      <Render
-        style={{ borderRadius: 5, boxShadow: '0 0 6px 0 #ccc', width: 400 }}
-      />
-      <VariableTip />
-      <FunctionTip />
-      <ErrorRender RenderComponent={TestErrorRender} />
-      <TokenRender
-        useTokenType={BooleanTokenParse.Type}
-        RenderComponent={TestTokenTender}
-      />
-    </Provider>
+    <FormulaRender
+      {/* functions={自定义支持的函数，可从@shuttle-formula/functions中引入内置的函数} */}
+      {/* variables={自定义支持的变量} */}
+      onAstChange={(ast) => {
+        console.log('ast: ', ast)
+      }}
+      onTokenChange={(tokenInfo) => {
+        {
+          /* 实时输入的公式
+          tokenInfo.code */
+        }
+
+        console.log(tokenInfo)
+      }}
+    />
   )
-}
-
-function TestTokenTender({ token, type }: TokenRenderProps<BooleanTokenDesc>) {
-  return <span style={{ color: 'red' }}>{token.code}</span>
-}
-
-function TestErrorRender({ error }: ErrorRenderComponentProps) {
-  return <div style={{ color: 'blue' }}>自定义错误提示: {error?.msg}</div>
 }
 ```
