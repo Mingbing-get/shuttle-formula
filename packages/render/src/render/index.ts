@@ -261,6 +261,8 @@ export default class Render {
     this.codeManager.setGetVariableDefineWhenDot(
       async (startType: VariableDefine.Desc, path: string[]) => {
         if (startType.type === 'object') {
+          if (path.length === 0) return startType
+
           return await this.getVariable(
             path,
             startType.prototype,
