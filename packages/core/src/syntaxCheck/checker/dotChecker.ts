@@ -5,7 +5,6 @@ import type SyntaxCheck from '../instance'
 
 import { SyntaxDescUtils } from '../../syntaxAnalysis'
 import { DotTokenParse } from '../../lexicalAnalysis'
-import { VariableDefine } from '../../type'
 
 export default class DotChecker implements Checker<DotSyntaxDesc> {
   isUse(ast: SyntaxDesc<string>): ast is DotSyntaxDesc {
@@ -45,7 +44,7 @@ export default class DotChecker implements Checker<DotSyntaxDesc> {
       )
     }
 
-    const dotDef = this.getTypeByPath(startType, path)
+    const dotDef = await manager.getVariableDefineWhenDot(startType, path)
     if (!dotDef) {
       return manager.createError('variablePathError', ast.id, '变量路径不存在')
     }
@@ -85,25 +84,6 @@ export default class DotChecker implements Checker<DotSyntaxDesc> {
     return {
       pass: true,
       path,
-    }
-  }
-
-  private getTypeByPath(
-    startType: VariableDefine.Desc,
-    path: string[],
-  ): VariableDefine.Desc | undefined {
-    if (path.length === 0) return startType
-
-    const key = path[0]
-    if (startType.type === 'object') {
-      const item = startType.prototype[key]
-      if (!item) return
-
-      return this.getTypeByPath(item, path.slice(1))
-    } else if (startType.type === 'array') {
-      if (isNaN(Number(key))) return
-
-      return this.getTypeByPath(startType.item, path.slice(1))
     }
   }
 }

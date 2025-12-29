@@ -11,6 +11,11 @@ export type GetVariableDefine = (
   path: string[],
 ) => WithPromise<WithUndefined<VariableDefine.Desc>>
 
+export type GetVariableDefineWhenDot = (
+  startType: VariableDefine.Desc,
+  path: string[],
+) => WithPromise<WithUndefined<VariableDefine.Desc>>
+
 export type GetFunctionDefine = (
   name: string,
 ) => WithPromise<WithUndefined<FunctionDefine.Desc>>

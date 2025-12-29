@@ -1,6 +1,7 @@
 import type { Computer } from './type'
 import type { ExpressionSyntaxDesc, SyntaxDesc } from '../../syntaxAnalysis'
 import type CalculateExpression from '../instance'
+import type { VariableDefine } from '../../type'
 
 import { SyntaxDescUtils } from '../../syntaxAnalysis'
 import {
@@ -33,9 +34,10 @@ export default class ExpressionComputer
     processId: string,
     ast: ExpressionSyntaxDesc,
     syntaxMap: Record<string, SyntaxDesc<string>>,
+    variableMap?: Map<string, VariableDefine.Desc>,
   ) {
     if (LeftSmallBracketTokenParse.Is(ast.token)) {
-      await manager.computedAst(processId, ast.children, syntaxMap)
+      await manager.computedAst(processId, ast.children, syntaxMap, variableMap)
 
       return manager.getValue(processId, ast.children[0])
     }
@@ -44,8 +46,18 @@ export default class ExpressionComputer
     if (ast.children.length !== 2) {
       throw new Error('二元表达式缺少子节点')
     }
-    await manager.computedAst(processId, [ast.children[0]], syntaxMap)
-    await manager.computedAst(processId, [ast.children[1]], syntaxMap)
+    await manager.computedAst(
+      processId,
+      [ast.children[0]],
+      syntaxMap,
+      variableMap,
+    )
+    await manager.computedAst(
+      processId,
+      [ast.children[1]],
+      syntaxMap,
+      variableMap,
+    )
 
     const firstValue = manager.getValue(processId, ast.children[0])
     const secondValue = manager.getValue(processId, ast.children[1])

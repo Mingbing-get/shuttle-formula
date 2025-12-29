@@ -5,6 +5,7 @@ import type CalculateExpression from '../instance'
 
 import { SyntaxDescUtils } from '../../syntaxAnalysis'
 import { DotTokenParse } from '../../lexicalAnalysis'
+import { VariableDefine } from '../../type'
 
 export default class DotComputer implements Computer<DotSyntaxDesc> {
   isUse(ast: SyntaxDesc<string>): ast is DotSyntaxDesc {
@@ -16,11 +17,25 @@ export default class DotComputer implements Computer<DotSyntaxDesc> {
     processId: string,
     ast: DotSyntaxDesc,
     syntaxMap: Record<string, SyntaxDesc<string>>,
+    variableMap?: Map<string, VariableDefine.Desc>,
   ) {
-    await manager.computedAst(processId, [ast.startSyntaxId], syntaxMap)
+    await manager.computedAst(
+      processId,
+      [ast.startSyntaxId],
+      syntaxMap,
+      variableMap,
+    )
 
     const startValue = manager.getValue(processId, ast.startSyntaxId)
     const path = this.getPathFromPathTokens(ast.pathTokens)
+
+    if (manager.getVariableWhenDot && variableMap) {
+      const startType = variableMap.get(ast.startSyntaxId)
+
+      if (startType) {
+        return await manager.getVariableWhenDot(startType, startValue, path)
+      }
+    }
 
     return this.getValueByPath(startValue, path)
   }

@@ -257,6 +257,28 @@ export default class Render {
     this.codeManager.setGetVariableDefine(
       async (path: string[]) => await this.getVariableDefine(path),
     )
+
+    this.codeManager.setGetVariableDefineWhenDot(
+      async (startType: VariableDefine.Desc, path: string[]) => {
+        if (startType.type === 'object') {
+          return await this.getVariable(
+            path,
+            startType.prototype,
+            this.options.getDynamicObjectByPath,
+          )
+        } else if (startType.type === 'array') {
+          if (path.length === 0) return
+
+          return await this.getVariable(
+            path,
+            {
+              [path[0]]: startType.item,
+            },
+            this.options.getDynamicObjectByPath,
+          )
+        }
+      },
+    )
   }
 
   getVariablePathFromAst(

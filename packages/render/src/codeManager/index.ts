@@ -4,6 +4,7 @@ import type {
   GetFunctionDefine,
   GetVariableDefine,
   SyntaxAst,
+  GetVariableDefineWhenDot,
 } from '../type'
 
 import {
@@ -62,6 +63,12 @@ export default class CodeManager {
   constructor(useWorker?: boolean) {
     this.analysisAst = new AnalysisAst(useWorker)
     useAllTokenParse(this.lexicalAnalysis)
+  }
+
+  setGetVariableDefineWhenDot(getVariableWhenDot: GetVariableDefineWhenDot) {
+    this.analysisAst.setGetVariableDefineWhenDot(getVariableWhenDot)
+
+    return this
   }
 
   setGetVariableDefine(getVariable: GetVariableDefine) {

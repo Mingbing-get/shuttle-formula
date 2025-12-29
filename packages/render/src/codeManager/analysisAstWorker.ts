@@ -19,6 +19,10 @@ const getVariableResolve: Record<
   string,
   (variableDefine: WithUndefined<VariableDefine.Desc>) => void
 > = {}
+const getVariableWhenDotResolve: Record<
+  string,
+  (variableDefine: WithUndefined<VariableDefine.Desc>) => void
+> = {}
 const getFunctionResolve: Record<
   string,
   (functionDefine: WithUndefined<FunctionDefine.Desc>) => void
@@ -34,6 +38,15 @@ syntaxCheck.setGetVariableFu(async (path: string[]) => {
 
     getVariableResolve[executeId] = resolve
     sendMessage('getVariable', executeId, path)
+  })
+})
+
+syntaxCheck.setGetVariableDefineWhenDot(async (startType, path) => {
+  return await new Promise<WithUndefined<VariableDefine.Desc>>((resolve) => {
+    const executeId = generateId()
+
+    getVariableWhenDotResolve[executeId] = resolve
+    sendMessage('getVariableWhenDot', executeId, { startType, path })
   })
 })
 
@@ -66,6 +79,16 @@ messageRouter.use<WithUndefined<VariableDefine.Desc>>(
     if (getVariableResolve[executeId]) {
       getVariableResolve[executeId](variableDefine)
       delete getVariableResolve[executeId]
+    }
+  },
+)
+
+messageRouter.use<WithUndefined<VariableDefine.Desc>>(
+  'getVariableWhenDot',
+  (executeId, variableDefine) => {
+    if (getVariableWhenDotResolve[executeId]) {
+      getVariableWhenDotResolve[executeId](variableDefine)
+      delete getVariableWhenDotResolve[executeId]
     }
   },
 )

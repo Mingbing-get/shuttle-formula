@@ -5,6 +5,7 @@ import type CalculateExpression from '../instance'
 
 import { SyntaxDescUtils } from '../../syntaxAnalysis'
 import { CommaTokenParse } from '../../lexicalAnalysis'
+import { VariableDefine } from '../../type'
 
 export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
   isUse(ast: SyntaxDesc<string>): ast is FunctionSyntaxDesc {
@@ -16,6 +17,7 @@ export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
     processId: string,
     ast: FunctionSyntaxDesc,
     syntaxMap: Record<string, SyntaxDesc<string>>,
+    variableMap?: Map<string, VariableDefine.Desc>,
   ) {
     const name = this.mergeTokensCode(ast.nameTokens)
     const functionDef = await manager.getFunction?.(name)
@@ -25,6 +27,7 @@ export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
       processId,
       ast,
       syntaxMap,
+      variableMap,
     )
 
     // eslint-disable-next-line
@@ -38,6 +41,7 @@ export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
     processId: string,
     ast: FunctionSyntaxDesc,
     syntaxMap: Record<string, SyntaxDesc<string>>,
+    variableMap?: Map<string, VariableDefine.Desc>,
   ) {
     const willComputedParams: Array<string> = []
     const paramsValues: any[] = []
@@ -49,7 +53,12 @@ export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
         SyntaxDescUtils.IsExpression(paramsAst) &&
         CommaTokenParse.Is(paramsAst.token)
       ) {
-        await manager.computedAst(processId, willComputedParams, syntaxMap)
+        await manager.computedAst(
+          processId,
+          willComputedParams,
+          syntaxMap,
+          variableMap,
+        )
 
         paramsValues.push(manager.getValue(processId, willComputedParams[0]))
         willComputedParams.length = 0
@@ -59,7 +68,12 @@ export default class FunctionComputer implements Computer<FunctionSyntaxDesc> {
     }
 
     if (willComputedParams.length > 0) {
-      await manager.computedAst(processId, willComputedParams, syntaxMap)
+      await manager.computedAst(
+        processId,
+        willComputedParams,
+        syntaxMap,
+        variableMap,
+      )
       paramsValues.push(manager.getValue(processId, willComputedParams[0]))
     }
 

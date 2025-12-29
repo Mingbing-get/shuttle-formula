@@ -14,19 +14,49 @@ type GetVariableDefine = (
   path: string[],
 ) => WithPromise<WithUndefined<VariableDefine.Desc>>
 
+type GetVariableDefineWhenDot = (
+  startType: VariableDefine.Desc,
+  path: string[],
+) => WithPromise<WithUndefined<VariableDefine.Desc>>
+
 type GetFunctionDefine = (
   name: string,
 ) => WithPromise<WithUndefined<FunctionDefine.Desc>>
 
 export default class SyntaxCheck {
   getVariableDefine?: GetVariableDefine
+  getVariableDefineWhenDot: GetVariableDefineWhenDot
   getFunctionDefine?: GetFunctionDefine
 
   private readonly checkerList: Checker<any>[] = []
   private readonly typeMap = new Map<string, Map<string, VariableDefine.Desc>>()
 
+  constructor() {
+    this.getVariableDefineWhenDot = (startType, path) => {
+      if (path.length === 0) return startType
+
+      const key = path[0]
+      if (startType.type === 'object') {
+        const item = startType.prototype[key]
+        if (!item) return
+
+        return this.getVariableDefineWhenDot(item, path.slice(1))
+      } else if (startType.type === 'array') {
+        if (isNaN(Number(key))) return
+
+        return this.getVariableDefineWhenDot(startType.item, path.slice(1))
+      }
+    }
+  }
+
   setGetVariableFu(fn: GetVariableDefine) {
     this.getVariableDefine = fn
+
+    return this
+  }
+
+  setGetVariableDefineWhenDot(fn: GetVariableDefineWhenDot) {
+    this.getVariableDefineWhenDot = fn
 
     return this
   }

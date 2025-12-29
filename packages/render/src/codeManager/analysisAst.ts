@@ -10,6 +10,7 @@ import type {
 import type {
   GetFunctionDefine,
   GetVariableDefine,
+  GetVariableDefineWhenDot,
   WithTokenError,
 } from '../type'
 
@@ -40,6 +41,7 @@ interface ExecuteWithWorkerRes {
 export default class AnalysisAst {
   private getVariable: GetVariableDefine | undefined
   private getFunction: GetFunctionDefine | undefined
+  private getVariableWhenDot: GetVariableDefineWhenDot | undefined
 
   private readonly syntaxAnalysis = new SyntaxAnalysis()
   private readonly syntaxCheck = new SyntaxCheck()
@@ -74,6 +76,11 @@ export default class AnalysisAst {
   setGetVariableDefine(getVariable: GetVariableDefine) {
     this.getVariable = getVariable
     this.syntaxCheck.setGetVariableFu(getVariable)
+  }
+
+  setGetVariableDefineWhenDot(getVariableWhenDot: GetVariableDefineWhenDot) {
+    this.getVariableWhenDot = getVariableWhenDot
+    this.syntaxCheck.setGetVariableDefineWhenDot(getVariableWhenDot)
   }
 
   setGetFunctionDefine(getFunction: GetFunctionDefine) {
@@ -190,6 +197,18 @@ export default class AnalysisAst {
       const variableDefine = await this.getVariable?.(path)
 
       this.postMessage('getVariable', executeId, variableDefine)
+    })
+
+    this.messageRouter.use<{
+      startType: VariableDefine.Desc
+      path: string[]
+    }>('getVariableWhenDot', async (executeId, data) => {
+      const variableDefine = await this.getVariableWhenDot?.(
+        data.startType,
+        data.path,
+      )
+
+      this.postMessage('getVariableWhenDot', executeId, variableDefine)
     })
 
     this.messageRouter.use<string>('getFunction', async (executeId, name) => {
