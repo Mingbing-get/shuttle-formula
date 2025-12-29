@@ -1,8 +1,11 @@
 import { VariableDefine } from 'core'
 import { Provider, VariableTip, FunctionTip } from 'render-react'
-import { GetDynamicObjectByPath, WithDynamicVariable } from 'render'
-
-import { functionWithGroups } from './functionDefine'
+import {
+  FunctionGroup,
+  GetDynamicObjectByPath,
+  WithDynamicVariable,
+  WithLabelFunction,
+} from 'render'
 
 import FunctionSelect from './functionSelect'
 import VariableSelect from './variableSelect'
@@ -16,6 +19,7 @@ interface Props extends OnChangeProps {
   getDynamicObjectByPath?: GetDynamicObjectByPath
   needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
   variables?: Record<string, WithDynamicVariable>
+  functions?: Record<string, WithLabelFunction> | FunctionGroup[]
   disabled?: boolean
 }
 
@@ -25,6 +29,7 @@ export default function RenderFormula({
   code,
   needAccept,
   variables,
+  functions,
   disabled,
   onAstChange,
   onTokenChange,
@@ -35,7 +40,7 @@ export default function RenderFormula({
       disabled={disabled}
       code={code}
       variables={variables}
-      functions={functionWithGroups}
+      functions={functions}
       getDynamicObjectByPath={getDynamicObjectByPath}
     >
       <RenderEditor

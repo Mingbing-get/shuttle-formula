@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "render": "^0.0.0",
     "render-react": "^0.0.0",
+    "functions": "^0.0.0",
     "antd": "^6.1.1",
     "@ant-design/icons": "^6.1.0"
   },
