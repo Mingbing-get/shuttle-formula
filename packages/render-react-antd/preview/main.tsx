@@ -1,21 +1,30 @@
 import { useCallback, useRef } from 'react'
 import { Button } from 'antd'
 
-import { functionWithGroups } from '@shuttle-formula/functions'
-import { FormulaRender, computedFormula } from '../src'
+import { functionWithGroups, functionValues } from '@shuttle-formula/functions'
+import { FormulaHelper } from '@shuttle-formula/render'
+import { FormulaRender } from '../src'
 import { mockVariablesDefine, mockVariablesValue } from './mock'
 
 export default function Main() {
   const codeRef = useRef('')
 
   const handleComputed = useCallback(async () => {
-    const result = await computedFormula({
-      code: codeRef.current,
-      context: mockVariablesValue,
-      contextDefine: mockVariablesDefine,
+    const formulaHelper = new FormulaHelper(codeRef.current)
+
+    const result = await formulaHelper.computed({
+      variable: mockVariablesValue,
+      variableDefine: mockVariablesDefine,
+      function: functionValues,
+    })
+
+    const dependce = await formulaHelper.getDependceAndCheck({
+      variableDefine: mockVariablesDefine,
+      functionDefine: functionWithGroups,
     })
 
     console.log('计算结果: ', result)
+    console.log('依赖: ', dependce)
   }, [])
 
   return (
