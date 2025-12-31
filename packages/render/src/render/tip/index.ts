@@ -83,7 +83,7 @@ export default class TipRender {
     this.delayTimeout = setTimeout(() => {
       this.cursorEvent = event
       this.reComputed()
-    }, 200)
+    }, 200) as any
   }
 
   private reComputed() {

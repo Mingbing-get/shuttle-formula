@@ -49,6 +49,10 @@
         "types": "./dist/types/index.d.ts",
         "import": "./dist/es/index.mjs",
         "require": "./dist/cjs/index.cjs"
+      },
+      "./style.css": {
+        "import": "./dist/es/index.css",
+        "require": "./dist/cjs/index.css"
       }
     }
   }

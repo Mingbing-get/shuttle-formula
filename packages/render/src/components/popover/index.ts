@@ -148,7 +148,7 @@ export default class Popover {
           setTimeout(() => {
             this.counter--
           }, this._options.delay)
-        }, this._options.hoverOpenDelay)
+        }, this._options.hoverOpenDelay) as any
       })
     } else if (this._options.trigger === 'focus') {
       this.bindEventToTarget('focus', () => this.setVisible(true))

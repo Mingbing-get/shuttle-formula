@@ -7,7 +7,7 @@ export default function debounceAndThrottle<T extends any[]>(
 
   const fn = (...augment: T) => {
     clearTimeout(timer)
-    timer = setTimeout(cb, delay, ...augment)
+    timer = setTimeout(cb, delay, ...augment) as any
 
     if (timer1) return
     timer1 = true

@@ -24,7 +24,7 @@
     "exactOptionalPropertyTypes": true,
     "baseUrl": ".",
     "paths": {
-      "@shuttle-formula/*": ["packages/*/src"],
+      "@shuttle-formula/*": ["packages/*/src"]
     }
   },
   "include": ["packages/**/src/**/*", "vite.config.ts"],

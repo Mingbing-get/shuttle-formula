@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "composite": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "baseUrl": "."
   },
   "include": ["vite.config.ts", "packages/**/*"]
