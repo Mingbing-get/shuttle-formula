@@ -1,6 +1,6 @@
 {
   "name": "@shuttle-formula/core",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Mingbing-get <1508850533@qq.com>",
   "license": "MIT",
   "description": "公式编辑器解析器",
