@@ -1,6 +1,12 @@
-# Shuttle Formula Functions
+# @shuttle-formula/functions
 
-本包提供了一系列用于公式计算的函数，支持多种数据类型和操作。函数分为以下几个类别：
+本包提供了一系列用于公式计算的函数，支持多种数据类型和操作。
+
+## 安装
+
+```bash
+npm install @shuttle-formula/functions
+```
 
 ## 文本函数
 

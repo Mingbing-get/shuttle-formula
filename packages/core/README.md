@@ -1,13 +1,19 @@
-## `shuttle-formula/core`
+## `@shuttle-formula/core`
 
 #### 说明
 
 该部分是shuttle-formula的核心包，提供词法分析、语法分析、语法检查、计算表达式等功能
 
+#### 安装
+
+```bash
+npm install @shuttle-formula/core
+```
+
 #### 词法分析
 
 ```ts
-import { LexicalAnalysis, useAllTokenParse } from 'shuttle-formula/core'
+import { LexicalAnalysis, useAllTokenParse } from '@shuttle-formula/core'
 
 // 初始化一个词法分析器
 const lexicalAnalysis = new LexicalAnalysis()
@@ -29,7 +35,7 @@ console.log(updateTokens)
 #### 语法分析
 
 ```ts
-import { SyntaxAnalysis } from 'shuttle-formula/core'
+import { SyntaxAnalysis } from '@shuttle-formula/core'
 
 // 初始化一个语法分析器
 const syntaxAnalysis = new SyntaxAnalysis()
@@ -45,7 +51,7 @@ console.log(syntaxMap) // 所有语法结果映射表
 #### 语法检查
 
 ```ts
-import { SyntaxCheck, useAllChecker } from 'shuttle-formula/core'
+import { SyntaxCheck, useAllChecker } from '@shuttle-formula/core'
 
 // 初始化一个语法检查器
 const syntaxCheck = new SyntaxCheck()
@@ -74,7 +80,7 @@ console.log(checkRes)
 #### 计算表达式
 
 ```ts
-import { CalculateExpression, useAllComputer } from 'shuttle-formula/core'
+import { CalculateExpression, useAllComputer } from '@shuttle-formula/core'
 
 // 初始化一个表达式计算器
 const calculateExpression = new CalculateExpression()

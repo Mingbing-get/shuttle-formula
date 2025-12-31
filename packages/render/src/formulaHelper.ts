@@ -16,12 +16,19 @@ import {
   WithDynamicVariableObject,
 } from './type'
 
-export interface ComputedOptions {
-  variable?: Record<string, any>
-  variableDefine?: Record<string, WithDynamicVariable>
+export interface CustomComputedOptions {
   function?: Record<string, Function>
+  getVariableValueByPath: (path: string[]) => Promise<any> | any
+}
+
+export interface InnerComputedOptions {
+  function?: Record<string, Function>
+  variable: Record<string, any>
+  variableDefine: Record<string, WithDynamicVariable>
   getDynamicObjectByPath?: GetDynamicObjectByPath
 }
+
+export type ComputedOptions = CustomComputedOptions | InnerComputedOptions
 
 export interface GetDependceOptions {
   variableDefine?: Record<string, WithDynamicVariable>
@@ -59,12 +66,16 @@ export class FormulaHelper {
 
   async computed(options: ComputedOptions) {
     this.calculateExpression.setGetVariableFu(async (path) => {
-      return await this.getVariableValueByPath(
-        path,
-        options.variableDefine || {},
-        options.variable,
-        options.getDynamicObjectByPath,
-      )
+      if (this.isCustomComputedOptions(options)) {
+        return await options.getVariableValueByPath(path)
+      } else {
+        return await this.getVariableValueByPath(
+          path,
+          options.variableDefine,
+          options.variable,
+          options.getDynamicObjectByPath,
+        )
+      }
     })
     this.calculateExpression.setGetFunctionFu(
       (functionName) => options.function?.[functionName],
@@ -279,5 +290,11 @@ export class FormulaHelper {
       !(variable as any).prototype &&
       (variable as any).dynamic
     )
+  }
+
+  private isCustomComputedOptions(
+    options: ComputedOptions,
+  ): options is CustomComputedOptions {
+    return typeof (options as any).getVariableValueByPath === 'function'
   }
 }

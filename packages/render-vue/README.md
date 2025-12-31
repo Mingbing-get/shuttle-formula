@@ -1,8 +1,14 @@
-## `shuttle-formula/render-vue`
+## `@shuttle-formula/render-vue`
 
 #### 说明
 
 提供对接vue的渲染方式
+
+#### 安装
+
+```bash
+npm install @shuttle-formula/render-vue
+```
 
 #### 使用
 
@@ -17,9 +23,9 @@ import {
   // TokenRender: 自定义token渲染
   // ErrorRender: 自定义error渲染
   // useRender: 能获得shuttle-formula/render中的Render对象，可扩展自定义功能
-} from 'shuttle-formula/render-vue'
+} from '@shuttle-formula/render-vue'
 
-import { BooleanTokenDesc, BooleanTokenParse } from 'shuttle-formula/core'
+import { BooleanTokenDesc, BooleanTokenParse } from '@shuttle-formula/core'
 </script>
 
 <template>

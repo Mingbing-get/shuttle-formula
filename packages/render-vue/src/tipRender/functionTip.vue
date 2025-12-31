@@ -34,7 +34,7 @@ onBeforeMount(() => {
     <functionSelect
       :option="tipOption"
       :functions="render.getOption().functions"
-      :on-select="onSelectRef"
+      @select="onSelectRef"
     />
   </Teleport>
 </template>

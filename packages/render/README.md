@@ -1,13 +1,19 @@
-## `shuttle-formula/render`
+## `@shuttle-formula/render`
 
 #### 说明
 
 该部分提供shuttle-formula的基础web渲染能力，提供灵活的插件入口，可在此基础上扩展能力，定制化公式编辑器
 
+#### 安装
+
+```bash
+npm install @shuttle-formula/render
+```
+
 #### 使用
 
 ```ts
-import { Render } from 'shuttle-formula/render'
+import { Render } from '@shuttle-formula/render'
 
 const render = new Render({
   useWorker: true, // 设置是否使用web worker进行语法分析，当表达式很长时可使得编辑不会卡顿
@@ -34,7 +40,7 @@ document.body.append(root)
 import {
   WithDynamicVariable,
   GetDynamicObjectByPath,
-} from 'shuttle-formula/render'
+} from '@shuttle-formula/render'
 
 const variables: Record<string, WithDynamicVariable> = {
   a: {
@@ -84,8 +90,8 @@ render.setGetDynamicObjectByPath(getDynamicObjectByPath)
 
 ```ts
 // 设置自定义函数的描述，使得编辑器知道有哪些函数，以及这些函数的入参以及返回值类型，用于语法检查以及提示；由于此处不涉及到计算，所以不需要函数的值
-import { VariableDefine, SyntaxError } from 'shuttle-formula/core'
-import { WithLabelFunction, FunctionGroup } from 'shuttle-formula/render'
+import { VariableDefine, SyntaxError } from '@shuttle-formula/core'
+import { WithLabelFunction, FunctionGroup } from '@shuttle-formula/render'
 
 function createError(
   type: SyntaxError.Desc['type'],
@@ -225,7 +231,7 @@ render.setFunctions(functionWithGroups)
 ##### 自定义token渲染
 
 ```ts
-import { TokenBaseRender } from 'shuttle-formula/render'
+import { TokenBaseRender } from '@shuttle-formula/render'
 
 class CustomTokenRender extends TokenBaseRender<TokenDesc> {
   static TokenType = 'token-type'
@@ -237,7 +243,7 @@ render.useTokenRender(CustomTokenRender)
 ##### 自定义error渲染
 
 ```ts
-import { ErrorDisplay } from 'shuttle-formula/render'
+import { ErrorDisplay } from '@shuttle-formula/render'
 
 class ErrorDisplayClass implements ErrorDisplay {
   // 自定义逻辑
@@ -265,6 +271,29 @@ render.tipRender.setVariablePicker({
   getRoot() {
     return variableWrapper
   },
+})
+```
+
+##### 公式计算帮助类
+
+```ts
+import { FormulaHelper } from '@shuttle-formula/render'
+
+const formulaHelper = new FormulaHelper('formula code')
+
+// 计算表达式的值
+formulaHelper.computed({
+  // variable: 所有依赖的变量的值
+  // variableDefine： 所有依赖的变量的定义
+  // function： 所有依赖的函数
+  // getDynamicObjectByPath： 动态获取对象的方法
+})
+
+// 获取表达式的依赖变量、函数、并检查语法错误
+formulaHelper.getDependceAndCheck({
+  // variableDefine： 所有依赖的变量的定义
+  // functionDefine： 所有依赖的函数的定义
+  // getDynamicObjectByPath： 动态获取对象的方法
 })
 ```
 

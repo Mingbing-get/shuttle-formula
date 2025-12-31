@@ -13,6 +13,7 @@
     "dev:render-react": "pnpm --filter @shuttle-formula/render-react dev",
     "dev:render-react-antd": "pnpm --filter @shuttle-formula/render-react-antd dev",
     "dev:render-vue": "pnpm --filter @shuttle-formula/render-vue dev",
+    "dev:render-vue-element-plus": "pnpm --filter @shuttle-formula/render-vue-element-plus dev",
     "commit": "cz",
     "prepare": "husky install",
     "lint": "eslint --ext .ts,.tsx,.vue,.js,.jsx --config ./.eslintrc.js packages/",

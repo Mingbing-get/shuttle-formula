@@ -33,9 +33,8 @@ onBeforeMount(() => {
   <Teleport v-if="!!tipOption" :to="wrapper">
     <variableSelect
       :option="tipOption"
-      :variables="render.getOption().variables"
       :get-dynamic-object-by-path="render.getOption().getDynamicObjectByPath"
-      :on-select="onSelectRef"
+      @select="onSelectRef"
     />
   </Teleport>
 </template>

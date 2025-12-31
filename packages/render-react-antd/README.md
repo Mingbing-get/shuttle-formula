@@ -1,8 +1,14 @@
-## `shuttle-formula/render-react-antd`
+## `@shuttle-formula/render-react-antd`
 
 #### 说明
 
 提供对接react的渲染方式，基于antd组件库
+
+#### 安装
+
+```bash
+npm install @shuttle-formula/render-react-antd
+```
 
 #### 使用
 

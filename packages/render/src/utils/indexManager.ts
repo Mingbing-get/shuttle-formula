@@ -9,4 +9,4 @@ class IndexManager {
   }
 }
 
-export default new IndexManager(1000)
+export default new IndexManager(5000)

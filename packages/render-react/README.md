@@ -1,8 +1,14 @@
-## `shuttle-formula/render-react`
+## `@shuttle-formula/render-react`
 
 #### 说明
 
 提供对接react的渲染方式
+
+#### 安装
+
+```bash
+npm install @shuttle-formula/render-react
+```
 
 #### 使用
 
@@ -18,9 +24,9 @@ import {
   ErrorRenderComponentProps,
 
   // useRender: 能获得shuttle-formula/render中的Render对象，可扩展自定义功能
-} from 'shuttle-formula/render-react'
+} from '@shuttle-formula/render-react'
 
-import { BooleanTokenDesc, BooleanTokenParse } from 'shuttle-formula/core'
+import { BooleanTokenDesc, BooleanTokenParse } from '@shuttle-formula/core'
 
 function Example() {
   return (
