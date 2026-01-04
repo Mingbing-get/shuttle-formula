@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { Render, useRender } from '@shuttle-formula/render-react'
 import { VariableDefine } from '@shuttle-formula/core'
+import { WithDynamicVariable } from '@shuttle-formula/render'
 import { Modal } from 'antd'
 import { ArrowsAltOutlined } from '@ant-design/icons'
 
@@ -17,7 +18,7 @@ interface Props {
   accept?:
     | VariableDefine.Desc
     | VariableDefine.Desc[]
-    | ((returnType: VariableDefine.Desc) => string | undefined)
+    | ((returnType: WithDynamicVariable) => string | undefined)
   disabled?: boolean
 }
 

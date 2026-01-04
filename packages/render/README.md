@@ -283,10 +283,13 @@ const formulaHelper = new FormulaHelper('formula code')
 
 // 计算表达式的值
 formulaHelper.computed({
-  // variable: 所有依赖的变量的值
-  // variableDefine： 所有依赖的变量的定义
   // function： 所有依赖的函数
-  // getDynamicObjectByPath： 动态获取对象的方法
+  // -----第一种使用内部的变量获取方式、仅提供动态变量值的获取即可-----
+  // variableDefine： 所有依赖的变量的定义
+  // variable: 所有依赖的变量的值
+  // getDynamicDefineAndValueByPath：动态获取对象的定义和值
+  // -----第二种完全自定义获取变量的值-----
+  // getVariableValueByPath： 自定义获取变量的值的方法
 })
 
 // 获取表达式的依赖变量、函数、并检查语法错误

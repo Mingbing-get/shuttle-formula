@@ -31,19 +31,28 @@ export type GetDynamicObjectByPath = (
   WithUndefined<VariableDefine.Object | HasDynamicVariableObject>
 >
 
+export type GetDynamicDefineAndValueByPath = (
+  path: string[],
+  dynamicObjectDefine: WithDynamicVariableObject,
+  dynamicValue: any,
+) => WithPromise<
+  WithUndefined<{
+    define: WithUndefined<VariableDefine.Object | HasDynamicVariableObject>
+    value: any
+  }>
+>
+
 export interface HasDynamicVariableArray extends VariableDefine.Base<'array'> {
   item: WithDynamicVariable
   label?: string
 }
 
-export interface HasDynamicVariableObject
-  extends VariableDefine.Base<'object'> {
+export interface HasDynamicVariableObject extends VariableDefine.Base<'object'> {
   prototype: Record<string, WithDynamicVariable>
   label?: string
 }
 
-export interface WithDynamicVariableObject
-  extends VariableDefine.Base<'object'> {
+export interface WithDynamicVariableObject extends VariableDefine.Base<'object'> {
   dynamic: true
   extra?: any
   label?: string

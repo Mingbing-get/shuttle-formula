@@ -44,6 +44,7 @@ import { ref } from 'vue'
 import { Render, useRender } from '@shuttle-formula/render-vue'
 import { VariableDefine } from '@shuttle-formula/core'
 import { ElDialog } from 'element-plus'
+import { WithDynamicVariable } from '@shuttle-formula/render'
 
 import OnChange, { AstInfo, TokenInfo } from '../onChange/index.vue'
 import { variableCanAcceptFormula } from '../utils'
@@ -59,7 +60,7 @@ interface Props {
   accept?:
     | VariableDefine.Desc
     | VariableDefine.Desc[]
-    | ((returnType: VariableDefine.Desc) => string | undefined)
+    | ((returnType: WithDynamicVariable) => string | undefined)
   disabled?: boolean
 }
 

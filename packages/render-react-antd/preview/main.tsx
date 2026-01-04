@@ -4,7 +4,12 @@ import { Button } from 'antd'
 import { functionWithGroups, functionValues } from '@shuttle-formula/functions'
 import { FormulaHelper } from '@shuttle-formula/render'
 import { FormulaRender } from '../src'
-import { mockVariablesDefine, mockVariablesValue } from './mock'
+import {
+  mockVariablesDefine,
+  mockVariablesValue,
+  getDynamicObjectByPath,
+  getDynamicDefineAndValueByPath,
+} from './mock'
 
 export default function Main() {
   const codeRef = useRef('')
@@ -15,12 +20,14 @@ export default function Main() {
     const result = await formulaHelper.computed({
       variable: mockVariablesValue,
       variableDefine: mockVariablesDefine,
+      getDynamicDefineAndValueByPath,
       function: functionValues,
     })
 
     const dependce = await formulaHelper.getDependceAndCheck({
       variableDefine: mockVariablesDefine,
       functionDefine: functionWithGroups,
+      getDynamicObjectByPath,
     })
 
     console.log('计算结果: ', result)
@@ -50,6 +57,7 @@ export default function Main() {
             codeRef.current = tokenInfo.code
             console.log('token info: ', tokenInfo)
           }}
+          getDynamicObjectByPath={getDynamicObjectByPath}
         />
       </div>
       <Button type="primary" onClick={handleComputed}>

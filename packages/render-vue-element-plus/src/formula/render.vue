@@ -48,7 +48,7 @@ interface Props {
   accept?:
     | VariableDefine.Desc
     | VariableDefine.Desc[]
-    | ((returnType: VariableDefine.Desc) => string | undefined)
+    | ((returnType: WithDynamicVariable) => string | undefined)
   variables?: Record<string, WithDynamicVariable>
   functions?:
     | Record<string, WithLabelFunction<FunctionDescription>>

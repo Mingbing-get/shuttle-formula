@@ -198,15 +198,17 @@ export default class Render {
             })
           }
         } else if (SyntaxDescUtils.IsVariable(currentAst)) {
-          for (const token of currentAst.pathTokens) {
-            const path = this.getVariablePathFromAst(currentAst, token)
-            const originVariable = await this.getVariableDefine(path)
+          const { variablePath, variableTokenPath } =
+            this.getVariablePathFromAst(currentAst)
 
-            if (originVariable) {
+          const res = await this.getVariableDefine(variablePath)
+          res?.definePath.forEach((define, i) => {
+            const tokens = variableTokenPath[i]
+            tokens.forEach((token) => {
               notEditTokenIds.push(token.id)
-            }
-            updateTokenType(token.id, 'syntax-variable-path', originVariable)
-          }
+              updateTokenType(token.id, 'syntax-variable-path', define)
+            })
+          })
         } else if (SyntaxDescUtils.IsDot(currentAst)) {
           const startVariableDefine = this.codeManager
             .getTypeMap()
@@ -224,13 +226,21 @@ export default class Render {
             }
           }
 
-          for (const token of currentAst.pathTokens) {
-            const path = this.getVariablePathFromAst(currentAst, token)
-            const variableDefine = await this.getVariable(path, startVariable)
+          const { variablePath, variableTokenPath } =
+            this.getVariablePathFromAst(currentAst)
 
-            notEditTokenIds.push(token.id)
-            updateTokenType(token.id, 'syntax-variable-path', variableDefine)
-          }
+          const res = await this.getVariable(
+            variablePath,
+            startVariable,
+            this.options.getDynamicObjectByPath,
+          )
+          res?.definePath.forEach((define, i) => {
+            const tokens = variableTokenPath[i]
+            tokens.forEach((token) => {
+              notEditTokenIds.push(token.id)
+              updateTokenType(token.id, 'syntax-variable-path', define)
+            })
+          })
         } else if (SyntaxDescUtils.IsFunction(currentAst)) {
           const functionName = currentAst.nameTokens
             .map((nameToken) => nameToken.code)
@@ -256,30 +266,36 @@ export default class Render {
       this.getFunctionDefine(functionName),
     )
 
-    this.codeManager.setGetVariableDefine(
-      async (path: string[]) => await this.getVariableDefine(path),
-    )
+    this.codeManager.setGetVariableDefine(async (path: string[]) => {
+      const res = await this.getVariableDefine(path)
+
+      return res?.define
+    })
 
     this.codeManager.setGetVariableDefineWhenDot(
       async (startType: VariableDefine.Desc, path: string[]) => {
         if (startType.type === 'object') {
           if (path.length === 0) return startType
 
-          return await this.getVariable(
+          const res = await this.getVariable(
             path,
             startType.prototype,
             this.options.getDynamicObjectByPath,
           )
+
+          return res?.define
         } else if (startType.type === 'array') {
           if (path.length === 0) return
 
-          return await this.getVariable(
+          const res = await this.getVariable(
             path,
             {
               [path[0]]: startType.item,
             },
             this.options.getDynamicObjectByPath,
           )
+
+          return res?.define
         }
       },
     )
@@ -290,24 +306,30 @@ export default class Render {
     token?: TokenDesc<string>,
   ) {
     const variablePath: string[] = []
-    let tempPath = ''
+    const variableTokenPath: TokenDesc<string>[][] = []
+    const tempTokens: TokenDesc<string>[] = []
     for (const pathItem of variableAst.pathTokens) {
       if (DotTokenParse.Is(pathItem)) {
-        variablePath.push(tempPath)
-        tempPath = ''
+        variablePath.push(tempTokens.map((token) => token.code).join(''))
+        variableTokenPath.push([...tempTokens])
+        tempTokens.length = 0
       } else {
-        tempPath += pathItem.code
+        tempTokens.push(pathItem)
       }
 
       if (pathItem.id === token?.id) {
         break
       }
     }
-    if (tempPath.length > 0) {
-      variablePath.push(tempPath)
+    if (tempTokens.length > 0) {
+      variablePath.push(tempTokens.map((token) => token.code).join(''))
+      variableTokenPath.push(tempTokens)
     }
 
-    return variablePath
+    return {
+      variablePath,
+      variableTokenPath,
+    }
   }
 
   getFunctionDefine(functionName: string) {
@@ -336,9 +358,16 @@ export default class Render {
     path: string[],
     variables?: Record<string, WithDynamicVariable>,
     getDynamicObjectByPath?: GetDynamicObjectByPath,
-  ): Promise<VariableDefine.Desc | undefined> {
+  ): Promise<
+    | {
+        definePath: WithDynamicVariable[]
+        define: VariableDefine.Desc
+      }
+    | undefined
+  > {
     if (path.length === 0 || !variables) return
 
+    const definePath = [variables[path[0]]]
     let resVar = variables[path[0]]
 
     for (let i = 1; i < path.length; i++) {
@@ -354,15 +383,21 @@ export default class Render {
       } else {
         resVar = resVar.prototype[path[i]]
       }
+
+      definePath.push(resVar)
     }
 
     if (resVar && this.isWithDynamicObject(resVar)) {
       if (!getDynamicObjectByPath) return
 
-      return (await getDynamicObjectByPath(path, resVar)) as VariableDefine.Desc
+      const factVar = await getDynamicObjectByPath(path, resVar)
+      if (!factVar) return
     }
 
-    return resVar as VariableDefine.Desc
+    return {
+      definePath,
+      define: resVar as VariableDefine.Desc,
+    }
   }
 
   private isWithDynamicObject(

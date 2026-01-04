@@ -13,6 +13,7 @@ import { FunctionGroup, WithLabelFunction } from '@shuttle-formula/functions'
 import {
   WithDynamicVariable,
   GetDynamicObjectByPath,
+  GetDynamicDefineAndValueByPath,
   WithDynamicVariableObject,
 } from './type'
 
@@ -25,7 +26,7 @@ export interface InnerComputedOptions {
   function?: Record<string, Function>
   variable: Record<string, any>
   variableDefine: Record<string, WithDynamicVariable>
-  getDynamicObjectByPath?: GetDynamicObjectByPath
+  getDynamicDefineAndValueByPath?: GetDynamicDefineAndValueByPath
 }
 
 export type ComputedOptions = CustomComputedOptions | InnerComputedOptions
@@ -73,7 +74,7 @@ export class FormulaHelper {
           path,
           options.variableDefine,
           options.variable,
-          options.getDynamicObjectByPath,
+          options.getDynamicDefineAndValueByPath,
         )
       }
     })
@@ -100,7 +101,8 @@ export class FormulaHelper {
     const variableDependce: {
       path: string[]
       fromDot?: boolean
-      variableDefine: VariableDefine.Desc
+      variableDefinePath: WithDynamicVariable[]
+      variableDefine: WithDynamicVariable
     }[] = []
     const functionDependce: {
       functionName: string
@@ -108,20 +110,21 @@ export class FormulaHelper {
     }[] = []
 
     this.syntaxCheck.setGetVariableFu(async (path) => {
-      const variableDefine = await this.getVariableDefineByPath(
+      const define = await this.getVariableDefineByPath(
         path,
         options.variableDefine || {},
         options.getDynamicObjectByPath,
       )
 
-      if (variableDefine) {
+      if (define) {
         variableDependce.push({
           path,
-          variableDefine,
+          variableDefinePath: define.definePath,
+          variableDefine: define.define,
         })
       }
 
-      return variableDefine
+      return define?.define as VariableDefine.Desc
     })
     this.syntaxCheck.setGetFunctionFu((functionName) => {
       if (!options.functionDefine) {
@@ -153,7 +156,7 @@ export class FormulaHelper {
     this.syntaxCheck.setGetVariableDefineWhenDot(async (startType, path) => {
       if (path.length === 0) return startType
 
-      const variableDefine = await this.getVariableDefineByPath(
+      const define = await this.getVariableDefineByPath(
         ['_', ...path],
         {
           _: startType,
@@ -161,15 +164,16 @@ export class FormulaHelper {
         options.getDynamicObjectByPath,
       )
 
-      if (variableDefine) {
+      if (define) {
         variableDependce.push({
           path,
           fromDot: true,
-          variableDefine,
+          variableDefinePath: define.definePath,
+          variableDefine: define.define,
         })
       }
 
-      return variableDefine
+      return define?.define as VariableDefine.Desc
     })
 
     this.lexicalAnalysis.setCode(this.code)
@@ -191,12 +195,22 @@ export class FormulaHelper {
     path: string[],
     variableDefine: Record<string, WithDynamicVariable>,
     getDynamicObjectByPath?: GetDynamicObjectByPath,
-  ): Promise<VariableDefine.Desc | undefined> {
+  ): Promise<
+    | {
+        definePath: WithDynamicVariable[]
+        define: WithDynamicVariable
+      }
+    | undefined
+  > {
     if (path.length === 0) return
 
+    const originDefine = variableDefine[path[0]]
     let currentDefine = variableDefine[path[0]]
     if (!currentDefine || path.length === 1) {
-      return currentDefine as VariableDefine.Desc
+      return {
+        definePath: [originDefine],
+        define: currentDefine,
+      }
     }
 
     let nextVariableDefine: Record<string, WithDynamicVariable> | undefined
@@ -222,18 +236,25 @@ export class FormulaHelper {
 
     if (!nextVariableDefine) return
 
-    return await this.getVariableDefineByPath(
+    const nextDefine = await this.getVariableDefineByPath(
       path.slice(1),
       nextVariableDefine,
       getDynamicObjectByPath,
     )
+
+    if (!nextDefine) return
+
+    return {
+      definePath: [originDefine, ...nextDefine.definePath],
+      define: nextDefine.define,
+    }
   }
 
   private async getVariableValueByPath(
     path: string[],
     variableDefine: Record<string, WithDynamicVariable>,
     variable?: Record<string, any>,
-    getDynamicObjectByPath?: GetDynamicObjectByPath,
+    getDynamicDefineAndValueByPath?: GetDynamicDefineAndValueByPath,
   ): Promise<any> {
     if (path.length === 0 || !variable) return
 
@@ -263,13 +284,15 @@ export class FormulaHelper {
     }
 
     if (this.isWithDynamicObject(currentDefine)) {
-      const dynamicVariable = await getDynamicObjectByPath?.(
+      const dynamicInfo = await getDynamicDefineAndValueByPath?.(
         leftPath,
         currentDefine,
+        value,
       )
-      if (!dynamicVariable) return
+      if (!dynamicInfo?.define) return
 
-      currentDefine = dynamicVariable
+      currentDefine = dynamicInfo.define
+      value = dynamicInfo.value
     }
 
     if (currentDefine.type === 'object') {
@@ -277,7 +300,7 @@ export class FormulaHelper {
         leftPath,
         currentDefine.prototype,
         value,
-        getDynamicObjectByPath,
+        getDynamicDefineAndValueByPath,
       )
     }
   }
