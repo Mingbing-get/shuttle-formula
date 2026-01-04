@@ -56,7 +56,10 @@ import 'element-plus/es/components/dialog/style/css'
 interface Props {
   class?: string
   style?: string
-  needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
+  accept?:
+    | VariableDefine.Desc
+    | VariableDefine.Desc[]
+    | ((returnType: VariableDefine.Desc) => string | undefined)
   disabled?: boolean
 }
 
@@ -75,21 +78,27 @@ const handleChangeAst = (astInfo: AstInfo) => {
     _hasError = true
   }
 
-  if (props.needAccept && astInfo.typeMap) {
+  if (props.accept && astInfo.typeMap) {
     const returnType = astInfo.typeMap.get(astInfo.ast.syntaxRootIds?.[0] || '')
     if (returnType) {
-      if (props.needAccept instanceof Array) {
+      if (props.accept instanceof Array) {
         if (
-          props.needAccept.every(
+          props.accept.every(
             (item) => !variableCanAcceptFormula(item, returnType),
           )
         ) {
-          errorText.value = `当前公式仅接受 ${props.needAccept.map((item) => item.type).join('、')} 类型的值`
+          errorText.value = `当前公式仅接受 ${props.accept.map((item) => item.type).join('、')} 类型的值`
+          _hasError = true
+        }
+      } else if (typeof props.accept === 'function') {
+        const acceptMsg = props.accept(returnType)
+        if (acceptMsg) {
+          errorText.value = acceptMsg
           _hasError = true
         }
       } else {
-        if (!variableCanAcceptFormula(props.needAccept, returnType)) {
-          errorText.value = `当前公式仅接受 ${props.needAccept.type} 类型的值`
+        if (!variableCanAcceptFormula(props.accept, returnType)) {
+          errorText.value = `当前公式仅接受 ${props.accept.type} 类型的值`
           _hasError = true
         }
       }

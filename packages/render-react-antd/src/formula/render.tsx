@@ -25,7 +25,10 @@ interface Props extends OnChangeProps {
   style?: React.CSSProperties
   code?: string
   getDynamicObjectByPath?: GetDynamicObjectByPath
-  needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
+  accept?:
+    | VariableDefine.Desc
+    | VariableDefine.Desc[]
+    | ((returnType: VariableDefine.Desc) => string | undefined)
   variables?: Record<string, WithDynamicVariable>
   functions?:
     | Record<string, WithLabelFunction<FunctionDescription>>
@@ -37,7 +40,7 @@ export default function RenderFormula({
   className,
   style,
   code,
-  needAccept,
+  accept,
   variables,
   functions,
   disabled,
@@ -56,7 +59,7 @@ export default function RenderFormula({
       <RenderEditor
         style={style}
         className={className}
-        needAccept={needAccept}
+        accept={accept}
         disabled={disabled}
       />
       <VariableTip VariableSelect={VariableSelect} />

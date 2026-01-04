@@ -9,7 +9,7 @@
     <RenderEditor
       :style="style"
       :class="class"
-      :needAccept="needAccept"
+      :accept="accept"
       :disabled="disabled"
     />
     <VariableTip :variableSelect="VariableSelect" />
@@ -45,7 +45,10 @@ interface Props {
   style?: string
   code?: string
   getDynamicObjectByPath?: GetDynamicObjectByPath
-  needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
+  accept?:
+    | VariableDefine.Desc
+    | VariableDefine.Desc[]
+    | ((returnType: VariableDefine.Desc) => string | undefined)
   variables?: Record<string, WithDynamicVariable>
   functions?:
     | Record<string, WithLabelFunction<FunctionDescription>>

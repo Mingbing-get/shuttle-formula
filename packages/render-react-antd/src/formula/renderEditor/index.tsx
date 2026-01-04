@@ -14,14 +14,17 @@ import './index.scss'
 interface Props {
   className?: string
   style?: React.CSSProperties
-  needAccept?: VariableDefine.Desc | VariableDefine.Desc[]
+  accept?:
+    | VariableDefine.Desc
+    | VariableDefine.Desc[]
+    | ((returnType: VariableDefine.Desc) => string | undefined)
   disabled?: boolean
 }
 
 export default function RenderEditor({
   className,
   style,
-  needAccept,
+  accept,
   disabled,
 }: Props) {
   const [hasError, setHasError] = useState(false)
@@ -39,25 +42,31 @@ export default function RenderEditor({
         hasError = true
       }
 
-      if (needAccept && astInfo.typeMap) {
+      if (accept && astInfo.typeMap) {
         const returnType = astInfo.typeMap.get(
           astInfo.ast.syntaxRootIds?.[0] || '',
         )
         if (returnType) {
-          if (needAccept instanceof Array) {
+          if (accept instanceof Array) {
             if (
-              needAccept.every(
+              accept.every(
                 (item) => !variableCanAcceptFormula(item, returnType),
               )
             ) {
               setErrorText(
-                `当前公式仅接受 ${needAccept.map((item) => item.type).join('、')} 类型的值`,
+                `当前公式仅接受 ${accept.map((item) => item.type).join('、')} 类型的值`,
               )
               hasError = true
             }
+          } else if (typeof accept === 'function') {
+            const errorMsg = accept(returnType)
+            if (errorMsg) {
+              setErrorText(errorMsg)
+              hasError = true
+            }
           } else {
-            if (!variableCanAcceptFormula(needAccept, returnType)) {
-              setErrorText(`当前公式仅接受 ${needAccept.type} 类型的值`)
+            if (!variableCanAcceptFormula(accept, returnType)) {
+              setErrorText(`当前公式仅接受 ${accept.type} 类型的值`)
               hasError = true
             }
           }
@@ -69,7 +78,7 @@ export default function RenderEditor({
       }
       setHasError(hasError)
     },
-    [needAccept],
+    [accept],
   )
 
   const handleChangeToken = useCallback((tokenInfo: TokenInfo) => {
