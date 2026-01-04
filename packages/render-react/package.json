@@ -1,6 +1,6 @@
 {
   "name": "@shuttle-formula/render-react",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "公式编辑器react渲染器",
   "author": "Mingbing-get <1508850533@qq.com>",
   "license": "MIT",

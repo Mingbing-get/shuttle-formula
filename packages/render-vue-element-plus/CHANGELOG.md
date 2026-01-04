@@ -1,5 +1,19 @@
 # @shuttle-formula/render-vue-element-plus
 
+## 1.1.0
+
+### Minor Changes
+
+- 优化动态变量相关获取方式
+
+### Patch Changes
+
+- Updated dependencies
+  - @shuttle-formula/core@1.1.0
+  - @shuttle-formula/functions@1.1.0
+  - @shuttle-formula/render@1.1.0
+  - @shuttle-formula/render-vue@1.1.0
+
 ## 1.0.0
 
 ### Major Changes
