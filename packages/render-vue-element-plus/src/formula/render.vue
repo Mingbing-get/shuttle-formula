@@ -21,10 +21,8 @@
   </Provider>
 </template>
 
-<script setup lang="ts">
-import { VariableDefine } from '@shuttle-formula/core'
-import { Provider, VariableTip, FunctionTip } from '@shuttle-formula/render-vue'
-
+<script lang="ts">
+import type { VariableDefine } from '@shuttle-formula/core'
 import type {
   FunctionGroup,
   WithLabelFunction,
@@ -35,12 +33,7 @@ import type {
   WithDynamicVariable,
 } from '@shuttle-formula/render'
 
-import FunctionSelect from './functionSelect/index.vue'
-import VariableSelect from './variableSelect/index.vue'
-import OnChange, { TokenInfo, AstInfo } from './onChange/index.vue'
-import RenderEditor from './renderEditor/index.vue'
-
-interface Props {
+export interface FormulaRenderProps {
   class?: string
   style?: string
   code?: string
@@ -55,8 +48,17 @@ interface Props {
     | FunctionGroup<FunctionDescription>[]
   disabled?: boolean
 }
+</script>
 
-defineProps<Props>()
+<script setup lang="ts">
+import { Provider, VariableTip, FunctionTip } from '@shuttle-formula/render-vue'
+
+import FunctionSelect from './functionSelect/index.vue'
+import VariableSelect from './variableSelect/index.vue'
+import OnChange, { TokenInfo, AstInfo } from './onChange/index.vue'
+import RenderEditor from './renderEditor/index.vue'
+
+defineProps<FormulaRenderProps>()
 const emit = defineEmits<{
   (e: 'tokenChange', tokenInfo: TokenInfo): void
   (e: 'astChange', astInfo: AstInfo): void

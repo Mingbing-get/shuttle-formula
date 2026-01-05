@@ -1,9 +1,9 @@
 {
-  "name": "@shuttle-formula/render-react-antd",
+  "name": "@shuttle-formula/variable-plugin",
   "version": "1.1.0",
-  "description": "公式编辑器react渲染器，基于antd组件库",
   "author": "Mingbing-get <1508850533@qq.com>",
   "license": "MIT",
+  "description": "公式编辑器变量插件",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
@@ -21,28 +21,13 @@
   ],
   "scripts": {
     "build": "vite build",
-    "dev": "vite --open /preview/index.html",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "@types/node": "^20.11.22",
-    "@types/react": "^18.2.60",
-    "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.2.1"
-  },
   "dependencies": {
-    "classnames": "^2.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@shuttle-formula/core": "workspace:*",
     "@shuttle-formula/render": "workspace:*",
-    "@shuttle-formula/render-react": "workspace:*",
-    "@shuttle-formula/functions": "workspace:*",
-    "@shuttle-formula/variable-plugin": "workspace:*",
-    "antd": "^6.1.1",
-    "@ant-design/icons": "^6.1.0"
+    "@shuttle-formula/core": "workspace:*"
   },
   "publishConfig": {
     "access": "public",
@@ -55,10 +40,6 @@
         "types": "./dist/types/index.d.ts",
         "import": "./dist/es/index.mjs",
         "require": "./dist/cjs/index.cjs"
-      },
-      "./style.css": {
-        "import": "./dist/es/index.css",
-        "require": "./dist/cjs/index.css"
       }
     }
   }

@@ -20,7 +20,7 @@ import VariableSelect from './variableSelect'
 import OnChange, { OnChangeProps } from './onChange'
 import RenderEditor from './renderEditor'
 
-interface Props extends OnChangeProps {
+export interface FormulaRenderProps extends OnChangeProps {
   className?: string
   style?: React.CSSProperties
   code?: string
@@ -47,7 +47,7 @@ export default function RenderFormula({
   onAstChange,
   onTokenChange,
   getDynamicObjectByPath,
-}: Props) {
+}: FormulaRenderProps) {
   return (
     <Provider
       disabled={disabled}

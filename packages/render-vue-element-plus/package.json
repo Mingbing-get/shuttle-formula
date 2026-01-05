@@ -31,6 +31,7 @@
     "@shuttle-formula/render": "workspace:*",
     "@shuttle-formula/functions": "workspace:*",
     "@shuttle-formula/render-vue": "workspace:*",
+    "@shuttle-formula/variable-plugin": "workspace:*",
     "vue": "^3.4.21",
     "element-plus": "^2.11.1"
   },
