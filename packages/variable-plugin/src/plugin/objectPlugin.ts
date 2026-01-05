@@ -12,7 +12,7 @@ export default class ObjectPlugin implements VariablePlugin.Instance<VariablePlu
   toFormula(define: VariablePlugin.ObjectDefine) {
     const prototype: Record<string, WithDynamicVariable> = {}
 
-    for (const [key, value] of Object.entries(define.properties)) {
+    for (const [key, value] of Object.entries(define.prototype)) {
       prototype[key] = variablePluginManager.toFormula(value)
     }
 

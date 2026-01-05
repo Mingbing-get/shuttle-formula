@@ -29,7 +29,7 @@ export namespace VariablePlugin {
   }
 
   export interface ObjectDefine extends BaseDefine<'object'> {
-    properties: Record<string, Define>
+    prototype: Record<string, Define>
   }
 
   export interface DefineMap {
