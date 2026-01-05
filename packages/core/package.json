@@ -25,6 +25,7 @@
     "type-check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "access": "public",
   "publishConfig": {
     "access": "public",
     "main": "dist/cjs/index.cjs",

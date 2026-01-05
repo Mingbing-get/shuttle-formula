@@ -30,6 +30,7 @@
     "@shuttle-formula/core": "workspace:*",
     "@shuttle-formula/functions": "workspace:*"
   },
+  "access": "public",
   "publishConfig": {
     "access": "public",
     "main": "dist/cjs/index.cjs",

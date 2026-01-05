@@ -44,6 +44,7 @@
     "antd": "^6.1.1",
     "@ant-design/icons": "^6.1.0"
   },
+  "access": "public",
   "publishConfig": {
     "access": "public",
     "main": "dist/cjs/index.cjs",

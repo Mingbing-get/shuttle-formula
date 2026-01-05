@@ -28,6 +28,7 @@
   "dependencies": {
     "@shuttle-formula/core": "workspace:*"
   },
+  "access": "public",
   "publishConfig": {
     "access": "public",
     "main": "dist/cjs/index.cjs",
